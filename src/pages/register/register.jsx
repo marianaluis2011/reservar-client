@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Bed, Building2, CheckCircle } from "lucide-react";
 import { registerUser } from "../../services/auth.services.js";
+import { useRegisterForm } from "./useRegister.js";
 
 const onSubmit = async (data) => {
   try {
@@ -20,21 +21,22 @@ const onSubmit = async (data) => {
 };
 
 export default function Register() {
-  const [role, setRole] = useState("guest");
-   const {
+  const {
     register,
     handleSubmit,
-    setValue,
     errors,
     isSubmitting,
+    setValue,
+    watch,
+    role,
   } = useRegisterForm();
 
-
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl bg-white rounded-2xl border shadow-sm overflow-hidden">
-        {/* Header */}
-        <div className="p-6 border-b">
+    <div className="h-screen bg-slate-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-3xl h-[85vh] bg-white rounded-2xl border shadow-sm overflow-hidden flex flex-col">
+
+        {/* HEADER FIJO */}
+        <div className="p-6 border-b flex-shrink-0">
           <h1 className="text-3xl font-bold text-slate-900">
             Crea tu cuenta
           </h1>
@@ -44,78 +46,44 @@ export default function Register() {
           </p>
         </div>
 
-        {/* Body */}
-        <div className="p-6">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-700 mb-4">
-            ¿Qué deseas hacer?
-          </h2>
+        {/* CONTENIDO SCROLLABLE */}
+        <div className="flex-1 overflow-y-auto p-6">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            
+            {/* Selector de perfil */}
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-700 mb-4">
+              ¿Qué deseas hacer?
+            </h2>
 
-          {/* Selector de perfil */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <button
-              type="button"
-              onClick={() => setRole("guest")}
-              className={`border rounded-xl p-4 text-left transition-all ${
-                role === "guest"
-                  ? "border-cyan-600 bg-cyan-50"
-                  : "border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              <div className="flex justify-between">
-                <div className="flex gap-3">
-                  <Bed className="w-5 h-5 mt-1" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              {/* Botón huésped */}
+              <button
+                type="button"
+                onClick={() => handleRoleChange("guest")}
+                className={`border rounded-xl p-4 text-left ${
+                  role === "guest"
+                    ? "border-cyan-600 bg-cyan-50"
+                    : "border-slate-200"
+                }`}
+              >
+                ...
+              </button>
 
-                  <div>
-                    <h3 className="font-semibold">
-                      Quiero reservar hospedajes
-                    </h3>
+              {/* Botón host */}
+              <button
+                type="button"
+                onClick={() => handleRoleChange("host")}
+                className={`border rounded-xl p-4 text-left ${
+                  role === "host"
+                    ? "border-cyan-600 bg-cyan-50"
+                    : "border-slate-200"
+                }`}
+              >
+                ...
+              </button>
+            </div>
 
-                    <p className="text-sm text-slate-500 mt-1">
-                      Busca y gestiona tus estancias en segundos.
-                    </p>
-                  </div>
-                </div>
-
-                {role === "guest" && (
-                  <CheckCircle className="text-cyan-600" />
-                )}
-              </div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setRole("host")}
-              className={`border rounded-xl p-4 text-left transition-all ${
-                role === "host"
-                  ? "border-cyan-600 bg-cyan-50"
-                  : "border-slate-200 hover:border-slate-300"
-              }`}
-            >
-              <div className="flex justify-between">
-                <div className="flex gap-3">
-                  <Building2 className="w-5 h-5 mt-1" />
-
-                  <div>
-                    <h3 className="font-semibold">
-                      Quiero publicar mi hospedaje
-                    </h3>
-
-                    <p className="text-sm text-slate-500 mt-1">
-                      Administra tus habitaciones y reservas
-                      profesionalmente.
-                    </p>
-                  </div>
-                </div>
-
-                {role === "host" && (
-                  <CheckCircle className="text-cyan-600" />
-                )}
-              </div>
-            </button>
-          </div>
-
-          {/* Formulario */}
-          <form>
+            {/* DATOS PERSONALES */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Nombre */}
               <div>
@@ -124,10 +92,15 @@ export default function Register() {
                 </label>
 
                 <input
-                  type="text"
-                  placeholder="Ej. Juan Pérez"
-                  className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
+                  {...register("fullName")}
+                  className="w-full border rounded-lg px-4 py-3"
                 />
+
+                {errors.fullName && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.fullName.message}
+                  </p>
+                )}
               </div>
 
               {/* Email */}
@@ -137,10 +110,15 @@ export default function Register() {
                 </label>
 
                 <input
-                  type="email"
-                  placeholder="juan@ejemplo.com"
-                  className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
+                  {...register("email")}
+                  className="w-full border rounded-lg px-4 py-3"
                 />
+
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               {/* Password */}
@@ -151,9 +129,15 @@ export default function Register() {
 
                 <input
                   type="password"
-                  placeholder="********"
-                  className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
+                  {...register("password")}
+                  className="w-full border rounded-lg px-4 py-3"
                 />
+
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               {/* Confirm Password */}
@@ -164,13 +148,19 @@ export default function Register() {
 
                 <input
                   type="password"
-                  placeholder="********"
-                  className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
+                  {...register("confirmPassword")}
+                  className="w-full border rounded-lg px-4 py-3"
                 />
+
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
             </div>
 
-            {/* Campos extra para anfitrión */}
+            {/* SOLO HOST */}
             {role === "host" && (
               <div className="mt-8 border-t pt-6">
                 <h3 className="text-2xl font-semibold text-slate-800 mb-6">
@@ -184,9 +174,8 @@ export default function Register() {
                     </label>
 
                     <input
-                      type="text"
-                      placeholder="Ej. Hotel Paraíso"
-                      className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
+                      {...register("propertyName")}
+                      className="w-full border rounded-lg px-4 py-3"
                     />
                   </div>
 
@@ -196,9 +185,8 @@ export default function Register() {
                     </label>
 
                     <input
-                      type="text"
-                      placeholder="Ciudad, País"
-                      className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
+                      {...register("location")}
+                      className="w-full border rounded-lg px-4 py-3"
                     />
                   </div>
 
@@ -209,8 +197,8 @@ export default function Register() {
 
                     <textarea
                       rows={4}
-                      placeholder="Cuéntanos sobre tu hospedaje..."
-                      className="w-full border rounded-lg px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-cyan-500"
+                      {...register("description")}
+                      className="w-full border rounded-lg px-4 py-3 resize-none"
                     />
                   </div>
 
@@ -220,9 +208,8 @@ export default function Register() {
                     </label>
 
                     <input
-                      type="text"
-                      placeholder="+54 9 11 ..."
-                      className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
+                      {...register("whatsapp")}
+                      className="w-full border rounded-lg px-4 py-3"
                     />
                   </div>
                 </div>
@@ -233,39 +220,35 @@ export default function Register() {
                   </h4>
 
                   <p className="text-sm text-cyan-800 mt-1">
-                    Tu cuenta y hospedaje han sido creados. Se
-                    encuentran pendientes de aprobación por el Super
-                    Administrador.
+                    Tu cuenta y hospedaje quedarán pendientes de aprobación.
                   </p>
                 </div>
               </div>
             )}
 
-            {/* Footer */}
-            <div className="mt-8 pt-6 border-t flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between md:items-center">
-              <label className="flex items-center gap-2 text-sm text-slate-600">
-                <input type="checkbox" />
+            {/* FOOTER */}
+            <div className="mt-8 pt-6 border-t flex flex-col md:flex-row gap-4 md:justify-between md:items-center">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  {...register("terms")}
+                />
 
-                <span>
-                  Acepto los{" "}
-                  <a
-                    href="#"
-                    className="text-cyan-600 hover:underline"
-                  >
-                    Términos de Servicio
-                  </a>
+                <span className="text-sm">
+                  Acepto los Términos de Servicio
                 </span>
               </label>
 
               <button
                 type="submit"
-                className="bg-blue-950 hover:bg-blue-900 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+                className="bg-blue-950 hover:bg-blue-900 text-white px-8 py-3 rounded-lg"
               >
                 {role === "guest"
                   ? "Crear cuenta"
                   : "Registrar Hospedaje"}
               </button>
             </div>
+
           </form>
         </div>
       </div>

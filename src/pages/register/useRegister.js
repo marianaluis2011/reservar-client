@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { registerSchema } from "../schemas/registerSchema";
+import { registerSchema } from "./registerSchema.js";
+ 
 
 export const useRegisterForm = () => {
+  const role = watch("role");
   const {
     register,
     handleSubmit,
@@ -26,10 +28,12 @@ export const useRegisterForm = () => {
       whatsapp: "",
       terms: false,
     },
+    
   });
 
   return {
     register,
+    role,
     handleSubmit,
     watch,
     setValue,

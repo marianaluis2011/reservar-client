@@ -1,6 +1,6 @@
 import { Bed, Building2, ChevronRight } from "lucide-react"; 
 import { useNavigate } from "react-router";
-const useNavigate = useNavigate();
+// const useNavigate = useNavigate();
 export default function ProfileSelectionModal() {
 
 
