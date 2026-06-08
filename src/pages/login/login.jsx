@@ -1,6 +1,9 @@
-import { Bed, Building2, ChevronRight } from "lucide-react";
-
+import { Bed, Building2, ChevronRight } from "lucide-react"; 
+import { useNavigate } from "react-router";
+const useNavigate = useNavigate();
 export default function ProfileSelectionModal() {
+
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Header móvil */}
@@ -34,28 +37,29 @@ export default function ProfileSelectionModal() {
 
           <div className="space-y-4">
             {/* Opción huésped */}
-            <button
-              className="w-full bg-white border rounded-2xl p-5 flex items-center justify-between
-              hover:shadow-md transition-all duration-200"
-            >
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-cyan-100 flex items-center justify-center">
-                  <Bed className="w-6 h-6 text-cyan-600" />
-                </div>
+<button
+  type="button"
+  onClick={() => navigate("/register")}
+  className="w-full bg-white border rounded-2xl p-5 flex items-center justify-between hover:shadow-md transition-all duration-200"
+>
+  <div className="flex items-center gap-4">
+    <div className="h-12 w-12 rounded-full bg-cyan-100 flex items-center justify-center">
+      <Bed className="w-6 h-6 text-cyan-600" />
+    </div>
 
-                <div className="text-left">
-                  <h3 className="font-semibold text-slate-800">
-                    Quiero reservar hospedajes
-                  </h3>
+    <div className="text-left">
+      <h3 className="font-semibold text-slate-800">
+        Quiero reservar hospedajes
+      </h3>
 
-                  <p className="text-sm text-slate-500">
-                    Busca y gestiona tus estancias
-                  </p>
-                </div>
-              </div>
+      <p className="text-sm text-slate-500">
+        Busca y gestiona tus estancias
+      </p>
+    </div>
+  </div>
 
-              <ChevronRight className="text-slate-400" />
-            </button>
+  <ChevronRight className="text-slate-400" />
+</button>
 
             {/* Opción anfitrión */}
             <button
