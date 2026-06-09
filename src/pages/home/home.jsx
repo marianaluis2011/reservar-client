@@ -4,7 +4,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <button onClick={() => navigate("/perfil")}>
+    <button onClick={() => navigate("/profile")}>
       Login
     </button>
   );

@@ -1,11 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { registerSchema } from "./registerSchema.js";
- 
+import { loginSchema } from "./loginSchema.js";
 
-export const useRegisterForm = () => {
-  
+export const useLoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -14,29 +12,16 @@ export const useRegisterForm = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(registerSchema),
-
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      role: "guest",
-      fullName: "",
       email: "",
       password: "",
-      confirmPassword: "",
-      propertyName: "",
-      location: "",
-      description: "",
-      whatsapp: "",
-      terms: false,
-
-      
+      rememberMe: false,
     },
-    
   });
-const role = watch("role");
 
   return {
     register,
-    role,
     handleSubmit,
     watch,
     setValue,
