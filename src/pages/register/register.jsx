@@ -7,13 +7,13 @@ const onSubmit = async (data) => {
     const response = await registerUser(data);
 
     console.log(response);
-
+// sacar el alert, cambiar por sonner y sacar el console log
     alert("Usuario registrado correctamente");
   } catch (error) {
     console.error(error);
 
     alert(
-      error.response?.data?.message ||
+      error.response?.data?.message || 
         "Error al registrar usuario"
     );
   }
