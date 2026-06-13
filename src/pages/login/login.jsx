@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLoginForm } from "./useLogin";
+import { toast } from "sonner";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,16 +20,13 @@ export default function Login() {
     try {
       console.log("Login:", data);
 
-      // Aquí luego llamarás al servicio:
-      // await loginUser(data)
+    toast.success("Login correcto");
+  } catch (error) {
+    console.error(error);
 
-      alert("Login correcto");
-    } catch (error) {
-      console.error(error);
-
-      alert(
-        error.response?.data?.message ||
-          "Error al iniciar sesión"
+    toast.error(
+      error.response?.data?.message ||
+      "Error al iniciar sesión"
       );
     }
   };
