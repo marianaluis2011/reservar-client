@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "./pages/home/home.jsx";
-import ProfileSelectionModal from "./pages/login/previous.jsx";
 import Register from "./pages/register/register.jsx";
 import Login from "./pages/login/login.jsx";
 import { Toaster } from "sonner";

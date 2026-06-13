@@ -1,20 +1,17 @@
 import { Bed, Building2, CheckCircle } from "lucide-react";
 import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
+import { toast } from "sonner";
 
 const onSubmit = async (data) => {
   try {
     const response = await registerUser(data);
 
-    console.log(response);
-// sacar el alert, cambiar por sonner y sacar el console log
-    alert("Usuario registrado correctamente");
+    toast.success("Usuario registrado correctamente");
   } catch (error) {
-    console.error(error);
-
-    alert(
-      error.response?.data?.message || 
-        "Error al registrar usuario"
+    toast.error(
+      error.response?.data?.message ||
+      "Error al registrar usuario"
     );
   }
 };
@@ -35,39 +32,35 @@ export default function Register() {
 
   return (
     <div className="h-screen bg-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-3xl h-[85vh] bg-white rounded-2xl border shadow-sm overflow-hidden flex flex-col">
+      <div className="w-full max-w-4xl h-[90vh] bg-white rounded-2xl border shadow-sm overflow-hidden flex flex-col">
 
-        {/* HEADER */}
-        <div className="p-6 border-b flex-shrink-0">
-          <h1 className="text-3xl font-bold text-slate-900">
+        <div className="p-0 border-b flex-shrink-0">
+          <h1 className="text-2xl font-bold text-slate-900">
             Crea tu cuenta
           </h1>
 
-          <p className="text-slate-500 mt-2">
+          <p className="text-slate-500 mt-1">
             Únete a la plataforma de gestión hotelera más moderna.
           </p>
         </div>
 
-        {/* CONTENIDO */}
-        <div className="flex-1 overflow-y-auto p-6">
+
+        <div className="flex-1 overflow-y-auto p-5">
           <form onSubmit={handleSubmit(onSubmit)}>
 
-            {/* SELECTOR */}
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-700 mb-4">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-700 mb-3">
               ¿QUÉ DESEAS HACER?
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
 
-              {/* HUÉSPED */}
               <button
                 type="button"
                 onClick={() => handleRoleChange("guest")}
-                className={`relative border rounded-xl p-4 text-left transition-all ${
-                  role === "guest"
+                className={`relative border rounded-xl p-3 text-left transition-all ${role === "guest"
                     ? "border-cyan-600 bg-cyan-50"
                     : "border-slate-300 bg-white hover:border-slate-400"
-                }`}
+                  }`}
               >
                 {role === "guest" && (
                   <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-cyan-600" />
@@ -77,28 +70,24 @@ export default function Register() {
                   <Bed className="w-5 h-5 text-slate-700 mt-1 flex-shrink-0" />
 
                   <div>
-                    <h3 className="font-semibold text-sm text-slate-800 leading-tight">
+                    <h3 className="font-medium text-xs text-slate-800 leading-tight">
                       Quiero reservar hospedajes
                     </h3>
 
-                    <p className="text-xs text-slate-500 mt-1">
-                      Busca y gestiona tus
-                      <br />
-                      estancias en segundos.
+                    <p className="text-[11px] text-slate-500 mt-1 leading-snug">
+                      Busca y gestiona tus estancias en segundos.
                     </p>
                   </div>
                 </div>
               </button>
 
-              {/* HOST */}
               <button
                 type="button"
                 onClick={() => handleRoleChange("host")}
-                className={`relative border rounded-xl p-4 text-left transition-all ${
-                  role === "host"
+                className={`relative border rounded-xl p-3 text-left transition-all ${role === "host"
                     ? "border-cyan-600 bg-cyan-50"
                     : "border-slate-300 bg-white hover:border-slate-400"
-                }`}
+                  }`}
               >
                 {role === "host" && (
                   <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-cyan-600" />
@@ -108,14 +97,12 @@ export default function Register() {
                   <Building2 className="w-5 h-5 text-slate-700 mt-1 flex-shrink-0" />
 
                   <div>
-                    <h3 className="font-semibold text-sm text-slate-800 leading-tight">
+                    <h3 className="font-medium text-xs text-slate-800 leading-tight">
                       Quiero publicar mi hospedaje
                     </h3>
 
-                    <p className="text-xs text-slate-500 mt-1">
-                      Administra tus habitaciones y
-                      <br />
-                      reservas profesionalmente.
+                    <p className="text-[11px] text-slate-500 mt-1 leading-snug">
+                      Administra tus habitaciones y reservas profesionalmente.
                     </p>
                   </div>
                 </div>
@@ -200,9 +187,8 @@ export default function Register() {
 
             {/* HOST */}
             {role === "host" && (
-              <div className="mt-6 border-t pt-5">
-
-                <h3 className="text-xl font-bold text-slate-800 mb-5">
+              <div className="mt-4 border-t pt-4">
+                <h3 className="text-lg font-bold text-slate-800 mb-4">
                   Datos del Hospedaje
                 </h3>
 
@@ -302,8 +288,8 @@ export default function Register() {
               </div>
             )}
 
-            {/* FOOTER */}
-            <div className="mt-8 pt-6 border-t flex flex-col md:flex-row gap-4 md:justify-between md:items-center">
+
+            <div className="mt-6 pt-4 border-t flex flex-col md:flex-row gap-4 md:justify-between md:items-center">
 
               <label className="flex items-center gap-2">
                 <input
@@ -324,8 +310,8 @@ export default function Register() {
                 {isSubmitting
                   ? "Procesando..."
                   : role === "guest"
-                  ? "Crear cuenta"
-                  : "Registrar Hospedaje"}
+                    ? "Crear cuenta"
+                    : "Registrar Hospedaje"}
               </button>
 
             </div>
