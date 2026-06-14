@@ -140,8 +140,14 @@ export default function PropertyPage() {
             <section>
               <h2 className="section-title">Ubicación</h2>
               <div className="map-wrapper">
-                <div className="map-placeholder" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800')" }}></div>
-                <div className="map-btn">
+                <iframe
+                  className="map-iframe"
+                  title="Ubicación de la propiedad"
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(property.location)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                  allowFullScreen=""
+                  loading="lazy"
+                ></iframe>
+                <div className="map-btn" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.location)}`, '_blank')}>
                   <MapPin className="map-pin-icon" />
                   <span className="map-btn-text">Ver Mapa Completo</span>
                 </div>
