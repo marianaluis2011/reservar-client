@@ -4,6 +4,8 @@ import Register from "./pages/register/register.jsx";
 import Login from "./pages/login/login.jsx";
 import { Toaster } from "sonner";
 import PropertyPage from "./pages/propertyPage/PropertyPage.jsx";
+import RoomDetail from "./pages/roomDetail/RoomDetail.jsx";
+
 
 
 
@@ -27,6 +29,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/propertyPage" element={<PropertyPage />} />
+        <Route path="/roomDetail" element={<RoomDetail />} />
       </Routes>
     </BrowserRouter>
 
