@@ -11,6 +11,9 @@ import {
   Heart,
   Share,
   X,
+  MapPin,
+  Calendar,
+  Users,
   Link as LinkIcon
 } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -323,23 +326,60 @@ export default function RoomDetail() {
         <div className="modal-overlay">
           <div className="modal-content">
             <button className="modal-close-btn" onClick={() => setShowModal(false)} aria-label="Cerrar">
-              <X size={24} />
+              <X size={20} />
             </button>
-            <h2 className="modal-title">Confirmar Reserva</h2>
-            <div className="modal-details">
-              <p><strong>Habitación:</strong> {ROOM_DATA.name}</p>
-              <p><strong>Check-in:</strong> {checkIn.split("-").reverse().join("/")}</p>
-              <p><strong>Check-out:</strong> {checkOut.split("-").reverse().join("/")}</p>
-              <p><strong>Estancia:</strong> {nights} noche</p>
-              <div className="modal-divider"></div>
-              <p className="modal-total">Total a pagar: <span>${totalPrice.toLocaleString()}</span></p>
+
+            <div className="modal-header-img">
+              <img src={ROOM_DATA.images[0]} alt={ROOM_DATA.name} />
             </div>
-            <div className="modal-actions">
-              <button className="btn-pay" onClick={() => alert("Módulo de pago próximamente...")}>Pagar</button>
-              <button className="btn-confirm" onClick={() => {
-                alert("¡Reserva confirmada!");
-                setShowModal(false);
-              }}>Confirmar Reserva</button>
+
+            <div className="modal-body">
+              <h2 className="modal-title">Detalles de la Reserva</h2>
+              
+              <div className="modal-info-section">
+                <h3 className="room-name-modal">{ROOM_DATA.name}</h3>
+                <div className="info-item-modal">
+                  <MapPin size={16} />
+                  <span>San Miguel de Tucumán, Tucumán</span>
+                </div>
+                <div className="info-item-modal">
+                  <Calendar size={16} />
+                  <span>{checkIn.split("-").reverse().join("/")} - {checkOut.split("-").reverse().join("/")}</span>
+                </div>
+                <div className="info-item-modal">
+                  <Users size={16} />
+                  <span>2 adultos</span>
+                </div>
+              </div>
+
+              <div className="modal-divider"></div>
+
+              <div className="price-breakdown-modal">
+                <div className="price-row-modal">
+                  <span>Tarifa por {nights} {nights === 1 ? 'noche' : 'noches'}</span>
+                  <span>${(ROOM_DATA.pricePerNight * nights).toLocaleString()}</span>
+                </div>
+                <div className="price-row-modal">
+                  <span>Impuesto por servicios (10%)</span>
+                  <span>${(totalPrice * 0.1).toLocaleString()}</span>
+                </div>
+                <div className="price-row-modal total-row-modal">
+                  <span>Total</span>
+                  <span>${(totalPrice * 1.1).toLocaleString()}</span>
+                </div>
+              </div>
+
+              <div className="modal-actions-container">
+                <button className="btn-mercado-pago" onClick={() => alert("Redirigiendo a Mercado Pago...")}>
+                  Pagar
+                </button>
+                <button className="btn-whatsapp-modal" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent("Hola, quiero confirmar mi reserva para " + ROOM_DATA.name + " desde el " + checkIn.split("-").reverse().join("/") + " hasta el " + checkOut.split("-").reverse().join("/"))}`, '_blank')}>
+                  <svg className="whatsapp-icon-modal" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z"/>
+                  </svg>
+                  Continuar
+                </button>
+              </div>
             </div>
           </div>
         </div>

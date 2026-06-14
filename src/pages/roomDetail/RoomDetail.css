@@ -438,17 +438,22 @@
     justify-content: center;
     z-index: 100;
     padding: 1rem;
+    backdrop-filter: blur(4px);
 }
 
 .modal-content {
     background: white;
-    padding: 3rem;
-    border-radius: 2rem;
-    max-width: 500px;
+    border-radius: 10px;
+    max-width: 380px;
     width: 100%;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     position: relative;
     animation: modalPop 0.3s ease-out;
+}
+
+.modal-header-img> img {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 @keyframes modalPop {
@@ -458,48 +463,140 @@
 
 .modal-close-btn {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: none;
+    top: 1rem;
+    right: 1rem;
+    background: white;
     border: none;
-    color: #94a3b8;
+    color: #64748b;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: color 0.2s;
 }
 
 .modal-close-btn:hover {
     color: #0f172a;
+    background-color: #f1f5f9;
 }
 
-.btn-pay, .btn-confirm {
-    flex: 1;
-    background-color: #ffffff;
+.modal-header-img {
+    width: 100%;
+    height: 110px;
+}
+
+.modal-header-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-body {
+    padding: 0.75rem 1.5rem;
+}
+
+.modal-title {
+    font-size: 1.1rem;
+    font-weight: 700;
     color: #1A365D;
-    border: 1px solid #1A365D;
-    padding: 0.75rem;
-    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.modal-info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.room-name-modal {
+    font-size: 1rem;
     font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+}
+
+.info-item-modal {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+.info-item-modal svg {
+    color: #1A365D;
+}
+
+.modal-divider {
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 0.75rem 0;
+}
+
+.price-breakdown-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.price-row-modal {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+.total-row-modal {
+    margin-top: 0.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 1rem;
+}
+
+.modal-actions-container {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.btn-mercado-pago, .btn-whatsapp-modal {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: none;
+    /* font-weight: 600; */
+    font-size: 14px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.btn-pay, .btn-confirm {
-    background-color: #eff6ff;
-}
-
-.btn-pay:hover, .btn-confirm:hover {
+.btn-mercado-pago {
     background-color: #1A365D;
     color: white;
+}
+
+.btn-whatsapp-modal {
+    background-color: #25D366;
+    color: white;
+}
+
+.btn-mercado-pago:hover, .btn-whatsapp-modal:hover {
     transform: translateY(-2px);
+    box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
 }
 
-.modal-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.btn-confirm {
-    flex: 2;
+.whatsapp-icon-modal {
+    width: 1.1rem;
+    height: 1.1rem;
 }
