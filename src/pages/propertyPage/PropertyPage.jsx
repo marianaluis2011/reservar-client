@@ -6,10 +6,11 @@ import {
   Coffee,
   Dumbbell,
   MapPin, 
-  MessageCircle, 
   ChevronLeft,
   Share,
-  Heart
+  Heart,
+  Phone,
+  Mail
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import "./../propertyPage/PropertyPage.css";
@@ -24,6 +25,8 @@ export default function PropertyPage() {
     price: 45000,
     description: "Este exclusivo residencial boutique ofrece una experiencia única de confort y tranquilidad. Situado en una zona privilegiada de la ciudad de San Miguel de Tucumán, cada detalle ha sido cuidadosamente pensado para brindar calidez, elegancia y un servicio personalizado a nuestros huéspedes.",
     whatsapp: "5493812345678",
+    phone: "+54 9 381 123-4567",
+    email: "contacto@residencialdelvalle.com",
     images: [
       "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200",
       "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800",
@@ -157,8 +160,29 @@ export default function PropertyPage() {
             <section className="contact-card">
               <h2 className="contact-title">Contacto</h2>
               <p className="contact-text">¿Tienes dudas sobre el alojamiento? Habla directo con nosotros.</p>
+              
+              <div className="contact-methods">
+                <div className="contact-item">
+                  <div className="contact-icon-bg">
+                    <Phone className="contact-icon-white" />
+                  </div>
+                  <span>{property.phone}</span>
+                </div>
+                <div className="contact-item">
+                  <div className="contact-icon-bg">
+                    <Mail className="contact-icon-white" />
+                  </div>
+                  <span>{property.email}</span>
+                </div>
+              </div>
+
+              <div className="contact-divider"></div>
+
               <a href={`https://wa.me/${property.whatsapp}`} className="btn-whatsapp">
-                <MessageCircle className="whatsapp-icon" /> Contactar por WhatsApp
+                <svg className="whatsapp-icon" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.4 27.3 106.2 27.3 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.3zM223.9 445.2c-33.1 0-65.5-8.9-95.7-25.7l-6.9-3.9-71.3 18.7 18.8-69.5-4.2-6.7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 188.2-184.5 50.3 0 97.5 19.6 133 55.1s55.1 82.7 55.1 133c0 101.7-82.8 184.5-188.2 184.5zm103.6-141.3c-5.7-2.8-33.5-16.5-38.7-18.4-5.2-1.9-9-2.8-12.8 2.8-3.8 5.7-14.7 18.4-18 20.4-3.3 1.9-6.6 2.2-12.3-.7-5.7-2.8-24-8.8-45.6-28.1-16.8-15-28.1-33.6-31.4-39.3-3.3-5.7-.4-8.8 2.5-11.6 2.6-2.5 5.7-6.6 8.5-9.9 2.8-3.3 3.8-5.7 5.7-9.4 1.9-3.8 1-7.1-.5-9.9-1.4-2.8-12.8-30.8-17.5-41.7-4.6-10.7-9.3-9.3-12.8-9.4-3.3-.1-7.1-.1-10.9-.1-3.8 0-10 1.4-15.2 7.1-5.2 5.7-19.9 19.4-19.9 47.3 0 27.9 20.4 54.8 23.2 58.6 2.8 3.3 40.1 61.2 97.1 85.8 13.5 25.7 27.1 27.2 36.6 27.2 9.5 0 30.8-12.6 35.1-24.7 4.3-12.1 4.3-22.5 3-24.7s-4.8-3.3-10.5-6.1z"/>
+                </svg>
+                Contactar por WhatsApp
               </a>
             </section>
           </div>
