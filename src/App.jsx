@@ -3,7 +3,9 @@ import Home from "./pages/home/home.jsx";
 import Register from "./pages/register/register.jsx";
 import Login from "./pages/login/login.jsx";
 import { Toaster } from "sonner";
-import PropertyPage from "./pages/propertyPage/propertyPage.jsx";
+import PropertyPage from "./pages/propertyPage/PropertyPage.jsx";
+
+
 
 
 function App() {

@@ -1,0 +1,543 @@
+/* Estilos para PropertyPage */
+.property-page-wrapper {
+    min-height: 100vh;
+    background-color: #F8FAFC;
+    color: #0f172a;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.main-content {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+@media (min-width: 640px) {
+    .main-content {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+.header-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .header-container {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748b;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.back-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.2s ease;
+}
+
+.back-button:hover .back-icon {
+    color: #2563eb;
+}
+
+.back-button:hover .back-icon {
+    transform: translateX(-0.25rem);
+}
+
+.back-button:hover .back-icon {
+    color: #2563eb;
+    transform: translateX(-0.25rem);
+}
+
+.page-title {
+    font-size: 25px !important;
+    font-weight: bold;
+    letter-spacing: -0.025em;
+    color: #1A365D;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem 0;
+}
+
+@media (min-width: 768px) {
+    .page-title {
+        font-size: 3rem;
+    }
+}
+
+.location-info {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748b;
+    text-decoration: underline;
+    text-decoration-color: #cbd5e1;
+    text-underline-offset: 4px;
+}
+
+.location-icon-header {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #2563eb;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary:hover {
+    background-color: #f8fafc;
+}
+
+.share-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    color: #f43f5e;
+}
+
+.btn-icon:hover {
+    background-color: #f8fafc;
+}
+
+.heart-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    height: 400px;
+}
+
+@media (min-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+        height: 500px;
+    }
+}
+
+.gallery-sidebar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .gallery-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+.gallery-item-small {
+    flex: 1;
+}
+
+.image-container {
+    overflow: hidden;
+    border-radius: 2rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.main-image-wrapper {
+    grid-column: span 1 / span 1;
+}
+
+@media (min-width: 768px) {
+    .main-image-wrapper {
+        grid-column: span 3 / span 3;
+    }
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+    cursor: pointer;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+}
+
+.content-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+}
+
+@media (min-width: 1024px) {
+    .content-layout {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.info-column {
+    grid-column: span 1 / span 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+@media (min-width: 1024px) {
+    .info-column {
+        grid-column: span 2 / span 2;
+    }
+}
+
+.section-title {
+    color: #1A365D;
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    text-align: left;
+}
+
+.section-title-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.divider-line {
+    height: 2px;
+    flex: 1;
+    background-color: #f1f5f9;
+}
+
+.description-box {
+    color: #475569;
+    line-height: 1.625;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-radius: 2.5rem;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    font-style: italic;
+    text-align: justify;
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.amenity-card {
+    display: flex;
+    align-items: center;
+    gap: 0px !important;
+    color: #334155;
+    cursor: default;
+}
+
+.amenity-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    color: #2563eb;
+}
+
+.amenity-icon-wrapper svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.amenity-card:hover .amenity-icon-wrapper {
+    background-color: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.amenity-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.amenity-label {
+    font-size: 15px;
+    /* font-weight: 700; */
+    color: #334155;
+}
+
+.rooms-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 640px) {
+    .rooms-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.room-card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 2.5rem;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+}
+
+.room-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border-color: #dbeafe;
+}
+
+.room-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+}
+
+.room-desc {
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.room-footer {
+    padding-top: 1.5rem;
+    border-top: 1px solid #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.room-price {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #2563eb;
+}
+
+.btn-reserve {
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: 900;
+    padding: 0.75rem 2rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.btn-reserve:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-reserve:active {
+    transform: scale(0.95);
+}
+
+.sidebar-column {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.map-wrapper {
+    width: 100%;
+    height: 400px;
+    background-color: #f1f5f9;
+    border-radius: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #ffffff;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.map-placeholder {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.map-wrapper:hover .map-placeholder {
+    transform: scale(1.1);
+}
+
+.map-btn {
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    padding: 1.25rem 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #0f172a;
+}
+
+.map-btn:hover {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.map-pin-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: #2563eb;
+    animation: bounce 1s infinite;
+}
+
+.map-btn:hover .map-pin-icon {
+    color: #ffffff;
+}
+
+.contact-card {
+    background-color: #2563eb;
+    border-radius: 3rem;
+    padding: 2.5rem;
+    color: #ffffff;
+    box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+    border: 4px solid rgba(59, 130, 246, 0.2);
+}
+
+.contact-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+}
+
+.contact-text {
+    margin-bottom: 2.5rem;
+    color: #eff6ff;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.375;
+}
+
+.btn-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background-color: #ffffff;
+    color: #2563eb;
+    font-weight: 900;
+    padding: 1.5rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 1.25rem;
+    box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+}
+
+.map-btn-text {
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+}
+
+.btn-whatsapp:hover {
+    background-color: #eff6ff;
+}
+
+.btn-whatsapp:active {
+    transform: scale(0.95);
+}
+
+.whatsapp-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
