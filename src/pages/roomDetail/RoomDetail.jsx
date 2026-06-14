@@ -98,7 +98,7 @@ export default function RoomDetail() {
     const checkInDate = checkIn ? new Date(checkIn + "T00:00:00").getTime() : null;
 
     // Evitar seleccionar fechas pasadas
-    if (clickedDate < today.getTime()) return;
+    if (clickedDate < today.getTime()) return; 
 
     if (!checkIn || (checkIn && checkOut)) {
       setCheckIn(dateStr);
@@ -136,16 +136,26 @@ export default function RoomDetail() {
                 className={`btn-secondary ${showShareOptions ? 'active' : ''}`}
                 onClick={() => setShowShareOptions(!showShareOptions)}
               >
-                <Share size={16} /> Compartir
+                <Share className="share-icon" /> Compartir
               </button>
               
               {showShareOptions && (
                 <div className="share-menu">
+                  <button className="share-menu-item" onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank')}>
+                    <svg className="social-icon fb" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/></svg>
+                    Facebook
+                  </button>
+                  <button className="share-menu-item" onClick={() => window.open(`https://twitter.com/intent/tweet?url=${window.location.href}`, '_blank')}>
+                    <svg className="social-icon x-twitter" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor"/></svg>
+                    Twitter
+                  </button>
                   <button className="share-menu-item" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(ROOM_DATA.name + ' ' + window.location.href)}`, '_blank')}>
+                    <svg className="social-icon whatsapp" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z"/></svg>
                     WhatsApp
                   </button>
                   <button className="share-menu-item" onClick={() => { navigator.clipboard.writeText(window.location.href); setShowShareOptions(false); alert("Enlace copiado!"); }}>
-                    <LinkIcon size={16} /> Copiar Enlace
+                    <LinkIcon className="social-icon link" size={18} /> 
+                    Copiar Enlace
                   </button>
                 </div>
               )}
@@ -155,7 +165,7 @@ export default function RoomDetail() {
               className={`btn-icon ${isSaved ? 'is-saved' : ''}`} 
               onClick={() => setIsSaved(!isSaved)}
             >
-              <Heart className={`heart-icon ${isSaved ? 'filled' : ''}`} size={18} /> 
+              <Heart className={`heart-icon ${isSaved ? 'filled' : ''}`} /> 
               {isSaved ? 'Guardado' : 'Guardar'}
             </button>
           </div>
@@ -179,12 +189,17 @@ export default function RoomDetail() {
           </div>
           <div className="gallery-thumbs">
             {ROOM_DATA.images.map((img, i) => (
-              <img 
+              <div 
                 key={i} 
-                src={img} 
-                className={`thumb ${i === currentImgIndex ? "selected" : ""}`} 
+                className={`thumb-container ${i === currentImgIndex ? "selected" : ""}`} 
                 onClick={() => setCurrentImgIndex(i)}
-              />
+              >
+                <img 
+                  src={img} 
+                  className="thumb-image" 
+                  alt={`${ROOM_DATA.name} miniatura ${i + 1}`}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -313,8 +328,8 @@ export default function RoomDetail() {
             <h2 className="modal-title">Confirmar Reserva</h2>
             <div className="modal-details">
               <p><strong>Habitación:</strong> {ROOM_DATA.name}</p>
-              <p><strong>Check-in:</strong> {checkIn}</p>
-              <p><strong>Check-out:</strong> {checkOut}</p>
+              <p><strong>Check-in:</strong> {checkIn.split("-").reverse().join("/")}</p>
+              <p><strong>Check-out:</strong> {checkOut.split("-").reverse().join("/")}</p>
               <p><strong>Estancia:</strong> {nights} noches</p>
               <div className="modal-divider"></div>
               <p className="modal-total">Total a pagar: <span>${totalPrice.toLocaleString()}</span></p>
@@ -324,7 +339,7 @@ export default function RoomDetail() {
               <button className="btn-confirm" onClick={() => {
                 alert("¡Reserva confirmada!");
                 setShowModal(false);
-              }}>Confirmar reserva</button>
+              }}>Confirmar Reserva</button>
             </div>
           </div>
         </div>
