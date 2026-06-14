@@ -1,8 +1,10 @@
 import { 
-  Bed, 
   Wind, 
   Wifi, 
-  ShowerHead, 
+  Waves,
+  Car,
+  Coffee,
+  Dumbbell,
   MapPin, 
   MessageCircle, 
   ChevronLeft,
@@ -31,8 +33,20 @@ export default function PropertyPage() {
       "https://images.unsplash.com/photo-1590490359683-658d3d23f972?q=80&w=800",
     ],
     rooms: [
-      { id: 1, name: "Suite Matrimonial Premium", description: "Cama King Size, aire acondicionado, balcón privado y jacuzzi.", price: 35000 },
-      { id: 2, name: "Habitación Doble Superior", description: "Dos camas individuales, escritorio de trabajo y vista a la ciudad.", price: 28000 }
+      { 
+        id: 1, 
+        name: "Suite Matrimonial Premium", 
+        description: "Cama King Size, aire acondicionado, balcón privado y jacuzzi.", 
+        price: 35000,
+        image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=800"
+      },
+      { 
+        id: 2, 
+        name: "Habitación Doble Superior", 
+        description: "Dos camas individuales, escritorio de trabajo y vista a la ciudad.", 
+        price: 28000,
+        image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800"
+      }
     ]
   };
 
@@ -91,23 +105,30 @@ export default function PropertyPage() {
                 Servicios incluidos <div className="divider-line"></div>
               </h2>
               <div className="amenities-grid">
-                <Amenity icon={<Bed />} label="Cama King Size" />
-                <Amenity icon={<Wind />} label="Aire acondicionado" />
-                <Amenity icon={<Wifi />} label="Wi-Fi Premium" />
-                <Amenity icon={<ShowerHead />} label="Baño privado" />
+                <Amenity icon={<Waves />} label="Piscina Climatizada" />
+                <Amenity icon={<Car />} label="Estacionamiento Privado" />
+                <Amenity icon={<Wifi />} label="Wi-Fi de Alta Velocidad" />
+                <Amenity icon={<Wind />} label="Aire Acondicionado" />
+                <Amenity icon={<Coffee />} label="Desayuno Gourmet" />
+                <Amenity icon={<Dumbbell />} label="Gimnasio 24 hs" />
               </div>
             </section>
 
             <section>
               <h2 className="section-title">Habitaciones disponibles</h2>
-              <div className="rooms-grid">
+              <div className="rooms-list">
                 {property.rooms.map((room) => (
                   <div key={room.id} className="room-card">
-                    <h3 className="room-title">{room.name}</h3>
-                    <p className="room-desc">{room.description}</p>
-                    <div className="room-footer">
-                      <span className="room-price">${room.price.toLocaleString()}</span>
-                      <button className="btn-reserve">Reservar</button>
+                    <div className="room-image-wrapper">
+                      <img src={room.image} alt={room.name} className="room-card-image" />
+                    </div>
+                    <div className="room-info">
+                      <h3 className="room-title">{room.name}</h3>
+                      <p className="room-desc">{room.description}</p>
+                      <div className="room-footer">
+                        <span className="room-price">${room.price.toLocaleString()} <span className="room-price-detail">/noche</span></span>
+                        <button className="btn-reserve">Reservar</button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -117,7 +138,7 @@ export default function PropertyPage() {
 
           <div className="sidebar-column">
             <section>
-              <h2 className="section-title">Ubicación en Google</h2>
+              <h2 className="section-title">Ubicación</h2>
               <div className="map-wrapper">
                 <div className="map-placeholder" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800')" }}></div>
                 <div className="map-btn">
