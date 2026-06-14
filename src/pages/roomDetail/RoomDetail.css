@@ -252,8 +252,7 @@
     padding: 2rem;
     border: 1px solid #e2e8f0;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-    position: sticky;
-    top: 2rem;
+    position: relative;
 }
 
 .price-big {
@@ -358,6 +357,14 @@
     margin-top: 1rem;
 }
 
+.calendar-weekday {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #94a3b8;
+    padding-bottom: 0.5rem;
+}
+
 .calendar-day {
     aspect-ratio: 1;
     display: flex;
@@ -366,6 +373,17 @@
     font-size: 0.875rem;
     border-radius: 50%;
     color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.calendar-day:not(.empty):hover {
+    background-color: #f1f5f9;
+}
+
+.active-date {
+    background-color: #1A365D !important;
+    color: white !important;
 }
 
 .selected-range {

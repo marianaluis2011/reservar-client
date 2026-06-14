@@ -29,6 +29,7 @@ export default function RoomDetail() {
   const [checkOut, setCheckOut] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [nights, setNights] = useState(0);
+  const [viewDate, setViewDate] = useState(new Date(2026, 5, 1)); // Iniciado en Junio 2026 para el ejemplo
 
   // Cerrar menú de compartir al hacer click afuera
   useEffect(() => {
@@ -88,6 +89,44 @@ export default function RoomDetail() {
 
   const prevImage = () => {
     setCurrentImgIndex((prev) => (prev === 0 ? room.images.length - 1 : prev - 1));
+  };
+
+  // Lógica del Calendario
+  const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  const daysOfWeek = ["D", "L", "M", "X", "J", "V", "S"];
+
+  const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+  const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
+
+  const formatDate = (year, month, day) => {
+    const m = String(month + 1).padStart(2, '0');
+    const d = String(day).padStart(2, '0');
+    return `${year}-${m}-${d}`;
+  };
+
+  const handleDateClick = (day) => {
+    const dateStr = formatDate(viewDate.getFullYear(), viewDate.getMonth(), day);
+
+    if (!checkIn || (checkIn && checkOut)) {
+      setCheckIn(dateStr);
+      setCheckOut("");
+    } else {
+      // Si selecciona una fecha anterior al check-in, la resetea como check-in
+      if (new Date(dateStr) < new Date(checkIn)) {
+        setCheckIn(dateStr);
+        setCheckOut("");
+      } else if (dateStr !== checkIn) {
+        setCheckOut(dateStr);
+      }
+    }
+  };
+
+  const handlePrevMonth = () => {
+    setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
   };
 
   return (
@@ -237,16 +276,31 @@ export default function RoomDetail() {
           <h3 className="subtitle">Disponibilidad</h3>
           <div className="calendar-mock">
             <div className="calendar-header">
-              <h4>Junio 2026</h4>
+              <button onClick={handlePrevMonth} className="calendar-nav-btn"><ChevronLeft size={18} /></button>
+              <h4>{months[viewDate.getMonth()]} {viewDate.getFullYear()}</h4>
+              <button onClick={handleNextMonth} className="calendar-nav-btn"><ChevronRight size={18} /></button>
             </div>
             <div className="calendar-grid">
-              {Array.from({ length: 30 }).map((_, i) => {
+              {daysOfWeek.map(d => <div key={d} className="calendar-weekday">{d}</div>)}
+              {Array.from({ length: getFirstDayOfMonth(viewDate.getFullYear(), viewDate.getMonth()) }).map((_, i) => (
+                <div key={`empty-${i}`} className="calendar-day empty" />
+              ))}
+              {Array.from({ length: getDaysInMonth(viewDate.getFullYear(), viewDate.getMonth()) }).map((_, i) => {
                 const day = i + 1;
-                const isSelected = checkIn && checkOut && 
-                                  day >= new Date(checkIn).getDate() + 1 && 
-                                  day <= new Date(checkOut).getDate() + 1;
+                const dateStr = formatDate(viewDate.getFullYear(), viewDate.getMonth(), day);
+                
+                const isCheckIn = checkIn === dateStr;
+                const isCheckOut = checkOut === dateStr;
+                const isBetween = checkIn && checkOut && 
+                                 new Date(dateStr) > new Date(checkIn) && 
+                                 new Date(dateStr) < new Date(checkOut);
+
                 return (
-                  <div key={i} className={`calendar-day ${isSelected ? 'selected-range' : ''}`}>
+                  <div 
+                    key={day} 
+                    className={`calendar-day ${isCheckIn || isCheckOut ? 'active-date' : ''} ${isBetween ? 'selected-range' : ''}`}
+                    onClick={() => handleDateClick(day)}
+                  >
                     {day}
                   </div>
                 );
