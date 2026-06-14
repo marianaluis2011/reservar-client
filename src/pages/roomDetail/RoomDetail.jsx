@@ -295,7 +295,7 @@ export default function RoomDetail() {
               {nights > 0 && (
                 <div className="price-summary">
                   <div className="summary-row">
-                    <span>${ROOM_DATA.pricePerNight.toLocaleString()} x {nights} noches</span>
+                    <span>${ROOM_DATA.pricePerNight.toLocaleString()} x {nights} noche/s</span>
                     <span>${totalPrice.toLocaleString()}</span>
                   </div>
                   <div className="summary-total">
@@ -330,7 +330,7 @@ export default function RoomDetail() {
               <p><strong>Habitación:</strong> {ROOM_DATA.name}</p>
               <p><strong>Check-in:</strong> {checkIn.split("-").reverse().join("/")}</p>
               <p><strong>Check-out:</strong> {checkOut.split("-").reverse().join("/")}</p>
-              <p><strong>Estancia:</strong> {nights} noches</p>
+              <p><strong>Estancia:</strong> {nights} noche</p>
               <div className="modal-divider"></div>
               <p className="modal-total">Total a pagar: <span>${totalPrice.toLocaleString()}</span></p>
             </div>

@@ -5,6 +5,7 @@ import Login from "./pages/login/login.jsx";
 import { Toaster } from "sonner";
 import PropertyPage from "./pages/propertyPage/PropertyPage.jsx";
 import RoomDetail from "./pages/roomDetail/RoomDetail.jsx";
+import Navbar from "./components/navbar.jsx"
 
 
 
@@ -23,6 +24,8 @@ function App() {
 
 
     <BrowserRouter>
+      <Navbar />
+      
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/profile" element={<ProfileSelectionModal />} /> */}
