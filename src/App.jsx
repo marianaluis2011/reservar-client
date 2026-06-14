@@ -3,6 +3,10 @@ import Home from "./pages/home/home.jsx";
 import Register from "./pages/register/register.jsx";
 import Login from "./pages/login/login.jsx";
 import { Toaster } from "sonner";
+import PropertyPage from "./pages/propertyPage/PropertyPage.jsx";
+
+
+
 
 function App() {
   return (
@@ -22,6 +26,7 @@ function App() {
         {/* <Route path="/profile" element={<ProfileSelectionModal />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/propertyPage" element={<PropertyPage />} />
       </Routes>
     </BrowserRouter>
 
