@@ -14,7 +14,7 @@ import {
   Mail,
   Link as LinkIcon
 } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import "./../propertyPage/PropertyPage.css";
 
 export default function PropertyPage() {

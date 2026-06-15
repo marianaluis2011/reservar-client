@@ -1,7 +1,7 @@
 // import React from 'react';
 import './navbar.css';
 import logo from '../../assets/hospedar.jpeg';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
