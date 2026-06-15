@@ -1,0 +1,360 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Home,
+  Building2,
+  ListChecks,
+  Bed,
+  CalendarDays,
+  Settings,
+  Plus,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Check,
+  X,
+  MessageSquare,
+  SquarePen,
+  Percent,
+  Phone,
+  Wrench,
+} from "lucide-react";
+import "./HostDashboard.css";
+
+// Mock Data (as provided in the prompt)
+const dashboardData = {
+  accommodationName: "Hostal del Norte",
+  adminName: "Carlos Mendoza",
+  rooms: [
+    {
+      id: 1,
+      name: "Queen 204",
+      pricePerNight: 24000,
+      status: "Activa",
+    },
+    {
+      id: 2,
+      name: "Deluxe 301",
+      pricePerNight: 48000,
+      status: "Activa",
+    },
+    {
+      id: 3,
+      name: "Nupcial 102",
+      pricePerNight: 65500,
+      status: "Inactiva",
+    },
+  ],
+  recentBookings: [
+    {
+      id: 1,
+      guestName: "Mariana Costa",
+      roomName: "Queen 204",
+      dates: "12 Oct - 15 Oct",
+      status: "Confirmada",
+    },
+    {
+      id: 2,
+      guestName: "Roberto Jiménez",
+      roomName: "Deluxe 301",
+      dates: "18 Oct - 20 Oct",
+      status: "Pendiente",
+    },
+    {
+      id: 3,
+      guestName: "Sofía Villalobos",
+      roomName: "Nupcial 102",
+      dates: "24 Oct - 26 Oct",
+      status: "Cancelada",
+    },
+  ],
+};
+
+const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+const DAYS_OF_WEEK = ["D", "L", "M", "X", "J", "V", "S"];
+
+export default function HostDashboard() {
+  const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Calendar state (mocked for Oct 2026 as per prompt)
+  const [viewDate, setViewDate] = useState(new Date(2026, 9, 1)); // October 2026
+
+  const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+  const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
+
+  const handlePrevMonth = () => {
+    setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
+  };
+
+  // Mock occupancy data for October 2026
+  const getDayStatus = (day) => {
+    if (viewDate.getMonth() === 9 && viewDate.getFullYear() === 2026) {
+      if ([12, 13, 14, 15, 18, 19, 20].includes(day)) return "occupied";
+      if ([24, 25, 26].includes(day)) return "pending";
+    }
+    return "free";
+  };
+
+  // Temporary navigation handler for sidebar items
+  const handleSidebarNavigation = (path) => {
+    if (path === "/host/dashboard") {
+      navigate(path);
+    } else {
+      navigate("/404"); // Redirect to 404 for unimplemented views
+    }
+    setIsSidebarOpen(false); // Close sidebar on navigation for mobile
+  };
+
+  return (
+    <div className="host-dashboard-wrapper">
+      {/* Mobile Sidebar Toggle */}
+      <button
+        className="mobile-sidebar-toggle"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        aria-label="Abrir menú lateral"
+      >
+        ☰
+      </button>
+
+      {/* Sidebar */}
+      <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+        <div className="sidebar-header">
+          <h2 className="accommodation-name">
+            {dashboardData.accommodationName}
+          </h2>
+          <p className="admin-panel-subtitle">Panel Administrativo</p>
+        </div>
+        <nav className="sidebar-nav">
+          <ul>
+            <li
+              className="active"
+              onClick={() => handleSidebarNavigation("/host/dashboard")}
+            >
+              <Home size={20} /> Resumen
+            </li>
+            <li onClick={() => handleSidebarNavigation("/host/my-accommodation")}>
+              <Building2 size={20} /> Mi hospedaje
+            </li>
+            <li onClick={() => handleSidebarNavigation("/host/bookings")}>
+              <ListChecks size={20} /> Reservas
+            </li>
+            <li onClick={() => handleSidebarNavigation("/host/rooms")}>
+              <Bed size={20} /> Habitaciones
+            </li>
+            <li onClick={() => handleSidebarNavigation("/host/calendar")}>
+              <CalendarDays size={20} /> Calendario
+            </li>
+            <li onClick={() => handleSidebarNavigation("/host/settings")}>
+              <Settings size={20} /> Configuración
+            </li>
+          </ul>
+        </nav>
+        <div className="sidebar-footer">
+          <button className="btn-new-room">
+            <Plus size={18} /> Nueva habitación
+          </button>
+          <div className="user-info">
+            <span className="user-name">{dashboardData.adminName}</span>
+            <span className="user-role">Administrador</span>
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Top Bar */}
+        <header className="top-bar">
+          <div className="top-bar-text">
+            <h1 className="page-title">Panel de Control</h1>
+            <p className="page-subtitle">
+              Gestioná reservas, habitaciones y disponibilidad de tu hospedaje.
+            </p>
+          </div>
+          <div className="top-bar-actions">
+            <button className="btn-new-booking">
+              <Plus size={18} /> Nueva reserva
+            </button>
+            <span className="badge badge-whatsapp">WhatsApp activo</span>
+            <span className="badge badge-deposit">Seña configurada</span>
+          </div>
+        </header>
+
+        {/* Dashboard Grid */}
+        <div className="dashboard-grid">
+          {/* Left Column (Calendar & Recent Bookings) */}
+          <div className="dashboard-column-left">
+            {/* Calendar */}
+            <section className="calendar-section card">
+              <h2 className="section-title">Calendario de Ocupación</h2>
+              <div className="calendar-header-nav">
+                <button onClick={handlePrevMonth} className="calendar-nav-btn" aria-label="Mes anterior" type="button">
+                  <ChevronLeft size={18} />
+                </button>
+                <h3 className="calendar-month-year">
+                  {MONTHS[viewDate.getMonth()]} {viewDate.getFullYear()}
+                </h3>
+                <button onClick={handleNextMonth} className="calendar-nav-btn" aria-label="Mes siguiente" type="button">
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+              <div className="calendar-grid">
+                {MONTHS.length > 0 && DAYS_OF_WEEK.map((d) => (
+                  <div key={d} className="calendar-weekday">
+                    {d}
+                  </div>
+                ))}
+                {Array.from({
+                  length: getFirstDayOfMonth(
+                    viewDate.getFullYear(),
+                    viewDate.getMonth()
+                  ),
+                }).map((_, i) => (
+                  <div key={`empty-${i}`} className="calendar-day empty" />
+                ))}
+                {Array.from({
+                  length: getDaysInMonth(
+                    viewDate.getFullYear(),
+                    viewDate.getMonth()
+                  ),
+                }).map((_, i) => {
+                  const day = i + 1;
+                  const status = getDayStatus(day);
+                  return (
+                    <div key={day} className={`calendar-day ${status}`}>
+                      {day}
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="calendar-continuity-text">El calendario continúa...</p>
+            </section>
+
+            {/* Recent Bookings */}
+            <section className="recent-bookings-section card">
+              <div className="section-header-with-button">
+                <h2 className="section-title">Reservas Recientes</h2>
+                <button className="btn-link">Ver todas</button>
+              </div>
+              <div className="bookings-table-container">
+                <table className="bookings-table">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Habitación</th>
+                      <th>Fechas</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dashboardData.recentBookings.map((booking) => (
+                      <tr key={booking.id}>
+                        <td>{booking.guestName}</td>
+                        <td>{booking.roomName}</td>
+                        <td>{booking.dates}</td>
+                        <td>
+                          <span className={`status-badge ${booking.status.toLowerCase()}`}>
+                            {booking.status}
+                          </span>
+                        </td>
+                        <td className="booking-actions">
+                          <button className="action-icon-btn" title="Ver detalle">
+                            <Eye size={16} />
+                          </button>
+                          {booking.status === "Pendiente" && (
+                            <button className="action-icon-btn" title="Confirmar">
+                              <Check size={16} />
+                            </button>
+                          )}
+                          {booking.status !== "Cancelada" && (
+                            <button className="action-icon-btn" title="Cancelar">
+                              <X size={16} />
+                            </button>
+                          )}
+                          <button className="action-icon-btn" title="Contactar por WhatsApp">
+                            <MessageSquare size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          {/* Right Column (Rooms & Quick Settings) */}
+          <div className="dashboard-column-right">
+            {/* Rooms */}
+            <section className="rooms-section card">
+              <div className="section-header-with-button">
+                <h2 className="section-title">Habitaciones</h2>
+                <button className="btn-new-room-small">
+                  <Plus size={16} /> Nueva
+                </button>
+              </div>
+              <div className="rooms-list">
+                {dashboardData.rooms.map((room) => (
+                  <div key={room.id} className="room-card-compact">
+                    <div className="room-info-compact">
+                      <h4 className="room-name-compact">{room.name}</h4>
+                      <p className="room-price-compact">
+                        ${room.pricePerNight.toLocaleString()} / noche
+                      </p>
+                      <span className={`room-status-compact ${room.status.toLowerCase()}`}>
+                        {room.status}
+                      </span>
+                    </div>
+                    <button className="action-icon-btn" title="Editar habitación">
+                      <SquarePen size={18} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Quick Settings */}
+            <section className="quick-settings-section card">
+              <h2 className="section-title">Configuración rápida</h2>
+              <div className="quick-settings-grid">
+                <div className="setting-card">
+                  <Percent size={24} className="setting-icon" />
+                  <div className="setting-text">
+                    <h4 className="setting-title">Ajustar seña</h4>
+                    <p className="setting-subtitle">Modificar porcentaje</p>
+                  </div>
+                </div>
+                <div className="setting-card">
+                  <MessageSquare size={24} className="setting-icon" />
+                  <div className="setting-text">
+                    <h4 className="setting-title">Editar WhatsApp</h4>
+                    <p className="setting-subtitle">Gestionar número</p>
+                  </div>
+                </div>
+                <div className="setting-card">
+                  <Phone size={24} className="setting-icon" />
+                  <div className="setting-text">
+                    <h4 className="setting-title">Datos de contacto</h4>
+                    <p className="setting-subtitle">Información pública</p>
+                  </div>
+                </div>
+                <div className="setting-card">
+                  <Wrench size={24} className="setting-icon" />
+                  <div className="setting-text">
+                    <h4 className="setting-title">Servicios del hospedaje</h4>
+                    <p className="setting-subtitle">Editar amenities</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
