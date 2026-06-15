@@ -18,6 +18,8 @@ import {
   Percent,
   Phone,
   Wrench,
+  MessageCircle,
+  Banknote,
 } from "lucide-react";
 import "./HostDashboard.css";
 
@@ -135,28 +137,28 @@ export default function HostDashboard() {
               className="active"
               onClick={() => handleSidebarNavigation("/host/dashboard")}
             >
-              <Home size={20} /> Resumen
+              <Home size={16} /> Resumen
             </li>
             <li onClick={() => handleSidebarNavigation("/host/my-accommodation")}>
-              <Building2 size={20} /> Mi hospedaje
+              <Building2 size={16} /> Mi hospedaje
             </li>
             <li onClick={() => handleSidebarNavigation("/host/bookings")}>
-              <ListChecks size={20} /> Reservas
+              <ListChecks size={16} /> Reservas
             </li>
             <li onClick={() => handleSidebarNavigation("/host/rooms")}>
-              <Bed size={20} /> Habitaciones
+              <Bed size={16} /> Habitaciones
             </li>
             <li onClick={() => handleSidebarNavigation("/host/calendar")}>
-              <CalendarDays size={20} /> Calendario
+              <CalendarDays size={16} /> Calendario
             </li>
             <li onClick={() => handleSidebarNavigation("/host/settings")}>
-              <Settings size={20} /> Configuración
+              <Settings size={16} /> Configuración
             </li>
           </ul>
         </nav>
         <div className="sidebar-footer">
           <button className="btn-new-room">
-            <Plus size={18} /> Nueva habitación
+            <Plus size={14} /> Nueva habitación
           </button>
           <div className="user-info">
             <span className="user-name">{dashboardData.adminName}</span>
@@ -177,17 +179,21 @@ export default function HostDashboard() {
           </div>
           <div className="top-bar-actions">
             <button className="btn-new-booking">
-              <Plus size={18} /> Nueva reserva
+              <Plus size={16} /> Nueva reserva
             </button>
-            <span className="badge badge-whatsapp">WhatsApp activo</span>
-            <span className="badge badge-deposit">Seña configurada</span>
+            <span className="badge badge-whatsapp">
+              <MessageCircle size={14} /> WhatsApp activo
+            </span>
+            <span className="badge badge-deposit">
+              <Banknote size={14} /> Seña configurada
+            </span>
           </div>
         </header>
 
         {/* Dashboard Grid */}
         <div className="dashboard-grid">
-          {/* Left Column (Calendar & Recent Bookings) */}
-          <div className="dashboard-column-left">
+          {/* Fila Superior: Calendario y Habitaciones */}
+          <div className="dashboard-top-row">
             {/* Calendar */}
             <section className="calendar-section card">
               <h2 className="section-title">Calendario de Ocupación</h2>
@@ -234,8 +240,37 @@ export default function HostDashboard() {
               <p className="calendar-continuity-text">El calendario continúa...</p>
             </section>
 
-            {/* Recent Bookings */}
-            <section className="recent-bookings-section card">
+            {/* Rooms (Ahora al lado del calendario) */}
+            <section className="rooms-section card">
+              <div className="section-header-with-button">
+                <h2 className="section-title">Habitaciones</h2>
+                <button className="btn-new-room-small">
+                  <Plus size={16} /> Nueva
+                </button>
+              </div>
+              <div className="rooms-list">
+                {dashboardData.rooms.map((room) => (
+                  <div key={room.id} className="room-card-compact">
+                    <div className="room-info-compact">
+                      <h4 className="room-name-compact">{room.name}</h4>
+                      <p className="room-price-compact">
+                        ${room.pricePerNight.toLocaleString()} / noche
+                      </p>
+                      <span className={`room-status-compact ${room.status.toLowerCase()}`}>
+                        {room.status}
+                      </span>
+                    </div>
+                    <button className="action-icon-btn" title="Editar habitación">
+                      <SquarePen size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Reservas Recientes (Ancho completo debajo) */}
+          <section className="recent-bookings-section card">
               <div className="section-header-with-button">
                 <h2 className="section-title">Reservas Recientes</h2>
                 <button className="btn-link">Ver todas</button>
@@ -264,20 +299,20 @@ export default function HostDashboard() {
                         </td>
                         <td className="booking-actions">
                           <button className="action-icon-btn" title="Ver detalle">
-                            <Eye size={16} />
+                            <Eye size={14} />
                           </button>
                           {booking.status === "Pendiente" && (
                             <button className="action-icon-btn" title="Confirmar">
-                              <Check size={16} />
+                              <Check size={14} />
                             </button>
                           )}
                           {booking.status !== "Cancelada" && (
                             <button className="action-icon-btn" title="Cancelar">
-                              <X size={16} />
+                              <X size={14} />
                             </button>
                           )}
                           <button className="action-icon-btn" title="Contactar por WhatsApp">
-                            <MessageSquare size={16} />
+                            <MessageSquare size={14} />
                           </button>
                         </td>
                       </tr>
@@ -286,65 +321,34 @@ export default function HostDashboard() {
                 </table>
               </div>
             </section>
-          </div>
 
-          {/* Right Column (Rooms & Quick Settings) */}
-          <div className="dashboard-column-right">
-            {/* Rooms */}
-            <section className="rooms-section card">
-              <div className="section-header-with-button">
-                <h2 className="section-title">Habitaciones</h2>
-                <button className="btn-new-room-small">
-                  <Plus size={16} /> Nueva
-                </button>
-              </div>
-              <div className="rooms-list">
-                {dashboardData.rooms.map((room) => (
-                  <div key={room.id} className="room-card-compact">
-                    <div className="room-info-compact">
-                      <h4 className="room-name-compact">{room.name}</h4>
-                      <p className="room-price-compact">
-                        ${room.pricePerNight.toLocaleString()} / noche
-                      </p>
-                      <span className={`room-status-compact ${room.status.toLowerCase()}`}>
-                        {room.status}
-                      </span>
-                    </div>
-                    <button className="action-icon-btn" title="Editar habitación">
-                      <SquarePen size={18} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Quick Settings */}
-            <section className="quick-settings-section card">
+          {/* Configuración rápida (Al final de todo) */}
+          <section className="quick-settings-section card">
               <h2 className="section-title">Configuración rápida</h2>
               <div className="quick-settings-grid">
                 <div className="setting-card">
-                  <Percent size={24} className="setting-icon" />
+                  <Percent size={20} className="setting-icon" />
                   <div className="setting-text">
                     <h4 className="setting-title">Ajustar seña</h4>
                     <p className="setting-subtitle">Modificar porcentaje</p>
                   </div>
                 </div>
                 <div className="setting-card">
-                  <MessageSquare size={24} className="setting-icon" />
+                  <MessageSquare size={20} className="setting-icon" />
                   <div className="setting-text">
                     <h4 className="setting-title">Editar WhatsApp</h4>
                     <p className="setting-subtitle">Gestionar número</p>
                   </div>
                 </div>
                 <div className="setting-card">
-                  <Phone size={24} className="setting-icon" />
+                  <Phone size={20} className="setting-icon" />
                   <div className="setting-text">
                     <h4 className="setting-title">Datos de contacto</h4>
                     <p className="setting-subtitle">Información pública</p>
                   </div>
                 </div>
                 <div className="setting-card">
-                  <Wrench size={24} className="setting-icon" />
+                  <Wrench size={20} className="setting-icon" />
                   <div className="setting-text">
                     <h4 className="setting-title">Servicios del hospedaje</h4>
                     <p className="setting-subtitle">Editar amenities</p>
@@ -352,7 +356,6 @@ export default function HostDashboard() {
                 </div>
               </div>
             </section>
-          </div>
         </div>
       </main>
     </div>

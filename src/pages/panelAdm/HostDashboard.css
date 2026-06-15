@@ -4,12 +4,13 @@
 
 .host-dashboard-wrapper {
     display: flex;
-    min-height: calc(100vh - 70px); /* Ajuste por el Navbar */
+    min-height: 100vh;
     background-color: #f8fafc; /* Light background */
     font-family: system-ui, -apple-system, sans-serif;
     color: #0f172a; /* Dark text */
-    text-align: left; /* Corregimos el centrado global de index.css */
+    text-align: left; /* Reset del text-align: center de index.css */
     width: 100%;
+    overflow-x: hidden;
 }
 
 /* Mobile Sidebar Toggle */
@@ -35,7 +36,7 @@
 
 /* Sidebar */
 .sidebar {
-    width: 170px; /* Aún más angosto como pediste */
+    width: 170px;
     background-color: #1A365D; /* Dark blue */
     color: white;
     padding: 1rem;
@@ -55,8 +56,8 @@
 
 @media (min-width: 1024px) {
     .sidebar {
-        transform: translateX(0); /* Always visible on desktop */
-        position: relative; /* Para que se quede dentro del margen del #root */
+        transform: translateX(0);
+        position: relative;
         height: auto;
     }
 }
@@ -93,7 +94,6 @@
     font-size: 0.75rem;
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s;
-    font-weight: 500;
 }
 
 .sidebar-nav li:hover {
@@ -152,13 +152,15 @@
 /* Main Content */
 .main-content {
     flex-grow: 1;
-    padding: 1.25rem;
-    min-width: 0; /* Evita que el contenido empuje el margen derecho */
-    width: 100%;
+    flex-basis: 0;
+    min-width: 0; /* Permite que el contenido se encoja si es necesario */
+    padding: 2rem;
 }
 
 @media (max-width: 1023px) {
     .main-content {
+        margin-left: 0; 
+        max-width: 100%;
         padding: 1rem;
     }
 }
@@ -197,6 +199,7 @@
     flex-wrap: wrap;
     gap: 0.75rem;
     align-items: center;
+    justify-content: flex-start;
 }
 
 .btn-new-booking {
@@ -218,12 +221,9 @@
 }
 
 .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
     padding: 0.4rem 0.8rem;
     border-radius: 0.5rem;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 500;
 }
 
@@ -278,7 +278,7 @@
     border: none;
     color: #2563eb;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
     transition: color 0.2s;
 }
@@ -290,7 +290,7 @@
 /* Calendar Section */
 .calendar-section {
     margin-bottom: 1.25rem;
-    width: 280px; /* Tamaño fijo y pequeño para el calendario */
+    width: 280px;
     flex-shrink: 0;
 }
 
@@ -298,7 +298,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     padding: 0 0.5rem;
 }
 
@@ -331,8 +331,8 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    max-width: 260px; /* Calendario mucho más pequeño */
-    margin: 0 auto;   /* Centrado sutil */
+    max-width: 260px;
+    margin: 0 auto;
 }
 
 .calendar-weekday {
@@ -347,7 +347,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     border-radius: 50%;
     color: #475569;
     background-color: transparent;
@@ -387,7 +387,7 @@
 
 /* Recent Bookings Section */
 .bookings-table-container {
-    overflow-x: auto;
+    overflow-x: auto; /* Enable horizontal scroll on small screens */
 }
 
 .bookings-table {
@@ -467,12 +467,12 @@ color: #64748b;
     gap: 0.25rem;
     background-color: #1A365D;
     color: white;
-    padding: 0.5rem 0.75rem;
+    padding: 0.4rem 0.6rem;
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 0.85rem;
+    font-weight: 600;
+    font-size: 0.75rem;
     transition: background-color 0.2s;
 }
 
@@ -504,7 +504,7 @@ color: #64748b;
     font-size: 0.85rem;
     font-weight: 600;
     color: #1A365D;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
 }
 
 .room-price-compact {
@@ -569,4 +569,10 @@ color: #64748b;
 .setting-subtitle {
     font-size: 0.7rem;
     color: #64748b;
+}
+
+/* Ajuste para que las imágenes no rompan el layout */
+.room-card-compact img, 
+.calendar-grid div {
+    max-width: 100%;
 }
