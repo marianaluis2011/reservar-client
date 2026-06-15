@@ -23,7 +23,7 @@ export const useRegisterForm = () => {
       password: "",
       confirmPassword: "",
       name: "",
-      location: "",
+      province: "",
       description: "",
       whatsapp: "",
       terms: false,
