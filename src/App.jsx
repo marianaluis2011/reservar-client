@@ -1,11 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/home.jsx";
 import Register from "./pages/register/register.jsx";
 import Login from "./pages/login/login.jsx";
 import { Toaster } from "sonner";
 import PropertyPage from "./pages/propertyPage/PropertyPage.jsx";
+import Navbar from "./components/navbar/navbar.jsx";
 import RoomDetail from "./pages/roomDetail/RoomDetail.jsx";
-import Navbar from "./components/navbar.jsx"
 
 
 
@@ -25,7 +25,6 @@ function App() {
 
     <BrowserRouter>
       <Navbar />
-      
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/profile" element={<ProfileSelectionModal />} /> */}
