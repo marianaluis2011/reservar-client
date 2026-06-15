@@ -29,8 +29,8 @@ export const registerSchema = z
     }),
 
     // Campos opcionales inicialmente
-    propertyName: z.string().optional(),
-    location: z.string().optional(),
+    name: z.string().optional(),
+    province: z.string().optional(),
     description: z.string().optional(),
     whatsapp: z.string().optional(),
   })
@@ -44,18 +44,18 @@ export const registerSchema = z
   // Validaciones exclusivas para host
   .superRefine((data, ctx) => {
     if (data.role === "host") {
-      if (!data.propertyName || data.propertyName.length < 3) {
+      if (!data.name || data.name.length < 3) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ["propertyName"],
+          path: ["name"],
           message: "Ingresa el nombre del hospedaje",
         });
       }
 
-      if (!data.location || data.location.length < 3) {
+      if (!data.province || data.province.length < 3) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ["location"],
+          path: ["province"],
           message: "Ingresa la ubicación",
         });
       }

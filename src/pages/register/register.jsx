@@ -200,14 +200,14 @@ export default function Register() {
                     </label>
 
                     <input
-                      {...register("propertyName")}
+                      {...register("name")}
                       placeholder="Ej. Hotel Paraíso"
                       className="w-full border rounded-lg px-4 py-3"
                     />
 
-                    {errors.propertyName && (
+                    {errors.name && (
                       <p className="text-red-500 text-sm mt-1">
-                        {errors.propertyName.message}
+                        {errors.name.message}
                       </p>
                     )}
                   </div>
@@ -218,14 +218,14 @@ export default function Register() {
                     </label>
 
                     <input
-                      {...register("location")}
+                      {...register("province")}
                       placeholder="Ciudad, País"
                       className="w-full border rounded-lg px-4 py-3"
                     />
 
-                    {errors.location && (
+                    {errors.province && (
                       <p className="text-red-500 text-sm mt-1">
-                        {errors.location.message}
+                        {errors.province.message}
                       </p>
                     )}
                   </div>
