@@ -371,13 +371,19 @@ export default function RoomDetail() {
 
               <div className="modal-actions-container">
                 <button className="btn-mercado-pago" onClick={() => alert("Redirigiendo a Mercado Pago...")}>
-                  Pagar
+                  <div className="mp-logo-mini-wrapper">
+                    <img 
+                      src="https://thf.bing.com/th/id/OIP.GfGB7l824oQOiwrnjxPVBAHaD4?w=303&h=180&c=7&r=0&o=7&cb=thfc1falcon2&pid=1.7&rm=3" 
+                      alt="Mercado Pago" 
+                    />
+                  </div>
+                  Realizar Pago
                 </button>
                 <button className="btn-whatsapp-modal" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent("Hola, quiero confirmar mi reserva para " + ROOM_DATA.name + " desde el " + checkIn.split("-").reverse().join("/") + " hasta el " + checkOut.split("-").reverse().join("/"))}`, '_blank')}>
                   <svg className="whatsapp-icon-modal" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z"/>
                   </svg>
-                  Continuar
+                  WhatsApp
                 </button>
               </div>
             </div>

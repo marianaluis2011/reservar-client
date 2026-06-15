@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import './../components/button'
+import { NavLink } from 'react-router'
+import './../components/navbar.css'
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -122,4 +122,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
