@@ -30,7 +30,7 @@ export const registerSchema = z
 
     // Campos opcionales inicialmente
     name: z.string().optional(),
-    location: z.string().optional(),
+    province: z.string().optional(),
     description: z.string().optional(),
     whatsapp: z.string().optional(),
   })
@@ -52,10 +52,10 @@ export const registerSchema = z
         });
       }
 
-      if (!data.location || data.location.length < 3) {
+      if (!data.province || data.province.length < 3) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ["location"],
+          path: ["province"],
           message: "Ingresa la ubicación",
         });
       }
