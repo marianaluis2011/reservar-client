@@ -8,7 +8,10 @@ const Navbar = () => {
   const location = useLocation();
 
   const isHome = location.pathname === '/';
-  const isProperty = location.pathname === '/propertyPage';
+
+  // Convertimos a minúsculas para evitar problemas de sensibilidad y comprobamos si es alguna de las rutas de propiedades
+  const currentPath = location.pathname.toLowerCase();
+  const isPropertyRelated = currentPath.includes('property') || currentPath.includes('room');
 
   return (
     <nav className="navbar">
@@ -21,7 +24,7 @@ const Navbar = () => {
         <span className="navbar-brand-name">Hospedar</span>
       </div>
 
-      {isProperty && (
+      {isPropertyRelated && (
         <ul className="navbar-links">
           <li><a href="#buscar">Buscar Hospedaje</a></li>
           <li><a href="#usuario">Usuario</a></li>
