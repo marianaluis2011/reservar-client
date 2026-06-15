@@ -1,5 +1,6 @@
 .navbar {
-  background-color: #1A365D;
+  /* background-color: #1A365D; */
+  background-color: #0f172a;
   display: flex;
   justify-content: space-between;
   align-items: center;
