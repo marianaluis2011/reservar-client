@@ -1,3 +1,6 @@
+/* body {
+    background-color: #0f172a;
+} */
 .footer-b {
     background-color: #0f172a; /* Slate 950 */
     color: #e2e8f0;
@@ -13,8 +16,6 @@
 }
 
 .footer-content {
-    /* display: grid; */
-    /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -43,11 +44,21 @@
 }
 
 .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     font-size: 1.6rem;
     font-weight: 800;
     color: #ffffff;
     margin: 0 0 20px 0;
     letter-spacing: 1.5px;
+    
+}
+
+.footer-logo-img {
+    height: 35px;
+    width: auto;
+    border-radius: 5px;
 }
 
 .footer-logo span {
@@ -56,7 +67,6 @@
 
 .footer-desc {
     color: #94a3b8;
-    /* line-height: 1.7; */
     font-size: 0.8rem;
     text-align: justify;
 }
@@ -77,10 +87,6 @@
     text-align: left;
 }
 
-/* .footer-links li {
-    margin-bottom: 10px;
-} */
-
 .footer-links a {
     color: #94a3b8;
     text-decoration: none;
@@ -97,7 +103,6 @@
 .contact-details {
     display: flex;
     flex-direction: column;
-    /* gap: 10px; */
 }
 
 .contact-item {

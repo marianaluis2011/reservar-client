@@ -1,5 +1,7 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import "./FooterB.css";
+import logo from '../../assets/hospedar.jpeg';
+
 
 export default function FooterB() {
   return (
@@ -8,7 +10,10 @@ export default function FooterB() {
         <div className="footer-content">
           {/* Sección de Marca */}
           <div className="footer-section brand-section">
-            <h2 className="footer-logo">Hospedar</h2>
+            <h2 className="footer-logo">
+              <img src={logo} alt="Logo" className="footer-logo-img" />
+              Hospedar
+            </h2>
             <p className="footer-desc">
               Tu plataforma de confianza para encontrar el alojamiento perfecto. 
               Gestionamos las mejores propiedades para que tu única preocupación sea disfrutar de tu viaje.
