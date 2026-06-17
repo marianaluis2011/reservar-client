@@ -7,6 +7,7 @@ import PropertyPage from "./pages/propertyPage/PropertyPage.jsx";
 import Navbar from "./components/navbar/navbar.jsx";
 import RoomDetail from "./pages/roomDetail/RoomDetail.jsx";
 import FooterB from "./components/footer/FooterB.jsx";
+import HostDashboard from "./pages/panelAdm/HostDashboard";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/propertyPage" element={<PropertyPage />} />
           <Route path="/roomDetail" element={<RoomDetail />} />
+          <Route path="/host/dashboard" element={<HostDashboard />} />
         </Routes>
         <FooterB />
       </BrowserRouter>
