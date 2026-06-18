@@ -31,96 +31,118 @@ export default function Register() {
   };
 
   return (
-    <div className="h-screen bg-slate-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl h-[90vh] bg-white rounded-2xl border shadow-sm overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
+  <div
+className="
+  w-full
+  max-w-4xl
+  bg-white
+  rounded-2xl
+  border
+  shadow-sm
+  overflow-hidden
+"
+  >
+    {/* HEADER */}
+    <div className="px-4 py-2 border-b">
+<h1 className="text-2xl md:text-3xl font-bold text-slate-900">
+  Crea tu cuenta
+</h1>
 
-        <div className="p-0 border-b flex-shrink-0">
-          <h1 className="text-2xl font-bold text-slate-900">
-            Crea tu cuenta
-          </h1>
+<p className="text-sm text-slate-500 mt-1">
+        Únete a la plataforma de gestión hotelera más moderna.
+      </p>
+    </div>
 
-          <p className="text-slate-500 mt-1">
-            Únete a la plataforma de gestión hotelera más moderna.
-          </p>
-        </div>
+    {/* BODY */}
+    <div className="p-8">
+      <form onSubmit={handleSubmit(onSubmit)}>
 
+        <h2 className="text-sm font-semibold uppercase text-slate-700 mb-5">
+          ¿Qué deseas hacer?
+        </h2>
 
-        <div className="flex-1 overflow-y-auto p-5">
-          <form onSubmit={handleSubmit(onSubmit)}>
-
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-700 mb-3">
-              ¿QUÉ DESEAS HACER?
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-
-              <button
-                type="button"
-                onClick={() => handleRoleChange("guest")}
-                className={`relative border rounded-xl p-3 text-left transition-all ${role === "guest"
-                    ? "border-cyan-600 bg-cyan-50"
-                    : "border-slate-300 bg-white hover:border-slate-400"
-                  }`}
-              >
-                {role === "guest" && (
-                  <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-cyan-600" />
-                )}
-
-                <div className="flex gap-3">
-                  <Bed className="w-5 h-5 text-slate-700 mt-1 flex-shrink-0" />
-
-                  <div>
-                    <h3 className="font-medium text-xs text-slate-800 leading-tight">
-                      Quiero reservar hospedajes
-                    </h3>
-
-                    <p className="text-[11px] text-slate-500 mt-1 leading-snug">
-                      Busca y gestiona tus estancias en segundos.
-                    </p>
-                  </div>
-                </div>
-              </button>
+        <div className="grid md:grid-cols-2 gap-4 mb-8">
 
               <button
-                type="button"
-                onClick={() => handleRoleChange("host")}
-                className={`relative border rounded-xl p-3 text-left transition-all ${role === "host"
-                    ? "border-cyan-600 bg-cyan-50"
-                    : "border-slate-300 bg-white hover:border-slate-400"
-                  }`}
-              >
-                {role === "host" && (
-                  <CheckCircle className="absolute top-3 right-3 w-5 h-5 text-cyan-600" />
-                )}
+  type="button"
+  onClick={() => handleRoleChange("guest")}
+  className={`relative border rounded-xl px-5 py-4 text-left transition-all ${
+    role === "guest"
+      ? "border-cyan-600 bg-cyan-50"
+      : "border-slate-300 bg-white hover:border-slate-400"
+  }`}
+>
+  {role === "guest" && (
+    <CheckCircle className="absolute top-4 right-4 w-5 h-5 text-cyan-600" />
+  )}
 
-                <div className="flex gap-3">
-                  <Building2 className="w-5 h-5 text-slate-700 mt-1 flex-shrink-0" />
+  <div className="flex gap-4">
+    <Bed className="w-6 h-6 text-slate-700 mt-1" />
 
-                  <div>
-                    <h3 className="font-medium text-xs text-slate-800 leading-tight">
-                      Quiero publicar mi hospedaje
-                    </h3>
+    <div>
+      <h3 className="font-semibold text-slate-800">
+        Quiero reservar hospedajes
+      </h3>
 
-                    <p className="text-[11px] text-slate-500 mt-1 leading-snug">
-                      Administra tus habitaciones y reservas profesionalmente.
-                    </p>
-                  </div>
-                </div>
-              </button>
+      <p className="text-sm text-slate-500 mt-1">
+        Busca y gestiona tus estancias.
+      </p>
+    </div>
+  </div>
+</button>
+         <button
+  type="button"
+  onClick={() => handleRoleChange("host")}
+  className={`relative border rounded-xl px-5 py-4 text-left transition-all ${
+    role === "host"
+      ? "border-cyan-600 bg-cyan-50"
+      : "border-slate-300 bg-white hover:border-slate-400"
+  }`}
+>
+  {role === "host" && (
+    <CheckCircle className="absolute top-4 right-4 w-5 h-5 text-cyan-600" />
+  )}
+
+  <div className="flex gap-4">
+    <Building2 className="w-6 h-6 text-slate-700 mt-1" />
+
+    <div>
+      <h3 className="font-semibold text-slate-800">
+        Quiero publicar mi hospedaje
+      </h3>
+
+      <p className="text-sm text-slate-500 mt-1">
+        Administra tus habitaciones y reservas profesionalmente.
+      </p>
+    </div>
+  </div>
+</button>
             </div>
 
             {/* DATOS PERSONALES */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
               <div>
-                <label className="block text-sm mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Nombre Completo
                 </label>
 
                 <input
                   {...register("fullName")}
                   placeholder="Ej. Juan Pérez"
-                  className="w-full border rounded-lg px-4 py-3"
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"
                 />
 
                 {errors.fullName && (
@@ -131,14 +153,25 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block text-sm mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Correo Electrónico
                 </label>
 
                 <input
                   {...register("email")}
                   placeholder="juan@ejemplo.com"
-                  className="w-full border rounded-lg px-4 py-3"
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"
                 />
 
                 {errors.email && (
@@ -149,15 +182,25 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block text-sm mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Contraseña
                 </label>
 
                 <input
                   type="password"
                   {...register("password")}
-                  className="w-full border rounded-lg px-4 py-3"
-                />
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"                />
 
                 {errors.password && (
                   <p className="text-red-500 text-sm mt-1">
@@ -167,15 +210,25 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block text-sm mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Confirmar Contraseña
                 </label>
 
                 <input
                   type="password"
                   {...register("confirmPassword")}
-                  className="w-full border rounded-lg px-4 py-3"
-                />
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"                />
 
                 {errors.confirmPassword && (
                   <p className="text-red-500 text-sm mt-1">
@@ -186,24 +239,35 @@ export default function Register() {
             </div>
 
             {/* HOST */}
-            {role === "host" && (
-              <div className="mt-4 border-t pt-4">
+{role === "host" && (
+  <div className="mt-3 border-t pt-3">
+<div className="mt-3 border-t pt-3">
                 <h3 className="text-lg font-bold text-slate-800 mb-4">
                   Datos del Hospedaje
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
                   <div>
-                    <label className="block text-sm mb-2">
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
                       Nombre del Hospedaje
                     </label>
 
                     <input
                       {...register("name")}
                       placeholder="Ej. Hotel Paraíso"
-                      className="w-full border rounded-lg px-4 py-3"
-                    />
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"                    />
 
                     {errors.name && (
                       <p className="text-red-500 text-sm mt-1">
@@ -213,15 +277,25 @@ export default function Register() {
                   </div>
 
                   <div>
-                    <label className="block text-sm mb-2">
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
                       Ubicación
                     </label>
 
                     <input
                       {...register("province")}
                       placeholder="Ciudad, País"
-                      className="w-full border rounded-lg px-4 py-3"
-                    />
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"                    />
 
                     {errors.province && (
                       <p className="text-red-500 text-sm mt-1">
@@ -231,15 +305,27 @@ export default function Register() {
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm mb-2">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Descripción
                     </label>
 
                     <textarea
-                      rows={4}
+                      rows={1}
                       {...register("description")}
                       placeholder="Cuéntanos sobre tu hospedaje..."
-                      className="w-full border rounded-lg px-4 py-3 resize-none"
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  resize-none
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"                      
                     />
 
                     {errors.description && (
@@ -250,15 +336,25 @@ export default function Register() {
                   </div>
 
                   <div>
-                    <label className="block text-sm mb-2">
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
                       WhatsApp
                     </label>
 
                     <input
                       {...register("whatsapp")}
                       placeholder="+54 9 11 ..."
-                      className="w-full border rounded-lg px-4 py-3"
-                    />
+className="
+  w-full
+  border
+  border-slate-300
+  rounded-lg
+  px-4
+  py-3.5
+  text-sm
+  focus:outline-none
+  focus:ring-2
+  focus:ring-cyan-500
+"                />
 
                     {errors.whatsapp && (
                       <p className="text-red-500 text-sm mt-1">
@@ -268,7 +364,7 @@ export default function Register() {
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-xl bg-cyan-50 border border-cyan-200 p-4">
+<div className="mt-4 rounded-xl bg-cyan-50 border border-cyan-200 p-3">
                   <div className="flex gap-3">
                     <CheckCircle className="w-5 h-5 text-cyan-700 mt-0.5" />
 
@@ -286,12 +382,12 @@ export default function Register() {
                   </div>
                 </div>
               </div>
+              </div>
             )}
+            
 
-
-            <div className="mt-6 pt-4 border-t flex flex-col md:flex-row gap-4 md:justify-between md:items-center">
-
-              <label className="flex items-center gap-2">
+<div className="mt-8 pt-5 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   {...register("terms")}
@@ -303,16 +399,25 @@ export default function Register() {
               </label>
 
               <button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-blue-950 hover:bg-blue-900 text-white px-8 py-3 rounded-lg disabled:opacity-50"
-              >
-                {isSubmitting
-                  ? "Procesando..."
-                  : role === "guest"
-                    ? "Crear cuenta"
-                    : "Registrar Hospedaje"}
-              </button>
+  type="submit"
+  disabled={isSubmitting}
+  className="
+    bg-blue-950
+    hover:bg-blue-900
+    text-white
+    font-medium
+    px-12
+    py-3.5
+    rounded-lg
+    disabled:opacity-50
+  "
+>
+  {isSubmitting
+    ? "Procesando..."
+    : role === "guest"
+      ? "Crear cuenta"
+      : "Registrar Hospedaje"}
+</button>
 
             </div>
 

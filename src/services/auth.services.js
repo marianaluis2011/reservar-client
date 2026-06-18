@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:4000/api/auth";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const registerUser = async (userData) => {
   const response = await axios.post(
@@ -12,12 +12,21 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (credentials) => {
-  const response = await axios.post(
-    `${API_URL}/login`,
-    credentials
-  );
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  });
 
-  return response.data;
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
 };
 
 export const logoutUser = () => {

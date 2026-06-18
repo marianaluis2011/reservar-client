@@ -3,11 +3,13 @@ import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLoginForm } from "./useLogin";
 import { toast } from "sonner";
+import { loginUser } from "../../services/auth.services";
 
 export default function Login() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+
 
   const {
     register,
@@ -16,20 +18,36 @@ export default function Login() {
     isSubmitting,
   } = useLoginForm();
 
-  const onSubmit = async (data) => {
-    try {
-      console.log("Login:", data);
+const onSubmit = async (data) => {
+  try {
+    const result = await loginUser(data);
 
-    toast.success("Login correcto");
-  } catch (error) {
-    console.error(error);
+    localStorage.setItem("token", result.token);
 
-    toast.error(
-      error.response?.data?.message ||
-      "Error al iniciar sesión"
-      );
+    toast.success("Sesión iniciada correctamente");
+
+        // Redirección por rol
+    switch (result.user.role) {
+      case "guest":
+        navigate("/");
+        break;
+
+      case "host":
+        navigate("/hostdashboard");
+        break;
+
+      case "super_admin":
+        navigate("/super-admin");
+        break;
+
+      default:
+        navigate("/");
     }
-  };
+    
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
@@ -59,11 +77,10 @@ export default function Login() {
             ReservaHost
           </h1>
 
-          <h2 className="text-4xl font-bold leading-tight mb-6">
-            <h2 className="text-lg leading-relaxed text-slate-200"></h2>
-            Accede a tu cuenta y continúa gestionando
-            tus reservas y hospedajes.
-          </h2>
+<h2 className="text-4xl font-bold leading-tight mb-6">
+  Accede a tu cuenta y continúa gestionando
+  tus reservas y hospedajes.
+</h2>
 
           <div className="w-16 h-1 bg-cyan-400 rounded-full"></div>
         </div>
