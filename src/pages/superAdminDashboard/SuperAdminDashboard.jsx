@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { 
+    Home, 
+    Building2, 
+    Users, 
+    Settings, 
+    Plus, 
+    LogOut 
+} from 'lucide-react';
 import './SuperAdminDashboard.css';
 
 // Placeholder for SuperAdminSidebar component
@@ -7,18 +15,32 @@ const SuperAdminSidebar = ({ activeOption, onOptionClick, onNewAdminClick, onLog
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <h3>ReservaHost Admin.</h3>
-                <p>Panel Super Admin.</p>
+                <h3 className="accommodation-name">ReservaHost Admin.</h3>
+                <p className="admin-panel-subtitle">Panel Super Admin.</p>
             </div>
-            <ul className="sidebar-options">
-                <li className={activeOption === 'Resumen' ? 'active' : ''} onClick={() => onOptionClick('Resumen')}>Resumen</li>
-                <li className={activeOption === 'Hospedajes' ? 'active' : ''} onClick={() => onOptionClick('Hospedajes')}>Hospedajes</li>
-                <li className={activeOption === 'Administradores' ? 'active' : ''} onClick={() => onOptionClick('Administradores')}>Administradores</li>
-                <li className={activeOption === 'Configuración' ? 'active' : ''} onClick={() => onOptionClick('Configuración')}>Configuración</li>
-            </ul>
+            <nav className="sidebar-nav">
+                <ul className="sidebar-options">
+                    <li className={activeOption === 'Resumen' ? 'active' : ''} onClick={() => onOptionClick('Resumen')}>
+                        <Home size={18} /> Resumen
+                    </li>
+                    <li className={activeOption === 'Hospedajes' ? 'active' : ''} onClick={() => onOptionClick('Hospedajes')}>
+                        <Building2 size={18} /> Hospedajes
+                    </li>
+                    <li className={activeOption === 'Administradores' ? 'active' : ''} onClick={() => onOptionClick('Administradores')}>
+                        <Users size={18} /> Administradores
+                    </li>
+                    <li className={activeOption === 'Configuración' ? 'active' : ''} onClick={() => onOptionClick('Configuración')}>
+                        <Settings size={18} /> Configuración
+                    </li>
+                </ul>
+            </nav>
             <div className="sidebar-footer">
-                <button className="new-admin-btn" onClick={onNewAdminClick}>Nuevo Admin</button>
-                <button className="logout-btn" onClick={onLogoutClick}>Logout</button>
+                <button className="new-admin-btn" onClick={onNewAdminClick}>
+                    <Plus size={16} /> Nuevo Admin
+                </button>
+                <button className="logout-btn" onClick={onLogoutClick}>
+                    <LogOut size={16} /> Logout
+                </button>
             </div>
         </div>
     );
@@ -34,45 +56,45 @@ const SuperAdminMetricCard = ({ title, value }) => {
     );
 };
 
-// Placeholder for PendingAccommodationsTable component
-const PendingAccommodationsTable = () => {
-    const mockData = [
-        { name: 'Azure Coast Villa', location: 'Tucumán, Argentina', admin: 'Juan Carlos Pérez', status: 'Pendiente' },
-        { name: 'Urban Loft Suites', location: 'Córdoba, Argentina', admin: 'Martina Domínguez', status: 'Pendiente' },
-    ];
+// // Placeholder for PendingAccommodationsTable component
+// const PendingAccommodationsTable = () => {
+//     const mockData = [
+//         { name: 'Azure Coast Villa', location: 'Tucumán, Argentina', admin: 'Juan Carlos Pérez', status: 'Pendiente' },
+//         { name: 'Urban Loft Suites', location: 'Córdoba, Argentina', admin: 'Martina Domínguez', status: 'Pendiente' },
+//     ];
 
-    return (
-        <div className="table-section">
-            <h3>Hospedajes pendientes</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Provincia / ubicación</th>
-                        <th>Administrador</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {mockData.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.name}</td>
-                            <td>{item.location}</td>
-                            <td>{item.admin}</td>
-                            <td><span className={`status-badge status-${item.status.toLowerCase()}`}>{item.status}</span></td>
-                            <td>
-                                <button className="action-btn approve">Aprobar</button>
-                                <button className="action-btn reject">Rechazar</button>
-                                <button className="action-btn view-detail">Ver detalle</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
-};
+//     return (
+//         <div className="table-section">
+//             <h3>HOSPEDAJES PENDIENTES</h3>
+//             <table>
+//                 <thead>
+//                     <tr>
+//                         <th>Nombre</th>
+//                         <th>Provincia / ubicación</th>
+//                         <th>Administrador</th>
+//                         <th>Estado</th>
+//                         <th>Acciones</th>
+//                     </tr>
+//                 </thead>
+//                 <tbody>
+//                     {mockData.map((item, index) => (
+//                         <tr key={index}>
+//                             <td>{item.name}</td>
+//                             <td>{item.location}</td>
+//                             <td>{item.admin}</td>
+//                             <td><span className={`status-badge status-${item.status.toLowerCase()}`}>{item.status}</span></td>
+//                             <td>
+//                                 <button className="action-btn approve">Aprobar</button>
+//                                 <button className="action-btn reject">Rechazar</button>
+//                                 <button className="action-btn view-detail">Ver detalle</button>
+//                             </td>
+//                         </tr>
+//                     ))}
+//                 </tbody>
+//             </table>
+//         </div>
+//     );
+// };
 
 // Placeholder for RegisteredAccommodationsTable component
 const RegisteredAccommodationsTable = () => {
@@ -83,7 +105,7 @@ const RegisteredAccommodationsTable = () => {
 
     return (
         <div className="table-section">
-            <h3>Hospedajes registrados</h3>
+            <h3>HOSPEDAJES REGISTRADOS</h3>
             <table>
                 <thead>
                     <tr>
@@ -123,7 +145,7 @@ const AdminsTable = () => {
 
     return (
         <div className="table-section">
-            <h3>Administradores</h3>
+            <h3>ADMINISTRADORES</h3>
             <table>
                 <thead>
                     <tr>
@@ -204,11 +226,11 @@ const SuperAdminDashboard = () => {
                     <SuperAdminMetricCard title="Total hospedajes" value="128" />
                     <SuperAdminMetricCard title="Pendientes" value="8" />
                     <SuperAdminMetricCard title="Aprobados" value="112" />
-                    <SuperAdminMetricCard title="Suspendidos" value="8" />
+                    {/* <SuperAdminMetricCard title="Suspendidos" value="8" /> */}
                     <SuperAdminMetricCard title="Admins registrados" value="36" />
                 </div>
 
-                <PendingAccommodationsTable />
+                {/* <PendingAccommodationsTable /> */}
                 <RegisteredAccommodationsTable />
                 <AdminsTable />
             </div>

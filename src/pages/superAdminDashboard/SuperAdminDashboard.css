@@ -10,10 +10,10 @@
 
 /* Sidebar Styling */
 .sidebar {
-    width: 250px;
+    width: 200px;
     background-color: #1A365D; /* Azul oscuro corporativo */
     color: #ecf0f1;
-    padding: 20px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -22,20 +22,19 @@
 }
 
 .sidebar-header {
-    text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
 }
 
-.sidebar-header h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    color: #fff;
+.accommodation-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #f8fafc;
 }
 
-.sidebar-header p {
-    margin: 5px 0 0;
-    font-size: 0.9em;
-    color: #bdc3c7;
+.admin-panel-subtitle {
+    font-size: 0.75rem;
+    color: #cbd5e1;
 }
 
 .sidebar-options {
@@ -45,38 +44,46 @@
 }
 
 .sidebar-options li {
-    padding: 12px 15px;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .sidebar-options li:hover {
-    background-color: #34495e;
+    background-color: #2d4a73;
 }
 
 .sidebar-options li.active {
-    background-color: #3498db; /* Active option highlight */
+    background-color: #2563eb;
+    color: white;
     font-weight: bold;
 }
 
 .sidebar-footer {
     margin-top: auto; /* Pushes footer to the bottom */
-    padding-top: 20px;
-    border-top: 1px solid #34495e;
-    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .new-admin-btn, .logout-btn {
-    width: 90%;
-    padding: 10px;
-    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+    font-size: 0.7rem;
+    transition: background-color 0.2s;
 }
 
 .new-admin-btn {
@@ -215,6 +222,7 @@
     margin-bottom: 20px;
     color: #1A365D;
     font-size: 0.9rem; /* .section-title de Host */
+    font-weight: 600;
 }
 
 table {
