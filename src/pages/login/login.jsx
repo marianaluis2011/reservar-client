@@ -18,36 +18,36 @@ export default function Login() {
     isSubmitting,
   } = useLoginForm();
 
-const onSubmit = async (data) => {
-  try {
-    const result = await loginUser(data);
+  const onSubmit = async (data) => {
+    try {
+      const result = await loginUser(data);
 
-    localStorage.setItem("token", result.token);
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("user", JSON.stringify(result.user));
+      toast.success("Sesión iniciada correctamente");
 
-    toast.success("Sesión iniciada correctamente");
+      // Redirección por rol
+      switch (result.user.role) {
+        case "guest":
+          navigate("/");
+          break;
 
-        // Redirección por rol
-    switch (result.user.role) {
-      case "guest":
-        navigate("/");
-        break;
+        case "host":
+          navigate("/hostdashboard");
+          break;
 
-      case "host":
-        navigate("/hostdashboard");
-        break;
+        case "super_admin":
+          navigate("/super-admin");
+          break;
 
-      case "super_admin":
-        navigate("/super-admin");
-        break;
+        default:
+          navigate("/");
+      }
 
-      default:
-        navigate("/");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error al iniciar sesión");
     }
-    
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+  };
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
@@ -77,10 +77,10 @@ const onSubmit = async (data) => {
             ReservaHost
           </h1>
 
-<h2 className="text-4xl font-bold leading-tight mb-6">
-  Accede a tu cuenta y continúa gestionando
-  tus reservas y hospedajes.
-</h2>
+          <h2 className="text-4xl font-bold leading-tight mb-6">
+            Accede a tu cuenta y continúa gestionando
+            tus reservas y hospedajes.
+          </h2>
 
           <div className="w-16 h-1 bg-cyan-400 rounded-full"></div>
         </div>
