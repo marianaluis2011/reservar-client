@@ -14,31 +14,25 @@ export default function About() {
     <div className="about-page">
       {/* High Values Section */}
       <section className="high-values">
-        <h2>HIGH VALUES</h2>
-        <p>
-          Nos comprometemos con la calidad, la innovación y la integridad en cada proyecto.
-        </p>
+        <div className="hv-container">
+          <span className="line"></span>
+          <div className="hv-text-block">
+            <h1 className="high">HIGH</h1>
+            <h3 className="values">VALUES</h3>
+            <p className="hv-detail">
+              Nos comprometemos con la calidad, la innovación y la integridad en cada proyecto.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Values Section */}
       <section className="values-section">
         <div className="values-row">
-          <div className="value">
-            <FaGem className="icon" />
-            <span>Integridad</span>
-          </div>
-          <div className="value">
-            <FaCogs className="icon" />
-            <span>Calidad</span>
-          </div>
-          <div className="value">
-            <FaLightbulb className="icon" />
-            <span>Innovación</span>
-          </div>
-          <div className="value">
-            <FaUsers className="icon" />
-            <span>Trabajo en equipo</span>
-          </div>
+          <div className="value"><FaGem className="icon" /><span>Integridad</span></div>
+          <div className="value"><FaCogs className="icon" /><span>Calidad</span></div>
+          <div className="value"><FaLightbulb className="icon" /><span>Innovación</span></div>
+          <div className="value"><FaUsers className="icon" /><span>Trabajo en equipo</span></div>
         </div>
       </section>
 
@@ -46,10 +40,7 @@ export default function About() {
       <section className="team-section">
         <h2>MEET THE TEAM</h2>
         {team.map((member, index) => (
-          <div
-            className={`team-card ${index % 2 === 0 ? "left" : "right"}`}
-            key={index}
-          >
+          <div className={`team-card ${index % 2 === 0 ? "left" : "right"}`} key={index}>
             <div className="team-img">
               <img src={member.img} alt={member.name} />
             </div>
