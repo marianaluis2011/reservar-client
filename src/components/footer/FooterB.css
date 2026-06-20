@@ -1,7 +1,7 @@
 .footer-b {
     background-color: #0f172a; /* Slate 950 */
     color: #e2e8f0;
-    padding: 60px 20px 30px;
+    padding: 30px 20px 10px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     width: 100%;
     box-sizing: border-box;
@@ -17,7 +17,7 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 40px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 .brand-section {
@@ -29,6 +29,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+.footer-bottom {
+    height: auto;
 }
 
 /* Desktop refinements */
@@ -118,7 +121,7 @@
 .footer-divider {
     height: 1px;
     background-color: rgba(255, 255, 255, 0.08);
-    margin-bottom: 30px;
+    margin: 10px 0 10px 0;
 }
 
 .footer-bottom {
@@ -127,6 +130,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    height: auto;
 }
 
 @media (min-width: 768px) {
