@@ -1,0 +1,121 @@
+.about-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+/* High Values Section */
+.high-values {
+  background: linear-gradient(to bottom, #001f3f, #004aad);
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.high-values h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.high-values p {
+  font-size: 1.2rem;
+}
+
+/* Values Section */
+.values-section {
+  background: #444; /* gris sólido */
+  padding: 40px 20px;
+}
+
+.values-row {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #eee;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.value .icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: #00aaff;
+}
+
+/* Team Section */
+.team-section {
+  padding: 60px 20px;
+  background: #222;
+  text-align: center;
+}
+
+.team-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+
+/* Alternating Cards */
+.team-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px auto;
+  max-width: 800px;
+  background: radial-gradient(circle, #555 0%, #333 100%);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  padding: 20px;
+}
+
+.team-card.left .team-img {
+  order: 1;
+}
+
+.team-card.left .team-info {
+  order: 2;
+  text-align: left;
+}
+
+.team-card.right .team-img {
+  order: 2;
+}
+
+.team-card.right .team-info {
+  order: 1;
+  text-align: right;
+}
+
+.team-img img {
+  width: 240px; /* tamaño aumentado al doble */
+  border-radius: 50%;
+}
+
+.team-info h3 {
+  margin: 10px 0;
+  font-size: 1.5rem;
+}
+
+.team-info p {
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.social-icons svg {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.social-icons svg:hover {
+  color: #00aaff;
+}
