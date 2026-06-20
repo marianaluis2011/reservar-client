@@ -146,9 +146,21 @@
 
 /* Responsividad */
 @media (max-width: 768px) {
+  .high-values {
+    justify-content: center;
+  }
+  
   .hv-container {
-    flex-direction: column;
-    align-items: flex-start;
+    display: none;
+  }
+
+  .hv-detail {
+    align-items: center;
+  }
+
+  .hv-text-block {
+    align-items: center;
+    text-align: center;
   }
 
   .values-row {
