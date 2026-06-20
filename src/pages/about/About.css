@@ -6,16 +6,16 @@
 /* High Values Section */
 .high-values {
   background: linear-gradient(to bottom, #001f3f, #004aad);
-  padding: 80px 20px;
+  padding: 80px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 80px
 }
 
 .hv-container {
   display: flex;
-  align-items: flex-start;
-  gap: 20px;
+  align-self: center;
 }
 
 .line {
@@ -47,14 +47,15 @@
 
 .hv-detail {
   font-size: 1rem;
-  color: #ccc;
+  color: grey;
   margin-top: 10px;
   max-width: 500px;
 }
 
 /* Values Section */
 .values-section {
-  background: #444;
+  /* background: silver; */
+  background: linear-gradient(to bottom, #808080, #ccc);
   padding: 40px 20px;
 }
 
@@ -69,7 +70,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #eee;
+  color: #001f3f;
   font-size: 1.2rem;
   font-weight: bold;
   margin: 10px;
@@ -84,7 +85,7 @@
 /* Team Section */
 .team-section {
   padding: 60px 20px;
-  background: #222;
+  background: #f8fafc ;
   text-align: center;
 }
 
@@ -99,7 +100,7 @@
   justify-content: space-between;
   margin: 30px auto;
   max-width: 800px;
-  background: radial-gradient(circle, #555 0%, #333 100%);
+  background: radial-gradient(circle, #ccc 0%, #808080 100%);
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   padding: 20px;

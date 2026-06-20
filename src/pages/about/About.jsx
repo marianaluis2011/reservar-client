@@ -1,12 +1,12 @@
-import "./about.css";
+import "./About.css";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGem, FaCogs, FaLightbulb, FaUsers } from "react-icons/fa";
 
 const team = [
-  { name: "Phil Shackleton", role: "Creative Director", img: "caricatura1.png" },
-  { name: "Mike Danford", role: "Technical Director", img: "caricatura2.png" },
-  { name: "Aaron Thomas", role: "Developer", img: "caricatura3.png" },
-  { name: "Aaron Hobbs", role: "Designer", img: "caricatura4.png" },
-  { name: "Jim Masdlaw", role: "Marketing Specialist", img: "caricatura5.png" },
+  { name: "Santiago", role: "Creative Director", img: "caricatura1.png" },
+  { name: "Mariana", role: "Technical Director", img: "caricatura2.png" },
+  { name: "Sebastián", role: "Developer", img: "caricatura3.png" },
+  { name: "Santino", role: "Designer", img: "caricatura4.png" },
+  { name: "Nazareno", role: "Marketing Specialist", img: "caricatura5.png" },
 ];
 
 export default function About() {
@@ -16,13 +16,13 @@ export default function About() {
       <section className="high-values">
         <div className="hv-container">
           <span className="line"></span>
-          <div className="hv-text-block">
+        </div>
+        <div className="hv-text-block">
             <h1 className="high">HIGH</h1>
             <h3 className="values">VALUES</h3>
             <p className="hv-detail">
               Nos comprometemos con la calidad, la innovación y la integridad en cada proyecto.
             </p>
-          </div>
         </div>
       </section>
 
