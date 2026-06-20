@@ -2,10 +2,13 @@
 import './navbar.css';
 import logo from '../../assets/hospedar.jpeg';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated, logout } = useContext(AuthContext);
 
   const isHome = location.pathname === '/';
 
@@ -32,14 +35,18 @@ const Navbar = () => {
         </ul>
       )}
 
-      {isHome && (
+      {isHome && !isAuthenticated && (
         <div className="navbar-actions">
           <button className="btn-login" onClick={() => navigate('/login')}>Login</button>
           <button className="btn-register" onClick={() => navigate('/register')}>Register</button>
         </div>
       )}
 
-      {/* En Login/Register (isAuth), no se renderiza ni navbar-links ni navbar-actions */}
+      {isAuthenticated && (
+        <div className="navbar-actions">
+          <button className="btn-logout" onClick={logout}>Logout</button>
+        </div>
+      )}
     </nav>
   );
 };
