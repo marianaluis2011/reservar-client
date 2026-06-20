@@ -9,6 +9,7 @@ import RoomDetail from "./pages/roomDetail/RoomDetail.jsx";
 import FooterB from "./components/footer/FooterB.jsx";
 import HostDashboard from "./pages/panelAdm/HostDashboard";
 import SuperAdminDashboard from "./pages/superAdminDashboard/SuperAdminDashboard.jsx";
+import Error404 from "./pages/error/error.jsx"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/roomDetail" element={<RoomDetail />} />
           <Route path="/host/dashboard" element={<HostDashboard />} />
           <Route path="/host/superAdmin" element={<SuperAdminDashboard />} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
         <FooterB />
       </BrowserRouter>
