@@ -57,7 +57,7 @@ className="
 
     {/* BODY */}
     <div className="p-8">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="form-body" onSubmit={handleSubmit(onSubmit)}>
 
         <h2 className="text-sm font-semibold uppercase text-slate-700 mb-5">
           ¿Qué deseas hacer?
@@ -122,10 +122,10 @@ className="
             </div>
 
             {/* DATOS PERSONALES */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2 mt-2">
                   Nombre Completo
                 </label>
 
@@ -154,7 +154,7 @@ className="
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2 mt-2">
                   Correo Electrónico
                 </label>
 
@@ -366,7 +366,7 @@ className="
                 </div>
 
 <div className="mt-4 rounded-xl bg-cyan-50 border border-cyan-200 p-3">
-                  <div className="flex gap-3">
+                  <div className="flex gap-6">
                     <CheckCircle className="w-5 h-5 text-cyan-700 mt-0.5" />
 
                     <div>

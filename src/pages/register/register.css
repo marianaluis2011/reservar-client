@@ -1,3 +1,13 @@
+.form-body {
+    padding: 20px 20px 40px 20px;
+}
+.form-body>h2 {
+    color: #1A365D;
+    font-size: medium;
+}
+.form-body>div {
+    margin-bottom: 20px;
+}
 .header-one {
     background-color: #ecfeff;
     padding: 10px;
@@ -24,6 +34,8 @@
 .section-two {
     display: flex;
     color: #1A365D;
+    padding-top: 10px;
+    padding-bottom: 30px;
 }
 .icon-bed,
 .icon-build {
