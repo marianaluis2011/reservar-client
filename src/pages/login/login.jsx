@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLoginForm } from "./useLogin";
 import { toast } from "sonner";
 import { loginUser } from "../../services/auth.services";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // ✅ usamos el contexto
 
   const [showPassword, setShowPassword] = useState(false);
-
 
   const {
     register,
@@ -22,8 +23,8 @@ export default function Login() {
     try {
       const result = await loginUser(data);
 
-      localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
+      // ✅ ahora usamos login del contexto
+      login(result.token, result.user);
       toast.success("Sesión iniciada correctamente");
 
       // Redirección por rol
@@ -31,19 +32,15 @@ export default function Login() {
         case "guest":
           navigate("/");
           break;
-
         case "host":
           navigate("/hostdashboard");
           break;
-
         case "super_admin":
           navigate("/super-admin");
           break;
-
         default:
           navigate("/");
       }
-
     } catch (error) {
       toast.error(error.response?.data?.message || "Error al iniciar sesión");
     }

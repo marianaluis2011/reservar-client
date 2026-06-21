@@ -9,20 +9,17 @@ import RoomDetail from "./pages/roomDetail/RoomDetail.jsx";
 import FooterB from "./components/footer/FooterB.jsx";
 import HostDashboard from "./pages/panelAdm/HostDashboard";
 import SuperAdminDashboard from "./pages/superAdminDashboard/SuperAdminDashboard.jsx";
-import Error404 from "./pages/error/error.jsx"
-import About from "./pages/about/About.jsx"
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { AuthProvider } from "./context/AuthContext.jsx";
+import Error404 from "./pages/error/error.jsx";
+import About from "./pages/about/About.jsx";
 
 function App() {
   return (
     <>
       <Toaster
-          position="top-right"
-          richColors
-          closeButton
-        />
+        position="top-right"
+        richColors
+        closeButton
+      />
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -42,11 +39,4 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </React.StrictMode>
-);
 export default App;
