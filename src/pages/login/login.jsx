@@ -68,7 +68,7 @@ const onSubmit = async (data) => {
 
       {/* PANEL IZQUIERDO */}
       {/* <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 via-slate-800 to-blue-950 text-white p-12 items-end relative overflow-hidden"> */}
-      <div className="panel-left">
+      <div className="panel-left min-h-screen flex flex-col lg:flex-row">
         {/* <div className="absolute inset-0">
           <div className="absolute left-0 top-0 h-full w-full bg-blue-950 opacity-50"></div>
 
@@ -81,7 +81,7 @@ const onSubmit = async (data) => {
           />
         </div> */}
 
-        <div className="relative z-10 max-w-md">
+        <div className="absolute bottom-5 z-10 max-w-md">
           <h1 className="text-5xl font-bold mb-8">
             ReservaHost
           </h1>
@@ -91,7 +91,7 @@ const onSubmit = async (data) => {
             tus reservas y hospedajes.
           </h2>
 
-          <div className="w-16 h-1 bg-cyan-400 rounded-full"></div>
+          {/* <div className="w-16 h-1 bg-cyan-400 rounded-full"></div> */}
         </div>
       </div>
 
