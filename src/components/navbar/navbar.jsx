@@ -1,19 +1,33 @@
 import './navbar.css';
 import logo from '../../assets/hospedar.jpeg';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { User } from 'lucide-react'; // ✅ icono de usuario
+import { User } from 'lucide-react'; // icono de usuario
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, user, logout } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
   const isHome = location.pathname === '/';
   const currentPath = location.pathname.toLowerCase();
   const isPropertyRelated = currentPath.includes('property') || currentPath.includes('room');
+
+  // Cerrar menú al hacer click fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="navbar">
@@ -42,25 +56,50 @@ const Navbar = () => {
       )}
 
       {isAuthenticated && (
-        <div className="navbar-actions relative">
-          {/* Botón con icono */}
+        <div className="navbar-actions relative" ref={menuRef}>
+          {/* Botón avatar con icono */}
           <button 
-            className="btn-user" 
+            className="btn-avatar"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <User size={22} />
+            <User size={24} />
           </button>
 
-          {/* Menú desplegable */}
+          {/* Menú desplegable elegante */}
           {menuOpen && (
-            <div className="user-menu absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-3">
-              <p className="text-sm font-semibold text-slate-700">
+            <div 
+              className="user-menu absolute right-0 top-full mt-2 w-56 bg-slate-800 text-white shadow-2xl rounded-lg p-4"
+              onMouseLeave={() => setMenuOpen(false)}
+            >
+              <p className="text-sm font-semibold">
                 {user?.name || user?.username || "Usuario"}
               </p>
-              <p className="text-xs text-slate-500">{user?.email}</p>
-              <hr className="my-2" />
+              <p className="text-xs text-slate-400">{user?.email}</p>
+              <hr className="my-2 border-slate-600" />
+
+              {/* Opciones extra */}
               <button 
-                className="w-full text-left text-red-600 hover:text-red-800 text-sm"
+                className="menu-item"
+                onClick={() => navigate('/profile')}
+              >
+                Perfil
+              </button>
+              <button 
+                className="menu-item"
+                onClick={() => navigate('/settings')}
+              >
+                Configuración
+              </button>
+              <button 
+                className="menu-item"
+                onClick={() => navigate('/help')}
+              >
+                Ayuda
+              </button>
+
+              <hr className="my-2 border-slate-600" />
+              <button 
+                className="menu-item logout"
                 onClick={logout}
               >
                 Logout
