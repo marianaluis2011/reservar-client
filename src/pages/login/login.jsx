@@ -114,7 +114,7 @@ const onSubmit = async (data) => {
             Iniciar Sesión
           </h2>
 
-          <p className="text-slate-500 mt-3 mb-10">
+          <p className="p-title">
             Ingresa tus credenciales para continuar.
           </p>
 
@@ -133,7 +133,7 @@ const onSubmit = async (data) => {
                 type="email"
                 {...register("email")}
                 placeholder="ejemplo@reservahost.com"
-                className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="btn-input"
               />
 
               {errors.email && (
@@ -158,7 +158,7 @@ const onSubmit = async (data) => {
                   }
                   {...register("password")}
                   placeholder="••••••••"
-                  className="w-full border border-slate-300 rounded-lg px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="btn-input"
                 />
 
                 <button
@@ -206,7 +206,7 @@ const onSubmit = async (data) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-cyan-400 hover:bg-cyan-500 disabled:opacity-50 text-slate-800 font-semibold py-3 rounded-lg transition-colors"
+              className="btn-register"
             >
               {isSubmitting
                 ? "Ingresando..."
@@ -215,7 +215,7 @@ const onSubmit = async (data) => {
           </form>
 
           {/* REGISTER */}
-          <p className="text-center text-sm text-slate-500 mt-10">
+          <p className="p-register">
             ¿Aún no tienes cuenta?{" "}
             <button
               type="button"
