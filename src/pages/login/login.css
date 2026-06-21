@@ -1,0 +1,26 @@
+.container-one {
+    display: flex;
+    justify-content: column;
+    height: 100vh;
+}
+.panel-left {
+    width: 50%;
+    height: 100vh;
+    background-color: #0f172a; /* Slate 950 */
+    color: #e2e8f0;
+    padding: 60px 20px 30px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* width: 100%; */
+    box-sizing: border-box;
+}
+
+.panel-rigth {
+    width: 50%;
+    height: 100vh;
+    background-color: #f8fafc; /* Light background */
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #0f172a; /* Dark text */
+    text-align: left; /* Reset del text-align: center de index.css */
+    /* width: 100%; */
+    /* overflow-x: hidden; */
+}

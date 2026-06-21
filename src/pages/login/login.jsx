@@ -5,6 +5,7 @@ import { useLoginForm } from "./useLogin";
 import { toast } from "sonner";
 import { loginUser } from "../../services/auth.services";
 import { AuthContext } from "../../context/AuthContext";
+import "./login.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -56,17 +57,19 @@ const onSubmit = async (data) => {
   }
 };
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* HEADER MOBILE */}
+    // <div className="min-h-screen flex flex-col lg:flex-row">
+    <div className="container-one">
+      {/* HEADER MOBILE
       <div className="lg:hidden bg-gradient-to-r from-slate-700 via-slate-800 to-blue-950 text-white py-6 px-4 text-center">
         <h1 className="text-3xl font-bold">
           ReservaHost
         </h1>
-      </div>
+      </div> */}
 
       {/* PANEL IZQUIERDO */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 via-slate-800 to-blue-950 text-white p-12 items-end relative overflow-hidden">
-        <div className="absolute inset-0">
+      {/* <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 via-slate-800 to-blue-950 text-white p-12 items-end relative overflow-hidden"> */}
+      <div className="panel-left">
+        {/* <div className="absolute inset-0">
           <div className="absolute left-0 top-0 h-full w-full bg-blue-950 opacity-50"></div>
 
           <div
@@ -76,7 +79,7 @@ const onSubmit = async (data) => {
               background: "rgba(0,0,0,0.15)",
             }}
           />
-        </div>
+        </div> */}
 
         <div className="relative z-10 max-w-md">
           <h1 className="text-5xl font-bold mb-8">
@@ -93,7 +96,8 @@ const onSubmit = async (data) => {
       </div>
 
       {/* PANEL DERECHO */}
-      <div className="flex-1 flex items-center justify-center bg-slate-50 px-6 py-10">
+      {/* <div className="flex-1 flex items-center justify-center bg-slate-50 px-6 py-10"> */}
+      <div className="panel-rigth">
         <div className="w-full max-w-md">
           {/* VOLVER */}
           <button
