@@ -2,6 +2,7 @@ import { Bed, Building2, CheckCircle } from "lucide-react";
 import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
 import { toast } from "sonner";
+import "./register.css";
 
 const onSubmit = async (data) => {
   try {
@@ -44,12 +45,12 @@ className="
 "
   >
     {/* HEADER */}
-    <div className="px-4 py-2 border-b">
-<h1 className="text-2xl md:text-3xl font-bold text-slate-900">
+    <div className="header-one">
+<h1 className="header-title">
   Crea tu cuenta
 </h1>
 
-<p className="text-sm text-slate-500 mt-1">
+<p className="header-subtitle">
         Únete a la plataforma de gestión hotelera más moderna.
       </p>
     </div>

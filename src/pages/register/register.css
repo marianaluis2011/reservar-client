@@ -1,0 +1,22 @@
+.header-one {
+    background-color: #ecfeff;
+    padding: 10px;
+    border-bottom: 1px solid #1A365D;
+    
+}
+.header-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: -0.025em;
+    color: #1A365D;
+    padding: 5px;
+    background-color: #ecfeff;
+}
+.header-subtitle {
+    font-size: 1rem;
+    /* font-weight: bold; */
+    letter-spacing: -0.025em;
+    color: #1A365D;
+    padding: 5px;
+    background-color: #ecfeff;
+}
