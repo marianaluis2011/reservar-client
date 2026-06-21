@@ -19,33 +19,42 @@ export default function Login() {
     isSubmitting,
   } = useLoginForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const result = await loginUser(data);
+const onSubmit = async (data) => {
+  try {
+    // Extraemos rememberMe para NO enviarlo al backend
+    const { email, password, rememberMe } = data;
 
-      // ✅ ahora usamos login del contexto
-      login(result.token, result.user);
-      toast.success("Sesión iniciada correctamente");
+    const result = await loginUser({
+      email,
+      password,
+    });
 
-      // Redirección por rol
-      switch (result.user.role) {
-        case "guest":
-          navigate("/");
-          break;
-        case "host":
-          navigate("/hostdashboard");
-          break;
-        case "super_admin":
-          navigate("/super-admin");
-          break;
-        default:
-          navigate("/");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Error al iniciar sesión");
+    // Guarda la sesión en localStorage o sessionStorage
+    login(result.token, result.user, rememberMe);
+
+    toast.success("Sesión iniciada correctamente");
+
+    // Redirección por rol
+    switch (result.user.role) {
+      case "guest":
+        navigate("/");
+        break;
+
+      case "host":
+        navigate("/hostdashboard");
+        break;
+
+      case "super_admin":
+        navigate("/super-admin");
+        break;
+
+      default:
+        navigate("/");
     }
-  };
-
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Error al iniciar sesión");
+  }
+};
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* HEADER MOBILE */}

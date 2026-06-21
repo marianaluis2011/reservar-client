@@ -1,18 +1,17 @@
-// import React from 'react';
 import './navbar.css';
 import logo from '../../assets/hospedar.jpeg';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { User } from 'lucide-react'; // ✅ icono de usuario
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isHome = location.pathname === '/';
-
-  // Convertimos a minúsculas para evitar problemas de sensibilidad y comprobamos si es alguna de las rutas de propiedades
   const currentPath = location.pathname.toLowerCase();
   const isPropertyRelated = currentPath.includes('property') || currentPath.includes('room');
 
@@ -43,8 +42,31 @@ const Navbar = () => {
       )}
 
       {isAuthenticated && (
-        <div className="navbar-actions">
-          <button className="btn-logout" onClick={logout}>Logout</button>
+        <div className="navbar-actions relative">
+          {/* Botón con icono */}
+          <button 
+            className="btn-user" 
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <User size={22} />
+          </button>
+
+          {/* Menú desplegable */}
+          {menuOpen && (
+            <div className="user-menu absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-3">
+              <p className="text-sm font-semibold text-slate-700">
+                {user?.name || user?.username || "Usuario"}
+              </p>
+              <p className="text-xs text-slate-500">{user?.email}</p>
+              <hr className="my-2" />
+              <button 
+                className="w-full text-left text-red-600 hover:text-red-800 text-sm"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       )}
     </nav>

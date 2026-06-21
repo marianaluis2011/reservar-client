@@ -92,6 +92,17 @@
   background-color: #e53e3e;
 }
 
+.btn-user {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.user-menu {
+  z-index: 50;
+}
+
 /* Responsivo básico */
 @media (max-width: 1024px) {
   .navbar-links {

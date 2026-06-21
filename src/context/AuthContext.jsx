@@ -7,21 +7,42 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Solo se ejecuta una vez al montar
-    const token = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
+    const token =
+      localStorage.getItem("token") ||
+      sessionStorage.getItem("token");
+
+    const storedUser =
+      localStorage.getItem("user") ||
+      sessionStorage.getItem("user");
 
     if (token) {
       setIsAuthenticated(true);
     }
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []); // ✅ dependencias vacías
 
-  const login = (token, userData) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error("Error al leer el usuario almacenado:", error);
+
+        localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
+      }
+    }
+  }, []);
+
+  const login = (token, userData, rememberMe = false) => {
+    // Limpiar cualquier sesión anterior
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+
+    const storage = rememberMe ? localStorage : sessionStorage;
+
+    storage.setItem("token", token);
+    storage.setItem("user", JSON.stringify(userData));
+
     setIsAuthenticated(true);
     setUser(userData);
   };
@@ -29,13 +50,23 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+
     setIsAuthenticated(false);
     setUser(null);
   };
 
-  // 🔑 IMPORTANTE: devolver el Provider
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

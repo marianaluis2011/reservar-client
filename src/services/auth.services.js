@@ -22,4 +22,7 @@ export const loginUser = async (credentials) => {
 export const logoutUser = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+
+  sessionStorage.removeItem("token");
+  sessionStorage.removeItem("user");
 };
