@@ -75,11 +75,11 @@ className="
   }`}
 >
   {role === "guest" && (
-    <CheckCircle className="absolute top-4 right-4 w-5 h-5 text-cyan-600" />
+    <CheckCircle className="circle-check" />
   )}
 
-  <div className="flex gap-4">
-    <Bed className="w-6 h-6 text-slate-700 mt-1" />
+  <div className="section-one">
+    <Bed className="icon-bed" />
 
     <div>
       <h3 className="font-semibold text-slate-800">
@@ -102,11 +102,11 @@ className="
   }`}
 >
   {role === "host" && (
-    <CheckCircle className="absolute top-4 right-4 w-5 h-5 text-cyan-600" />
+    <CheckCircle className="circle-check" />
   )}
 
-  <div className="flex gap-4">
-    <Building2 className="w-6 h-6 text-slate-700 mt-1" />
+  <div className="section-two">
+    <Building2 className="icon-build" />
 
     <div>
       <h3 className="font-semibold text-slate-800">
@@ -114,7 +114,7 @@ className="
       </h3>
 
       <p className="text-sm text-slate-500 mt-1">
-        Administra tus habitaciones y reservas profesionalmente.
+        Administra tus habitaciones y reservas.
       </p>
     </div>
   </div>
