@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-    Home, 
-    Building2, 
-    Users, 
-    Settings, 
-    Plus, 
-    LogOut 
+import {
+    Home,
+    Building2,
+    Users,
+    Settings,
+    Plus,
+    LogOut
 } from 'lucide-react';
 import './SuperAdminDashboard.css';
+import { getUsuarios, cambiarEstadoUsuario } from '../../services/user.services.js';
+import { toast } from 'sonner';
 
 // Placeholder for SuperAdminSidebar component
 const SuperAdminSidebar = ({ activeOption, onOptionClick, onNewAdminClick, onLogoutClick }) => {
@@ -138,35 +140,75 @@ const RegisteredAccommodationsTable = () => {
 
 // Placeholder for AdminsTable component
 const AdminsTable = () => {
-    const mockData = [
-        { name: 'Juan Carlos Pérez', email: 'juan@example.com', assignedAccommodation: 'Azure Coast Villa', status: 'Activo' },
-        { name: 'Martina Domínguez', email: 'martina@example.com', assignedAccommodation: 'Urban Loft Suites', status: 'Activo' },
-    ];
+    const [usuarios, setUsuarios] = useState([]);
+    const [cargando, setCargando] = useState(true);
+
+    const cargarUsuarios = async () => {
+        try {
+            const data = await getUsuarios();
+            setUsuarios(data);
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Error al cargar usuarios');
+        } finally {
+            setCargando(false);
+        }
+    };
+
+    useEffect(() => {
+        cargarUsuarios();
+    }, []);
+
+    const handleCambiarEstado = async (id, nuevoEstado) => {
+        try {
+            const res = await cambiarEstadoUsuario(id, nuevoEstado);
+            toast.success(res.message);
+            // Actualizar el estado en la lista sin recargar todo
+            setUsuarios((prev) =>
+                prev.map((u) => (u._id === id ? { ...u, isActive: nuevoEstado } : u))
+            );
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Error al cambiar el estado');
+        }
+    };
+
+    if (cargando) {
+        return <div className="table-section"><h3>USUARIOS</h3><p>Cargando...</p></div>;
+    }
 
     return (
         <div className="table-section">
-            <h3>ADMINISTRADORES</h3>
+            <h3>USUARIOS</h3>
             <table>
                 <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>Hospedaje asignado</th>
+                        <th>Rol</th>
                         <th>Estado</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {mockData.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.name}</td>
-                            <td>{item.email}</td>
-                            <td>{item.assignedAccommodation}</td>
-                            <td><span className={`status-badge status-${item.status.toLowerCase()}`}>{item.status}</span></td>
+                    {usuarios.map((u) => (
+                        <tr key={u._id}>
+                            <td>{u.fullName}</td>
+                            <td>{u.email}</td>
+                            <td>{u.role}</td>
                             <td>
-                                <button className="action-btn view">Ver</button>
-                                <button className="action-btn activate">Activar</button>
-                                <button className="action-btn suspend">Suspender</button>
+                                <span className={`status-badge status-${u.isActive ? 'activo' : 'suspendido'}`}>
+                                    {u.isActive ? 'Activo' : 'Deshabilitado'}
+                                </span>
+                            </td>
+                            <td>
+                                {u.isActive ? (
+                                    <button className="action-btn suspend" onClick={() => handleCambiarEstado(u._id, false)}>
+                                        Deshabilitar
+                                    </button>
+                                ) : (
+                                    <button className="action-btn activate" onClick={() => handleCambiarEstado(u._id, true)}>
+                                        Habilitar
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}

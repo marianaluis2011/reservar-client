@@ -26,3 +26,8 @@ export const cambiarEstadoUsuario = async (id, isActive) => {
   );
   return data;
 };
+
+export const crearAdmin = async (adminData) => {
+  const { data } = await axios.post(`${API_URL}/register`, adminData, authHeader());
+  return data;
+};
