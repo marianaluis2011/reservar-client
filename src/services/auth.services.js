@@ -8,11 +8,21 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (credentials) => {
-  const { data } = await axios.post(`${API_URL}/login`, credentials);
+  const { email, password } = credentials;
+
+  const { data } = await axios.post(`${API_URL}/login`, {
+    email,
+    password,
+  });
+
   return data;
+
 };
 
 export const logoutUser = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+
+  sessionStorage.removeItem("token");
+  sessionStorage.removeItem("user");
 };

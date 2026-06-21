@@ -1,5 +1,4 @@
 .navbar {
-  /* background-color: #1A365D; */
   background-color: #0f172a;
   display: flex;
   justify-content: space-between;
@@ -91,6 +90,59 @@
 .btn-logout:hover {
   background-color: #e53e3e;
 }
+
+.btn-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50% !important;
+  background-color: #0ea5e9; /* cyan moderno */
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-menu {
+  z-index: 100;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.menu-item:hover {
+  color: #38bdf8; /* cyan claro */
+}
+
+.logout {
+  color: #f87171; /* rojo elegante */
+}
+
+.logout:hover {
+  color: #fca5a5;
+}
+
+.text-sm,  
+.text-xs {
+  padding: 0 0 10px 15px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 /* Responsivo básico */
 @media (max-width: 1024px) {

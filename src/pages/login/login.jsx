@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLoginForm } from "./useLogin";
 import { toast } from "sonner";
 import { loginUser } from "../../services/auth.services";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // ✅ usamos el contexto
 
   const [showPassword, setShowPassword] = useState(false);
-
 
   const {
     register,
@@ -18,37 +19,42 @@ export default function Login() {
     isSubmitting,
   } = useLoginForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const result = await loginUser(data);
+const onSubmit = async (data) => {
+  try {
+    // Extraemos rememberMe para NO enviarlo al backend
+    const { email, password, rememberMe } = data;
 
-      localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
-      toast.success("Sesión iniciada correctamente");
+    const result = await loginUser({
+      email,
+      password,
+    });
 
-      // Redirección por rol
-      switch (result.user.role) {
-        case "guest":
-          navigate("/");
-          break;
+    // Guarda la sesión en localStorage o sessionStorage
+    login(result.token, result.user, rememberMe);
 
-        case "host":
-          navigate("/hostdashboard");
-          break;
+    toast.success("Sesión iniciada correctamente");
 
-        case "super_admin":
-          navigate("/super-admin");
-          break;
+    // Redirección por rol
+    switch (result.user.role) {
+      case "guest":
+        navigate("/");
+        break;
 
-        default:
-          navigate("/");
-      }
+      case "host":
+        navigate("/hostdashboard");
+        break;
 
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Error al iniciar sesión");
+      case "super_admin":
+        navigate("/super-admin");
+        break;
+
+      default:
+        navigate("/");
     }
-  };
-
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Error al iniciar sesión");
+  }
+};
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* HEADER MOBILE */}
