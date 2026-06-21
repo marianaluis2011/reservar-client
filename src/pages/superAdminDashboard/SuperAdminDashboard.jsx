@@ -9,7 +9,7 @@ import {
     LogOut
 } from 'lucide-react';
 import './SuperAdminDashboard.css';
-import { getUsuarios, cambiarEstadoUsuario } from '../../services/user.services.js';
+import { getUsuarios, cambiarEstadoUsuario, crearAdmin } from '../../services/user.services.js';
 import { toast } from 'sonner';
 
 // Placeholder for SuperAdminSidebar component
@@ -218,9 +218,74 @@ const AdminsTable = () => {
     );
 };
 
+const NewAdminModal = ({ onClose, onCreated }) => {
+    const [form, setForm] = useState({ fullName: '', email: '', password: '' });
+    const [enviando, setEnviando] = useState(false);
+
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async () => {
+        if (!form.fullName || !form.email || !form.password) {
+            toast.error('Completá todos los campos');
+            return;
+        }
+        setEnviando(true);
+        try {
+            await crearAdmin({ ...form, role: 'host' });
+            toast.success('Administrador creado correctamente');
+            onCreated();
+            onClose();
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Error al crear el administrador');
+        } finally {
+            setEnviando(false);
+        }
+    };
+
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <h3>Nuevo Administrador</h3>
+                <input
+                    name="fullName"
+                    placeholder="Nombre completo"
+                    value={form.fullName}
+                    onChange={handleChange}
+                />
+                <input
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    value={form.email}
+                    onChange={handleChange}
+                />
+                <input
+                    name="password"
+                    type="password"
+                    placeholder="Contraseña"
+                    value={form.password}
+                    onChange={handleChange}
+                />
+                <div className="modal-actions">
+                    <button className="action-btn" onClick={onClose} disabled={enviando}>
+                        Cancelar
+                    </button>
+                    <button className="action-btn activate" onClick={handleSubmit} disabled={enviando}>
+                        {enviando ? 'Creando...' : 'Crear'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const SuperAdminDashboard = () => {
     const navigate = useNavigate();
     const [activeSidebarOption, setActiveSidebarOption] = useState('Resumen');
+    const [showNewAdmin, setShowNewAdmin] = useState(false);
+    const [refreshUsers, setRefreshUsers] = useState(0);
 
     const handleSidebarOptionClick = (option) => {
         if (option === 'Resumen') {
@@ -232,7 +297,7 @@ const SuperAdminDashboard = () => {
     };
 
     const handleNewAdminClick = () => {
-        navigate('/404'); // Redirect to 404 for unimplemented functionality
+        setShowNewAdmin(true);
     };
 
     const handleLogoutClick = () => {
@@ -274,7 +339,13 @@ const SuperAdminDashboard = () => {
 
                 {/* <PendingAccommodationsTable /> */}
                 <RegisteredAccommodationsTable />
-                <AdminsTable />
+                <AdminsTable key={refreshUsers} />
+                {showNewAdmin && (
+                    <NewAdminModal
+                        onClose={() => setShowNewAdmin(false)}
+                        onCreated={() => setRefreshUsers((n) => n + 1)}
+                    />
+                )}
             </div>
         </div>
     );
