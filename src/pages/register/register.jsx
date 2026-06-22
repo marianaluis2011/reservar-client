@@ -2,9 +2,11 @@ import { Bed, Building2, CheckCircle } from "lucide-react";
 import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
 import { toast } from "sonner";
+import "./register.css";
 
 const onSubmit = async (data) => {
   try {
+    // eslint-disable-next-line no-unused-vars
     const response = await registerUser(data);
 
     toast.success("Usuario registrado correctamente");
@@ -32,31 +34,21 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
-  <div
-className="
-  w-full
-  max-w-4xl
-  bg-white
-  rounded-2xl
-  border
-  shadow-sm
-  overflow-hidden
-"
-  >
+    <div className="container-header">
     {/* HEADER */}
-    <div className="px-4 py-2 border-b">
-<h1 className="text-2xl md:text-3xl font-bold text-slate-900">
-  Crea tu cuenta
-</h1>
+    <div className="header-one">
+      <h1 className="header-title">
+        Crea tu cuenta
+      </h1>
 
-<p className="text-sm text-slate-500 mt-1">
-        Únete a la plataforma de gestión hotelera más moderna.
+      <p className="header-subtitle">
+              Únete a la plataforma de gestión hotelera más moderna.
       </p>
     </div>
 
     {/* BODY */}
     <div className="p-8">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="form-body" onSubmit={handleSubmit(onSubmit)}>
 
         <h2 className="text-sm font-semibold uppercase text-slate-700 mb-5">
           ¿Qué deseas hacer?
@@ -74,11 +66,11 @@ className="
   }`}
 >
   {role === "guest" && (
-    <CheckCircle className="absolute top-4 right-4 w-5 h-5 text-cyan-600" />
+    <CheckCircle className="circle-check" />
   )}
 
-  <div className="flex gap-4">
-    <Bed className="w-6 h-6 text-slate-700 mt-1" />
+  <div className="section-one">
+    <Bed className="icon-bed" />
 
     <div>
       <h3 className="font-semibold text-slate-800">
@@ -101,11 +93,11 @@ className="
   }`}
 >
   {role === "host" && (
-    <CheckCircle className="absolute top-4 right-4 w-5 h-5 text-cyan-600" />
+    <CheckCircle className="circle-check" />
   )}
 
-  <div className="flex gap-4">
-    <Building2 className="w-6 h-6 text-slate-700 mt-1" />
+  <div className="section-two">
+    <Building2 className="icon-build" />
 
     <div>
       <h3 className="font-semibold text-slate-800">
@@ -113,7 +105,7 @@ className="
       </h3>
 
       <p className="text-sm text-slate-500 mt-1">
-        Administra tus habitaciones y reservas profesionalmente.
+        Administra tus habitaciones y reservas.
       </p>
     </div>
   </div>
@@ -121,10 +113,10 @@ className="
             </div>
 
             {/* DATOS PERSONALES */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2 mt-2">
                   Nombre Completo
                 </label>
 
@@ -153,7 +145,7 @@ className="
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2 mt-2">
                   Correo Electrónico
                 </label>
 
@@ -188,7 +180,7 @@ className="
 
                 <input
                   type="password"
-                  {...register("password")}
+                  {...register("password")} placeholder="********"
 className="
   w-full
   border
@@ -216,7 +208,7 @@ className="
 
                 <input
                   type="password"
-                  {...register("confirmPassword")}
+                  {...register("confirmPassword")} placeholder="********"
 className="
   w-full
   border
@@ -365,8 +357,8 @@ className="
                 </div>
 
 <div className="mt-4 rounded-xl bg-cyan-50 border border-cyan-200 p-3">
-                  <div className="flex gap-3">
-                    <CheckCircle className="w-5 h-5 text-cyan-700 mt-0.5" />
+                  <div className="section-state">
+                    <CheckCircle className="w-5 h-5 text-[rgb(27,85,52)] mt-0.5" />
 
                     <div>
                       <h4 className="font-semibold text-cyan-900">
@@ -401,16 +393,7 @@ className="
               <button
   type="submit"
   disabled={isSubmitting}
-  className="
-    bg-blue-950
-    hover:bg-blue-900
-    text-white
-    font-medium
-    px-12
-    py-3.5
-    rounded-lg
-    disabled:opacity-50
-  "
+  className="btn-lodging"
 >
   {isSubmitting
     ? "Procesando..."
