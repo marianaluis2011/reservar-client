@@ -1,0 +1,128 @@
+.container-one {
+    display: flex;
+    /* justify-content: column; */
+    height: 100dvh;
+}
+.panel-left {
+    width: 50%;
+    height: 100vh;
+    /* background-color: #0f172a; Slate 950 */
+    /* background: linear-gradient(-135deg, #1a2b5f, #b7c0d4) !important; */
+    /* background: linear-gradient(135deg, #1a2b5f, #004aad); */
+    /* background: linear-gradient(135deg, #192749, #013849); */
+    /* background: linear-gradient(135deg, #1a2b5f, #16223f); */
+    /* background: linear-gradient(135deg, #004aad, #16223f); */
+    /* background: linear-gradient(135deg, rgba(26, 43, 95, 0.95), rgba(22, 34, 63, 0.85)); */
+    color: #e2e8f0;
+    padding: 60px 20px 30px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    background: #192749; 
+}
+
+.panel-left::before {
+content: "";
+    position: absolute;
+    inset: 0;
+
+    background: #16223f; /* azul oscuro */
+
+    clip-path: polygon(
+        0 0,
+        0 100%,
+        83% 100%
+    );
+
+}
+
+.panel-rigth {
+    width: 50%;
+    height: 100vh;
+    background-color: #f8fafc; /* Light background */
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #0f172a; /* Dark text */
+    text-align: left; /* Reset del text-align: center de index.css */
+    /* width: 100%; */
+    /* overflow-x: hidden; */
+    display: flex;
+    justify-content: center;
+}
+.panel-rigth>div {
+    text-align: left;
+    /* align-items: center; */
+    /* align-self: center; */
+    align-content: center;
+}
+.p-title {
+    font-size: larger;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 20px;
+}
+.panel-rigth>div>form {
+    width: 70%;
+    padding: auto;
+    margin: auto;
+}
+.panel-rigth>div>form>div>label {
+    text-align: left;
+    padding: 5px 0 5px 0;
+}
+.p-register {
+    text-align: center;
+    font-size: small;
+}
+.btn-input {
+    width: 100%;
+    border-radius: 10px;
+    padding: 7px;
+    background-color: silver;
+}
+.btn-register {
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: #004aad;
+  color: #ffffff;
+}
+
+.btn-register:hover {
+  background-color: #001f3f;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(26, 54, 93, 0.3);
+}
+
+
+@media (max-width: 768px) {
+  .container-one {
+    flex-direction: column; /* apila los paneles */
+  }
+
+  .panel-left>div>h1, h2 {
+    text-align: center;
+    padding-right: 50px;
+  }
+
+  .panel-left {
+    width: 100%;
+    min-height: 10vh;
+  }
+  .panel-rigth {
+    width: 100%;
+    min-height: 70vh; 
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .panel-rigth>div>p {
+    text-align: center;
+    padding-bottom: 20px;
+  }
+  .panel-rigth>div>form {
+    width: 50%;
+    padding: auto;
+    margin:auto
+  }
+}
