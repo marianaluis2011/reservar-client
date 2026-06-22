@@ -91,6 +91,8 @@ content: "";
 .btn-register:hover {
   background-color: #001f3f;
   color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(26, 54, 93, 0.3);
 }
 
 
