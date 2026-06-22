@@ -217,15 +217,8 @@ const onSubmit = async (data) => {
           {/* REGISTER */}
           <p className="p-register">
             ¿Aún no tienes cuenta?{" "}
-            <button
-              type="button"
-              onClick={() =>
-                navigate("/register")
-              }
-              className="font-semibold text-cyan-700 hover:text-cyan-800"
-            >
-              Registrarme
-            </button>
+            <button className="font-semibold text-cyan-700 hover:text-cyan-800" onClick={() => navigate("/register")}
+              >Registrarme</button>
           </p>
         </div>
       </div>
