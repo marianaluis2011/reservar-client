@@ -6,6 +6,7 @@ import "./register.css";
 
 const onSubmit = async (data) => {
   try {
+    // eslint-disable-next-line no-unused-vars
     const response = await registerUser(data);
 
     toast.success("Usuario registrado correctamente");
@@ -33,25 +34,15 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
-  <div
-className="
-  w-full
-  max-w-4xl
-  bg-white
-  rounded-2xl
-  border
-  shadow-sm
-  overflow-hidden
-"
-  >
+    <div className="container-header">
     {/* HEADER */}
     <div className="header-one">
-<h1 className="header-title">
-  Crea tu cuenta
-</h1>
+      <h1 className="header-title">
+        Crea tu cuenta
+      </h1>
 
-<p className="header-subtitle">
-        Únete a la plataforma de gestión hotelera más moderna.
+      <p className="header-subtitle">
+              Únete a la plataforma de gestión hotelera más moderna.
       </p>
     </div>
 
@@ -189,7 +180,7 @@ className="
 
                 <input
                   type="password"
-                  {...register("password")}
+                  {...register("password")} placeholder="********"
 className="
   w-full
   border
@@ -217,7 +208,7 @@ className="
 
                 <input
                   type="password"
-                  {...register("confirmPassword")}
+                  {...register("confirmPassword")} placeholder="********"
 className="
   w-full
   border
@@ -366,8 +357,8 @@ className="
                 </div>
 
 <div className="mt-4 rounded-xl bg-cyan-50 border border-cyan-200 p-3">
-                  <div className="flex gap-6">
-                    <CheckCircle className="w-5 h-5 text-cyan-700 mt-0.5" />
+                  <div className="section-state">
+                    <CheckCircle className="w-5 h-5 text-[rgb(27,85,52)] mt-0.5" />
 
                     <div>
                       <h4 className="font-semibold text-cyan-900">
@@ -402,16 +393,7 @@ className="
               <button
   type="submit"
   disabled={isSubmitting}
-  className="
-    bg-blue-950
-    hover:bg-blue-900
-    text-white
-    font-medium
-    px-12
-    py-3.5
-    rounded-lg
-    disabled:opacity-50
-  "
+  className="btn-lodging"
 >
   {isSubmitting
     ? "Procesando..."

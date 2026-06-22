@@ -1,3 +1,10 @@
+.container-header {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border: 1px solid #1A365D;
+    border-radius: 10px;
+
+}
 .form-body {
     padding: 20px 20px 40px 20px;
 }
@@ -12,7 +19,7 @@
     background-color: #ecfeff;
     padding: 10px;
     border-bottom: 1px solid #1A365D;
-    
+    border-radius: 10px 10px 0 0;
 }
 .header-title {
     font-size: 2.5rem;
@@ -54,4 +61,25 @@
 .section-two>div>h3 {
     color: #1A365D;
     padding-left: 12px;
+}
+.section-state {
+    display: flex;
+    padding: 20px 30px 20px 20px;
+}
+.section-state>div>h4 {
+    padding-left: 13px;
+}
+.btn-lodging {
+  background-color: #001f3f;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.btn-lodging:hover {
+  background-color: #004aad;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(26, 54, 93, 0.3);
 }
