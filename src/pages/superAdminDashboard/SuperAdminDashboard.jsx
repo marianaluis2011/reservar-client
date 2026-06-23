@@ -207,6 +207,18 @@ const NewAdminModal = ({ onClose, onCreated }) => {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
+    useEffect(() => {
+  const loadProvinces = async () => {
+    try {
+      const data = await getProvinces();
+      setProvinces(data);
+    } catch (error) {
+      toast.error('Error al cargar provincias');
+    }
+  };
+
+  loadProvinces();
+}, []);
 
     const handleSubmit = async () => {
         if (!form.fullName || !form.email || !form.password) {
