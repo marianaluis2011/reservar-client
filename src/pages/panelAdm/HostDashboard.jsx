@@ -80,7 +80,11 @@ const DAYS_OF_WEEK = ["D", "L", "M", "X", "J", "V", "S"];
 
 export default function HostDashboard() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [accommodation, setAccommodation] = useState(null);
+  const [rooms, setRooms] = useState([]);
+  const [loadingDashboard, setLoadingDashboard] = useState(true);
 
   // Calendar state (mocked for Oct 2026 as per prompt)
   const [viewDate, setViewDate] = useState(new Date(2026, 9, 1)); // October 2026
