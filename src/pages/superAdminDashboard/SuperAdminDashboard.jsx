@@ -222,10 +222,10 @@ const NewAdminModal = ({ onClose, onCreated }) => {
     }, []);
 
     const handleSubmit = async () => {
-       if (!form.fullName || !form.email || !form.password || !form.accommodationName || !form.province || !form.whatsapp) {
-  toast.error('Completá todos los campos');
-  return;
-}
+        if (!form.fullName || !form.email || !form.password || !form.accommodationName || !form.province || !form.whatsapp) {
+            toast.error('Completá todos los campos');
+            return;
+        }
         setEnviando(true);
         try {
             await crearAdmin(form);
