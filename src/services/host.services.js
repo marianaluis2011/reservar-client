@@ -43,3 +43,8 @@ export const updateMyAccommodation = async (accommodationId, accommodationData) 
   const { data } = await axios.put(`${API_BASE}/hospedajes/${accommodationId}`, accommodationData, authHeader());
   return data;
 };
+
+export const createOwnerBooking = async (bookingData) => {
+  const { data } = await axios.post(`${API_BASE}/reservas/owner`, bookingData, authHeader());
+  return data;
+};
