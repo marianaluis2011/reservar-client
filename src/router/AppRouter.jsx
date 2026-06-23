@@ -27,13 +27,13 @@ export default function AppRouter() {
         <Route path="/about" element={<About />} />
 
         {/* Privadas */}
-<Route element={<ProtectedRoute allowedRoles={["host"]} />}>
-  <Route path="/host/dashboard" element={<HostDashboard />} />
-</Route>
+        <Route element={<ProtectedRoute allowedRoles={["host"]} />}>
+          <Route path="/host/dashboard" element={<HostDashboard />} />
+        </Route>
 
-<Route element={<ProtectedRoute allowedRoles={["super_admin"]} />}>
-  <Route path="/host/superAdmin" element={<SuperAdminDashboard />} />
-</Route>
+        <Route element={<ProtectedRoute allowedRoles={["super_admin"]} />}>
+          <Route path="/host/superAdmin" element={<SuperAdminDashboard />} />
+        </Route>
 
         {/* Error */}
         <Route path="*" element={<Error404 />} />
