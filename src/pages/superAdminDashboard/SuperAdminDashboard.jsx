@@ -106,7 +106,6 @@ const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus
     if (loading) {
         return <div className="table-section"><h3>HOSPEDAJES REGISTRADOS</h3><p>Cargando hospedajes...</p></div>;
     }
-
     return (
         <div className="table-section">
             <h3>HOSPEDAJES REGISTRADOS</h3>
@@ -121,31 +120,32 @@ const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus
                     </tr>
                 </thead>
                 <tbody>
-                    {accommodations.map((item) => (
-                        <tr key={item._id}>
-                            <td>{item.name}</td>
-                            <td>{item.province?.name || 'Sin provincia'}</td>
-                            <td>{item.admin?.fullName || item.admin?.email || 'Sin administrador'}</td>
-                            <td><span className={`status-badge status-${item.status}`}>{item.status}</span></td>
-                            <td>
-                                {item.status !== 'aprobado' && (
-                                    <button className="action-btn activate" onClick={() => onChangeStatus(item._id, 'aprobado')}>
-                                        Aprobar
-                                    </button>
-                                )}
-                                {item.status !== 'suspendido' && (
-                                    <button className="action-btn suspend" onClick={() => onChangeStatus(item._id, 'suspendido')}>
-                                        Suspender
-                                    </button>
-                                )}
-                                {item.status === 'suspendido' && (
-                                    <button className="action-btn activate" onClick={() => onChangeStatus(item._id, 'aprobado')}>
-                                        Reactivar
-                                    </button>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
+                    {accommodations.length === 0 ? (
+                        <tr><td colSpan="5">No hay hospedajes registrados.</td></tr>
+                    ) : (
+                        accommodations.map((item) => (
+                            <tr key={item._id}>
+                                <td>{item.name}</td>
+                                <td>{item.province?.name || 'Sin provincia'}</td>
+                                <td>{item.admin?.fullName || item.admin?.email || 'Sin administrador'}</td>
+                                <td><span className={`status-badge status-${item.status}`}>{item.status}</span></td>
+                                <td>
+                                    {item.status !== 'aprobado' && (
+                                        <button className="action-btn activate" onClick={() => onChangeStatus(item._id, 'aprobado')}>Aprobar</button>
+                                    )}
+                                    {item.status !== 'rechazado' && (
+                                        <button className="action-btn reject" onClick={() => onChangeStatus(item._id, 'rechazado')}>Rechazar</button>
+                                    )}
+                                    {item.status !== 'suspendido' && (
+                                        <button className="action-btn suspend" onClick={() => onChangeStatus(item._id, 'suspendido')}>Suspender</button>
+                                    )}
+                                    {item.status === 'suspendido' && (
+                                        <button className="action-btn activate" onClick={() => onChangeStatus(item._id, 'aprobado')}>Reactivar</button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
         </div>
