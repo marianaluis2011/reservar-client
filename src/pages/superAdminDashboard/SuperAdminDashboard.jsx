@@ -12,6 +12,7 @@ import './SuperAdminDashboard.css';
 import { getUsuarios, cambiarEstadoUsuario, crearAdmin } from '../../services/user.services.js';
 import { getDashboardStats } from '../../services/admin.services.js';
 import { getAllAccommodationsForAdmin, changeAccommodationStatus } from '../../services/accommodation.services.js';
+import { getProvinces } from '../../services/province.services.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { toast } from 'sonner';
 
