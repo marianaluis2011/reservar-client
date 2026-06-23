@@ -112,8 +112,7 @@ export default function HostDashboard() {
     checkOut: ""
   });
 
-  // Calendar state (mocked for Oct 2026 as per prompt)
-  const [viewDate, setViewDate] = useState(new Date(2026, 9, 1)); // October 2026
+  const [viewDate, setViewDate] = useState(new Date()); 
   useEffect(() => {
     const loadOwnerDashboard = async () => {
       try {
@@ -146,16 +145,6 @@ export default function HostDashboard() {
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
   };
 
-  // Mock occupancy data for October 2026
-  const getDayStatus = (day) => {
-    if (viewDate.getMonth() === 9 && viewDate.getFullYear() === 2026) {
-      if ([12, 13, 14, 15, 18, 19, 20].includes(day)) return "occupied";
-      if ([24, 25, 26].includes(day)) return "pending";
-    }
-    return "free";
-  };
-
-  // Temporary navigation handler for sidebar items
   const handleSidebarNavigation = (path) => {
     if (path === "/host/dashboard") {
       navigate(path);
@@ -359,6 +348,49 @@ export default function HostDashboard() {
     }
   };
 
+  const getDateKey = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const getBookingDateKeys = (checkIn, checkOut) => {
+  const dates = [];
+  const current = new Date(checkIn);
+  const end = new Date(checkOut);
+
+  current.setHours(0, 0, 0, 0);
+  end.setHours(0, 0, 0, 0);
+
+  while (current < end) {
+    dates.push(getDateKey(current));
+    current.setDate(current.getDate() + 1);
+  }
+
+  return dates;
+};
+
+const getCalendarDayStatus = (day) => {
+  const currentDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
+  const currentKey = getDateKey(currentDate);
+  const confirmedBooking = bookings.some((booking) => {
+    if (booking.status !== "confirmada") return false;
+    return getBookingDateKeys(booking.checkIn, booking.checkOut).includes(currentKey);
+  });
+  if (confirmedBooking) {
+    return "occupied";
+  }
+  const pendingBooking = bookings.some((booking) => {
+    if (booking.status !== "pendiente") return false;
+    return getBookingDateKeys(booking.checkIn, booking.checkOut).includes(currentKey);
+  });
+  if (pendingBooking) {
+    return "pending";
+  }
+  return "";
+};
+
   return (
     <div className="host-dashboard-wrapper">
       {/* Mobile Sidebar Toggle */}
@@ -476,7 +508,7 @@ export default function HostDashboard() {
                   ),
                 }).map((_, i) => {
                   const day = i + 1;
-                  const status = getDayStatus(day);
+                  const status = getCalendarDayStatus(day);
                   return (
                     <div key={day} className={`calendar-day ${status}`}>
                       {day}
