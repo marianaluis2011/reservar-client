@@ -523,10 +523,10 @@ export default function HostDashboard() {
       </main>
       {showRoomModal && (
         <div className="modal-overlay" onClick={() => {
-  setShowRoomModal(false);
-  setEditingRoom(null);
-  setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
-}}>
+          setShowRoomModal(false);
+          setEditingRoom(null);
+          setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
+        }}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>{editingRoom ? "Editar habitación" : "Nueva habitación"}</h3>
 
@@ -570,8 +570,8 @@ export default function HostDashboard() {
             </div>
           </div>
         </div>
-  )
-}
+      )
+      }
     </div >
   );
 }
