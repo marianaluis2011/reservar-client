@@ -207,6 +207,7 @@ const NewAdminModal = ({ onClose, onCreated }) => {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
+    
     useEffect(() => {
         const loadProvinces = async () => {
             try {
