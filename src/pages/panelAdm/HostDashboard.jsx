@@ -273,7 +273,7 @@ export default function HostDashboard() {
               </div>
               <div className="rooms-list">
                 {rooms.map((room) => (
-                  <div key={room.id} className="room-card-compact">
+                  <div key={room._id} className="room-card-compact">
                     <div className="room-info-compact">
                       <h4 className="room-name-compact">{room.name}</h4>
                       <p className="room-price-compact">
