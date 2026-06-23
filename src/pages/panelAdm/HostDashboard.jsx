@@ -102,7 +102,6 @@ export default function HostDashboard() {
         setLoadingDashboard(false);
       }
     };
-
     loadOwnerDashboard();
   }, []);
 
