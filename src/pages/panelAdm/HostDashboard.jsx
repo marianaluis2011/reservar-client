@@ -413,7 +413,6 @@ export default function HostDashboard() {
             </div>
           </section>
 
-          {/* Configuración rápida (Al final de todo) */}
           <section className="quick-settings-section card">
             <h2 className="section-title">Configuración rápida</h2>
             <div className="quick-settings-grid">
