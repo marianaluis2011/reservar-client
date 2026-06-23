@@ -10,6 +10,9 @@ import {
 } from 'lucide-react';
 import './SuperAdminDashboard.css';
 import { getUsuarios, cambiarEstadoUsuario, crearAdmin } from '../../services/user.services.js';
+import { getDashboardStats } from '../../services/admin.services.js';
+import { getAllAccommodationsForAdmin, changeAccommodationStatus } from '../../services/accommodation.services.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 import { toast } from 'sonner';
 
 // Placeholder for SuperAdminSidebar component
@@ -99,11 +102,10 @@ const SuperAdminMetricCard = ({ title, value }) => {
 // };
 
 // Placeholder for RegisteredAccommodationsTable component
-const RegisteredAccommodationsTable = () => {
-    const mockData = [
-        { name: 'Hostal del Norte', location: 'Salta, Argentina', admin: 'Roberto García', status: 'Activo' },
-        { name: 'Patagonia Retreat', location: 'Bariloche, Argentina', admin: 'Lucía Méndez', status: 'Suspendido' },
-    ];
+const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus }) => {
+    if (loading) {
+        return <div className="table-section"><h3>HOSPEDAJES REGISTRADOS</h3><p>Cargando hospedajes...</p></div>;
+    }
 
     return (
         <div className="table-section">
@@ -119,8 +121,8 @@ const RegisteredAccommodationsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {mockData.map((item, index) => (
-                        <tr key={index}>
+                    {accommodations.map((item) => (
+                        <tr key={item._id}>
                             <td>{item.name}</td>
                             <td>{item.location}</td>
                             <td>{item.admin}</td>
