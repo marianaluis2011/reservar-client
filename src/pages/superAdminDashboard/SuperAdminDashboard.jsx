@@ -398,10 +398,10 @@ const SuperAdminDashboard = () => {
 
                 {/* <PendingAccommodationsTable /> */}
                 <RegisteredAccommodationsTable
-    accommodations={accommodations}
-    loading={loadingAccommodations}
-    onChangeStatus={handleAccommodationStatus}
-/>
+                    accommodations={accommodations}
+                    loading={loadingAccommodations}
+                    onChangeStatus={handleAccommodationStatus}
+                />
                 <AdminsTable key={refreshUsers} />
                 {showNewAdmin && (
                     <NewAdminModal
