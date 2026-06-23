@@ -378,8 +378,8 @@ const SuperAdminDashboard = () => {
                     <div className="top-bar-right">
                         <span className="notification-icon">🔔</span>
                         <div className="user-profile">
-                            <span className="user-name">Admin Guest</span>
-                            <span className="user-role">Global Admin</span>
+  <span className="user-name">{user?.fullName || 'Usuario'}</span>
+<span className="user-role">{user?.role || 'super_admin'}</span>
                         </div>
                     </div>
                 </div>
