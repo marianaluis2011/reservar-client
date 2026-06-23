@@ -272,22 +272,27 @@ export default function HostDashboard() {
                 </button>
               </div>
               <div className="rooms-list">
-                {rooms.map((room) => (
-                  <div key={room._id} className="room-card-compact">
-                    <div className="room-info-compact">
-                      <h4 className="room-name-compact">{room.name}</h4>
-                      <p className="room-price-compact">
-                        ${room.pricePerNight.toLocaleString()} / noche
-                      </p>
-                      <span className={`room-status-compact ${room.status.toLowerCase()}`}>
-                        {room.status}
-                      </span>
+                {loadingDashboard ? (
+                  <p>Cargando habitaciones...</p>
+                ) : rooms.length === 0 ? (
+                  <p>No hay habitaciones cargadas.</p>
+                ) : (
+                  rooms.map((room) => (
+                    <div key={room._id} className="room-card-compact">
+                      <div className="room-info-compact">
+                        <h4 className="room-name-compact">{room.name}</h4>
+                        <p className="room-price-compact">
+                          ${room.pricePerNight.toLocaleString()} / noche
+                        </p>
+                        <span className={`room-status-compact ${room.status.toLowerCase()}`}>
+                          {room.status}
+                        </span>
+                      </div>
+                      <button className="action-icon-btn" title="Editar habitación">
+                        <SquarePen size={16} />
+                      </button>
                     </div>
-                    <button className="action-icon-btn" title="Editar habitación">
-                      <SquarePen size={16} />
-                    </button>
-                  </div>
-                ))}
+                  )))}
               </div>
             </section>
           </div>
