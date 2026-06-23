@@ -390,11 +390,10 @@ const SuperAdminDashboard = () => {
                 </div>
 
                 <div className="metrics-cards">
-                    <SuperAdminMetricCard title="Total hospedajes" value="128" />
-                    <SuperAdminMetricCard title="Pendientes" value="8" />
-                    <SuperAdminMetricCard title="Aprobados" value="112" />
-                    {/* <SuperAdminMetricCard title="Suspendidos" value="8" /> */}
-                    <SuperAdminMetricCard title="Admins registrados" value="36" />
+<SuperAdminMetricCard title="Total hospedajes" value={loadingStats ? '...' : stats.totalAccommodations} />
+<SuperAdminMetricCard title="Pendientes" value={loadingStats ? '...' : stats.pendingAccommodations} />
+<SuperAdminMetricCard title="Aprobados" value={loadingStats ? '...' : stats.approvedAccommodations} />
+<SuperAdminMetricCard title="Admins registrados" value={loadingStats ? '...' : stats.registeredAdmins} />
                 </div>
 
                 {/* <PendingAccommodationsTable /> */}
