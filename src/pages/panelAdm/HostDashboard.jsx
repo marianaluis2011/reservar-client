@@ -1,4 +1,4 @@
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Home,
@@ -278,91 +278,91 @@ export default function HostDashboard() {
 
           {/* Reservas Recientes (Ancho completo debajo) */}
           <section className="recent-bookings-section card">
-              <div className="section-header-with-button">
-                <h2 className="section-title">Reservas Recientes</h2>
-                <button className="btn-link">Ver todas</button>
-              </div>
-              <div className="bookings-table-container">
-                <table className="bookings-table">
-                  <thead>
-                    <tr>
-                      <th>Cliente</th>
-                      <th>Habitación</th>
-                      <th>Fechas</th>
-                      <th>Estado</th>
-                      <th>Acciones</th>
+            <div className="section-header-with-button">
+              <h2 className="section-title">Reservas Recientes</h2>
+              <button className="btn-link">Ver todas</button>
+            </div>
+            <div className="bookings-table-container">
+              <table className="bookings-table">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Habitación</th>
+                    <th>Fechas</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dashboardData.recentBookings.map((booking) => (
+                    <tr key={booking.id}>
+                      <td>{booking.guestName}</td>
+                      <td>{booking.roomName}</td>
+                      <td>{booking.dates}</td>
+                      <td>
+                        <span className={`status-badge ${booking.status.toLowerCase()}`}>
+                          {booking.status}
+                        </span>
+                      </td>
+                      <td className="booking-actions">
+                        <button className="action-icon-btn" title="Ver detalle">
+                          <Eye size={14} />
+                        </button>
+                        {booking.status === "Pendiente" && (
+                          <button className="action-icon-btn" title="Confirmar">
+                            <Check size={14} />
+                          </button>
+                        )}
+                        {booking.status !== "Cancelada" && (
+                          <button className="action-icon-btn" title="Cancelar">
+                            <X size={14} />
+                          </button>
+                        )}
+                        <button className="action-icon-btn" title="Contactar por WhatsApp">
+                          <MessageSquare size={14} />
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {dashboardData.recentBookings.map((booking) => (
-                      <tr key={booking.id}>
-                        <td>{booking.guestName}</td>
-                        <td>{booking.roomName}</td>
-                        <td>{booking.dates}</td>
-                        <td>
-                          <span className={`status-badge ${booking.status.toLowerCase()}`}>
-                            {booking.status}
-                          </span>
-                        </td>
-                        <td className="booking-actions">
-                          <button className="action-icon-btn" title="Ver detalle">
-                            <Eye size={14} />
-                          </button>
-                          {booking.status === "Pendiente" && (
-                            <button className="action-icon-btn" title="Confirmar">
-                              <Check size={14} />
-                            </button>
-                          )}
-                          {booking.status !== "Cancelada" && (
-                            <button className="action-icon-btn" title="Cancelar">
-                              <X size={14} />
-                            </button>
-                          )}
-                          <button className="action-icon-btn" title="Contactar por WhatsApp">
-                            <MessageSquare size={14} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
 
           {/* Configuración rápida (Al final de todo) */}
           <section className="quick-settings-section card">
-              <h2 className="section-title">Configuración rápida</h2>
-              <div className="quick-settings-grid">
-                <div className="setting-card">
-                  <Percent size={20} className="setting-icon" />
-                  <div className="setting-text">
-                    <h4 className="setting-title">Ajustar seña</h4>
-                    <p className="setting-subtitle">Modificar porcentaje</p>
-                  </div>
-                </div>
-                <div className="setting-card">
-                  <MessageSquare size={20} className="setting-icon" />
-                  <div className="setting-text">
-                    <h4 className="setting-title">Editar WhatsApp</h4>
-                    <p className="setting-subtitle">Gestionar número</p>
-                  </div>
-                </div>
-                <div className="setting-card">
-                  <Phone size={20} className="setting-icon" />
-                  <div className="setting-text">
-                    <h4 className="setting-title">Datos de contacto</h4>
-                    <p className="setting-subtitle">Información pública</p>
-                  </div>
-                </div>
-                <div className="setting-card">
-                  <Wrench size={20} className="setting-icon" />
-                  <div className="setting-text">
-                    <h4 className="setting-title">Servicios del hospedaje</h4>
-                    <p className="setting-subtitle">Editar amenities</p>
-                  </div>
+            <h2 className="section-title">Configuración rápida</h2>
+            <div className="quick-settings-grid">
+              <div className="setting-card">
+                <Percent size={20} className="setting-icon" />
+                <div className="setting-text">
+                  <h4 className="setting-title">Ajustar seña</h4>
+                  <p className="setting-subtitle">Modificar porcentaje</p>
                 </div>
               </div>
-            </section>
+              <div className="setting-card">
+                <MessageSquare size={20} className="setting-icon" />
+                <div className="setting-text">
+                  <h4 className="setting-title">Editar WhatsApp</h4>
+                  <p className="setting-subtitle">Gestionar número</p>
+                </div>
+              </div>
+              <div className="setting-card">
+                <Phone size={20} className="setting-icon" />
+                <div className="setting-text">
+                  <h4 className="setting-title">Datos de contacto</h4>
+                  <p className="setting-subtitle">Información pública</p>
+                </div>
+              </div>
+              <div className="setting-card">
+                <Wrench size={20} className="setting-icon" />
+                <div className="setting-text">
+                  <h4 className="setting-title">Servicios del hospedaje</h4>
+                  <p className="setting-subtitle">Editar amenities</p>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
     </div>
