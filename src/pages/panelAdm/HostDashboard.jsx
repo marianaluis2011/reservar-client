@@ -22,7 +22,7 @@ import {
   Banknote,
 } from "lucide-react";
 import "./HostDashboard.css";
-import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings, confirmOwnerBooking, cancelOwnerBooking, createOwnerRoom } from "../../services/host.services.js";
+import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings, confirmOwnerBooking, cancelOwnerBooking, createOwnerRoom, updateOwnerRoom } from "../../services/host.services.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast } from "sonner";
 
