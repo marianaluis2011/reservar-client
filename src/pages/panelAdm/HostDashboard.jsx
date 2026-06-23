@@ -141,21 +141,21 @@ export default function HostDashboard() {
   };
 
   const formatBookingDates = (checkIn, checkOut) => {
-  const options = { day: "2-digit", month: "short" };
-  const start = new Date(checkIn).toLocaleDateString("es-AR", options);
-  const end = new Date(checkOut).toLocaleDateString("es-AR", options);
-  return `${start} - ${end}`;
-};
-
-const formatBookingStatus = (status) => {
-  const labels = {
-    pendiente: "Pendiente",
-    confirmada: "Confirmada",
-    cancelada: "Cancelada",
-    completada: "Completada",
+    const options = { day: "2-digit", month: "short" };
+    const start = new Date(checkIn).toLocaleDateString("es-AR", options);
+    const end = new Date(checkOut).toLocaleDateString("es-AR", options);
+    return `${start} - ${end}`;
   };
-  return labels[status] || status;
-};
+
+  const formatBookingStatus = (status) => {
+    const labels = {
+      pendiente: "Pendiente",
+      confirmada: "Confirmada",
+      cancelada: "Cancelada",
+      completada: "Completada",
+    };
+    return labels[status] || status;
+  };
 
   return (
     <div className="host-dashboard-wrapper">
@@ -337,47 +337,47 @@ const formatBookingStatus = (status) => {
                   </tr>
                 </thead>
                 <tbody>
-  {loadingDashboard ? (
-    <tr>
-      <td colSpan="5">Cargando reservas...</td>
-    </tr>
-  ) : bookings.length === 0 ? (
-    <tr>
-      <td colSpan="5">No hay reservas registradas.</td>
-    </tr>
-  ) : (
-    bookings.slice(0, 5).map((booking) => (
-      <tr key={booking._id}>
-        <td>{booking.user?.fullName || booking.user?.email || "Cliente"}</td>
-        <td>{booking.room?.name || "Habitación"}</td>
-        <td>{formatBookingDates(booking.checkIn, booking.checkOut)}</td>
-        <td>
-          <span className={`status-badge ${booking.status}`}>
-            {formatBookingStatus(booking.status)}
-          </span>
-        </td>
-        <td className="booking-actions">
-          <button className="action-icon-btn" title="Ver detalle">
-            <Eye size={14} />
-          </button>
-          {booking.status === "pendiente" && (
-            <button className="action-icon-btn" title="Confirmar">
-              <Check size={14} />
-            </button>
-          )}
-          {booking.status !== "cancelada" && (
-            <button className="action-icon-btn" title="Cancelar">
-              <X size={14} />
-            </button>
-          )}
-          <button className="action-icon-btn" title="Contactar por WhatsApp">
-            <MessageSquare size={14} />
-          </button>
-        </td>
-      </tr>
-    ))
-  )}
-</tbody>
+                  {loadingDashboard ? (
+                    <tr>
+                      <td colSpan="5">Cargando reservas...</td>
+                    </tr>
+                  ) : bookings.length === 0 ? (
+                    <tr>
+                      <td colSpan="5">No hay reservas registradas.</td>
+                    </tr>
+                  ) : (
+                    bookings.slice(0, 5).map((booking) => (
+                      <tr key={booking._id}>
+                        <td>{booking.user?.fullName || booking.user?.email || "Cliente"}</td>
+                        <td>{booking.room?.name || "Habitación"}</td>
+                        <td>{formatBookingDates(booking.checkIn, booking.checkOut)}</td>
+                        <td>
+                          <span className={`status-badge ${booking.status}`}>
+                            {formatBookingStatus(booking.status)}
+                          </span>
+                        </td>
+                        <td className="booking-actions">
+                          <button className="action-icon-btn" title="Ver detalle">
+                            <Eye size={14} />
+                          </button>
+                          {booking.status === "pendiente" && (
+                            <button className="action-icon-btn" title="Confirmar">
+                              <Check size={14} />
+                            </button>
+                          )}
+                          {booking.status !== "cancelada" && (
+                            <button className="action-icon-btn" title="Cancelar">
+                              <X size={14} />
+                            </button>
+                          )}
+                          <button className="action-icon-btn" title="Contactar por WhatsApp">
+                            <MessageSquare size={14} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
               </table>
             </div>
           </section>
