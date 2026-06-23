@@ -415,8 +415,8 @@ export default function HostDashboard() {
                         </span>
                       </div>
                       <button className="action-icon-btn" title="Editar habitación" onClick={() => handleOpenEditRoom(room)}>
-  <SquarePen size={16} />
-</button>
+                        <SquarePen size={16} />
+                      </button>
                     </div>
                   )))}
               </div>
