@@ -494,51 +494,51 @@ export default function HostDashboard() {
         </div>
       </main>
       {showRoomModal && (
-  <div className="modal-overlay" onClick={() => setShowRoomModal(false)}>
-    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-      <h3>Nueva habitación</h3>
+        <div className="modal-overlay" onClick={() => setShowRoomModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Nueva habitación</h3>
 
-      <input
-        name="name"
-        placeholder="Nombre de la habitación"
-        value={roomForm.name}
-        onChange={handleRoomFormChange}
-      />
+            <input
+              name="name"
+              placeholder="Nombre de la habitación"
+              value={roomForm.name}
+              onChange={handleRoomFormChange}
+            />
 
-      <textarea
-        name="description"
-        placeholder="Descripción"
-        value={roomForm.description}
-        onChange={handleRoomFormChange}
-      />
+            <textarea
+              name="description"
+              placeholder="Descripción"
+              value={roomForm.description}
+              onChange={handleRoomFormChange}
+            />
 
-      <input
-        name="maxCapacity"
-        type="number"
-        placeholder="Capacidad máxima"
-        value={roomForm.maxCapacity}
-        onChange={handleRoomFormChange}
-      />
+            <input
+              name="maxCapacity"
+              type="number"
+              placeholder="Capacidad máxima"
+              value={roomForm.maxCapacity}
+              onChange={handleRoomFormChange}
+            />
 
-      <input
-        name="pricePerNight"
-        type="number"
-        placeholder="Precio por noche"
-        value={roomForm.pricePerNight}
-        onChange={handleRoomFormChange}
-      />
+            <input
+              name="pricePerNight"
+              type="number"
+              placeholder="Precio por noche"
+              value={roomForm.pricePerNight}
+              onChange={handleRoomFormChange}
+            />
 
-      <div className="modal-actions">
-        <button onClick={() => setShowRoomModal(false)} disabled={savingRoom}>
-          Cancelar
-        </button>
-        <button onClick={handleCreateRoom} disabled={savingRoom}>
-          {savingRoom ? "Creando..." : "Crear habitación"}
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+            <div className="modal-actions">
+              <button onClick={() => setShowRoomModal(false)} disabled={savingRoom}>
+                Cancelar
+              </button>
+              <button onClick={handleCreateRoom} disabled={savingRoom}>
+                {savingRoom ? "Creando..." : "Crear habitación"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
