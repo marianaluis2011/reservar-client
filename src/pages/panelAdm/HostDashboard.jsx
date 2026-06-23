@@ -22,7 +22,7 @@ import {
   Banknote,
 } from "lucide-react";
 import "./HostDashboard.css";
-import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings } from "../../services/host.services.js";  
+import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings } from "../../services/host.services.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast } from "sonner";
 
@@ -93,14 +93,14 @@ export default function HostDashboard() {
     const loadOwnerDashboard = async () => {
       try {
         setLoadingDashboard(true);
-const myAccommodation = await getMyAccommodation();
-setAccommodation(myAccommodation);
-const [roomsData, bookingsData] = await Promise.all([
-  getRoomsByAccommodation(myAccommodation._id),
-  getOwnerBookings()
-]);
-setRooms(roomsData);
-setBookings(bookingsData);
+        const myAccommodation = await getMyAccommodation();
+        setAccommodation(myAccommodation);
+        const [roomsData, bookingsData] = await Promise.all([
+          getRoomsByAccommodation(myAccommodation._id),
+          getOwnerBookings()
+        ]);
+        setRooms(roomsData);
+        setBookings(bookingsData);
       } catch (error) {
         toast.error(error.response?.data?.message || "Error al cargar el panel del hospedaje");
       } finally {
