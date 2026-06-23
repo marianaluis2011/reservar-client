@@ -524,7 +524,7 @@ export default function HostDashboard() {
       {showRoomModal && (
         <div className="modal-overlay" onClick={() => setShowRoomModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Nueva habitación</h3>
+            <h3>{editingRoom ? "Editar habitación" : "Nueva habitación"}</h3>
 
             <input
               name="name"
