@@ -112,7 +112,7 @@ export default function HostDashboard() {
     checkOut: ""
   });
 
-  const [viewDate, setViewDate] = useState(new Date()); 
+  const [viewDate, setViewDate] = useState(new Date());
   useEffect(() => {
     const loadOwnerDashboard = async () => {
       try {
@@ -349,47 +349,57 @@ export default function HostDashboard() {
   };
 
   const getDateKey = (date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
-const getBookingDateKeys = (checkIn, checkOut) => {
-  const dates = [];
-  const current = new Date(checkIn);
-  const end = new Date(checkOut);
+  const getBookingDateKeys = (checkIn, checkOut) => {
+    const dates = [];
+    const current = new Date(checkIn);
+    const end = new Date(checkOut);
 
-  current.setHours(0, 0, 0, 0);
-  end.setHours(0, 0, 0, 0);
+    current.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
 
-  while (current < end) {
-    dates.push(getDateKey(current));
-    current.setDate(current.getDate() + 1);
-  }
+    while (current < end) {
+      dates.push(getDateKey(current));
+      current.setDate(current.getDate() + 1);
+    }
 
-  return dates;
-};
+    return dates;
+  };
 
-const getCalendarDayStatus = (day) => {
-  const currentDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
-  const currentKey = getDateKey(currentDate);
-  const confirmedBooking = bookings.some((booking) => {
-    if (booking.status !== "confirmada") return false;
-    return getBookingDateKeys(booking.checkIn, booking.checkOut).includes(currentKey);
-  });
-  if (confirmedBooking) {
-    return "occupied";
-  }
-  const pendingBooking = bookings.some((booking) => {
-    if (booking.status !== "pendiente") return false;
-    return getBookingDateKeys(booking.checkIn, booking.checkOut).includes(currentKey);
-  });
-  if (pendingBooking) {
-    return "pending";
-  }
-  return "";
-};
+  const getCalendarDayStatus = (day) => {
+    const currentDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
+    const currentKey = getDateKey(currentDate);
+    const confirmedBooking = bookings.some((booking) => {
+      if (booking.status !== "confirmada") return false;
+      return getBookingDateKeys(booking.checkIn, booking.checkOut).includes(currentKey);
+    });
+    if (confirmedBooking) {
+      return "occupied";
+    }
+    const pendingBooking = bookings.some((booking) => {
+      if (booking.status !== "pendiente") return false;
+      return getBookingDateKeys(booking.checkIn, booking.checkOut).includes(currentKey);
+    });
+    if (pendingBooking) {
+      return "pending";
+    }
+    return "";
+  };
+
+  const getCalendarDayBookings = (day) => {
+    const currentDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
+    const currentKey = getDateKey(currentDate);
+
+    return bookings.filter((booking) => {
+      if (booking.status === "cancelada") return false;
+      return getBookingDateKeys(booking.checkIn, booking.checkOut).includes(currentKey);
+    });
+  };
 
   return (
     <div className="host-dashboard-wrapper">
@@ -509,9 +519,22 @@ const getCalendarDayStatus = (day) => {
                 }).map((_, i) => {
                   const day = i + 1;
                   const status = getCalendarDayStatus(day);
+                  const dayBookings = getCalendarDayBookings(day);
                   return (
                     <div key={day} className={`calendar-day ${status}`}>
                       {day}
+
+                      {dayBookings.length > 0 && (
+                        <div className="calendar-tooltip">
+                          {dayBookings.map((booking) => (
+                            <div key={booking._id} className="calendar-tooltip-item">
+                              <strong>{booking.user?.fullName || booking.user?.email || "Cliente"}</strong>
+                              <span>{booking.room?.name || "Habitación"}</span>
+                              <small>{formatBookingStatus(booking.status)}</small>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
