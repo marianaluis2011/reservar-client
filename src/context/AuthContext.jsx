@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
+
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  // 🔥 hidratación inmediata (clave para evitar redirects falsos)
   const [user, setUser] = useState(() => {
     const stored =
       localStorage.getItem("user") ||

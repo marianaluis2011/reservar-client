@@ -1,15 +1,15 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLoginForm } from "./useLogin";
 import { toast } from "sonner";
 import { loginUser } from "../../services/auth.services";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import "./login.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth(); // 🔥 FIX
 
   const [showPassword, setShowPassword] = useState(false);
 
