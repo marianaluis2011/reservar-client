@@ -13,3 +13,8 @@ export const getRoomsByAccommodation = async (accommodationId) => {
   const { data } = await axios.get(`${API_BASE}/habitaciones/hospedaje/${accommodationId}`);
   return data;
 };
+
+export const getRoomsByAccommodation = async (accommodationId) => {
+  const { data } = await axios.get(`${API_BASE}/habitaciones/hospedaje/${accommodationId}`);
+  return data;
+};
