@@ -300,6 +300,16 @@ const SuperAdminDashboard = () => {
     const [activeSidebarOption, setActiveSidebarOption] = useState('Resumen');
     const [showNewAdmin, setShowNewAdmin] = useState(false);
     const [refreshUsers, setRefreshUsers] = useState(0);
+    const [refreshDashboard, setRefreshDashboard] = useState(0);
+    const [stats, setStats] = useState({
+        totalAccommodations: 0,
+        pendingAccommodations: 0,
+        approvedAccommodations: 0,
+        registeredAdmins: 0
+    });
+    const [accommodations, setAccommodations] = useState([]);
+    const [loadingStats, setLoadingStats] = useState(true);
+    const [loadingAccommodations, setLoadingAccommodations] = useState(true);
 
     const handleSidebarOptionClick = (option) => {
         if (option === 'Resumen') {
