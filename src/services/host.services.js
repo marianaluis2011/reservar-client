@@ -38,3 +38,8 @@ export const updateOwnerRoom = async (roomId, roomData) => {
     const { data } = await axios.put(`${API_BASE}/habitaciones/${roomId}`, roomData, authHeader());
     return data;
 };
+
+export const updateMyAccommodation = async (accommodationId, accommodationData) => {
+  const { data } = await axios.put(`${API_BASE}/hospedajes/${accommodationId}`, accommodationData, authHeader());
+  return data;
+};
