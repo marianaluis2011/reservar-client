@@ -397,7 +397,11 @@ const SuperAdminDashboard = () => {
                 </div>
 
                 {/* <PendingAccommodationsTable /> */}
-                <RegisteredAccommodationsTable />
+                <RegisteredAccommodationsTable
+    accommodations={accommodations}
+    loading={loadingAccommodations}
+    onChangeStatus={handleAccommodationStatus}
+/>
                 <AdminsTable key={refreshUsers} />
                 {showNewAdmin && (
                     <NewAdminModal
