@@ -150,7 +150,7 @@ export default function HostDashboard() {
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <h2 className="accommodation-name">
-            {dashboardData.accommodationName}
+            {accommodation?.name || "Mi hospedaje"}
           </h2>
           <p className="admin-panel-subtitle">Panel Administrativo</p>
         </div>
