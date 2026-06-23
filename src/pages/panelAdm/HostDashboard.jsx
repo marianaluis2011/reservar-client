@@ -184,7 +184,7 @@ export default function HostDashboard() {
             <Plus size={14} /> Nueva habitación
           </button>
           <div className="user-info">
-            <span className="user-name">{dashboardData.adminName}</span>
+            <span className="user-name">{user?.fullName || accommodation?.admin?.fullName || "Administrador"}</span>
             <span className="user-role">Administrador</span>
           </div>
         </div>
