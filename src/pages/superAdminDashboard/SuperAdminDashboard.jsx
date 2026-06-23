@@ -297,6 +297,7 @@ const NewAdminModal = ({ onClose, onCreated }) => {
 
 const SuperAdminDashboard = () => {
     const navigate = useNavigate();
+    const { user, logout } = useAuth();
     const [activeSidebarOption, setActiveSidebarOption] = useState('Resumen');
     const [showNewAdmin, setShowNewAdmin] = useState(false);
     const [refreshUsers, setRefreshUsers] = useState(0);
