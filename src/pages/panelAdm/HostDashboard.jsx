@@ -22,6 +22,9 @@ import {
   Banknote,
 } from "lucide-react";
 import "./HostDashboard.css";
+import { getMyAccommodation, getRoomsByAccommodation } from "../../services/host.services.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { toast } from "sonner";
 
 // Mock Data (as provided in the prompt)
 const dashboardData = {
