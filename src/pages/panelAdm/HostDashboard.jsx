@@ -93,10 +93,14 @@ export default function HostDashboard() {
     const loadOwnerDashboard = async () => {
       try {
         setLoadingDashboard(true);
-        const myAccommodation = await getMyAccommodation();
-        setAccommodation(myAccommodation);
-        const roomsData = await getRoomsByAccommodation(myAccommodation._id);
-        setRooms(roomsData);
+const myAccommodation = await getMyAccommodation();
+setAccommodation(myAccommodation);
+const [roomsData, bookingsData] = await Promise.all([
+  getRoomsByAccommodation(myAccommodation._id),
+  getOwnerBookings()
+]);
+setRooms(roomsData);
+setBookings(bookingsData);
       } catch (error) {
         toast.error(error.response?.data?.message || "Error al cargar el panel del hospedaje");
       } finally {
