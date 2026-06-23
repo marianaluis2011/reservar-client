@@ -206,7 +206,7 @@ const NewAdminModal = ({ onClose, onCreated }) => {
         }
         setEnviando(true);
         try {
-            await crearAdmin({ ...form, role: 'host' });
+            await crearAdmin(form);
             toast.success('Administrador creado correctamente');
             onCreated();
             onClose();
