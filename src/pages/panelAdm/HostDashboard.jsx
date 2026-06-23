@@ -560,9 +560,9 @@ export default function HostDashboard() {
               <button onClick={() => setShowRoomModal(false)} disabled={savingRoom}>
                 Cancelar
               </button>
-              <button onClick={handleCreateRoom} disabled={savingRoom}>
-                {savingRoom ? "Creando..." : "Crear habitación"}
-              </button>
+              <button onClick={handleSaveRoom} disabled={savingRoom}>
+  {savingRoom ? "Guardando..." : editingRoom ? "Guardar cambios" : "Crear habitación"}
+</button>
             </div>
           </div>
         </div>
