@@ -1,69 +1,53 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-export const AuthContext = createContext();
-
+const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
+
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const token =
-      localStorage.getItem("token") ||
-      sessionStorage.getItem("token");
-
-    const storedUser =
+  // 🔥 hidratación inmediata (clave para evitar redirects falsos)
+  const [user, setUser] = useState(() => {
+    const stored =
       localStorage.getItem("user") ||
       sessionStorage.getItem("user");
 
-    if (token) {
-      setIsAuthenticated(true);
-    }
+    return stored ? JSON.parse(stored) : null;
+  });
 
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error("Error al leer el usuario almacenado:", error);
+  const [token, setToken] = useState(() => {
+    return (
+      localStorage.getItem("token") ||
+      sessionStorage.getItem("token")
+    );
+  });
 
-        localStorage.removeItem("user");
-        sessionStorage.removeItem("user");
-      }
-    }
-  }, []);
+  const isAuthenticated = !!user;
 
   const login = (token, userData, rememberMe = false) => {
-    // Limpiar cualquier sesión anterior
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
-
     const storage = rememberMe ? localStorage : sessionStorage;
 
     storage.setItem("token", token);
     storage.setItem("user", JSON.stringify(userData));
 
-    setIsAuthenticated(true);
+    setToken(token);
     setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
 
-    setIsAuthenticated(false);
+    setToken(null);
     setUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
         user,
+        token,
+        isAuthenticated,
         login,
         logout,
       }}
