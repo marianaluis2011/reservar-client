@@ -397,10 +397,10 @@ export default function HostDashboard() {
                             </button>
                           )}
                           {booking.status !== "cancelada" && (
-  <button className="action-icon-btn" title="Cancelar" onClick={() => handleCancelBooking(booking._id)}>
-    <X size={14} />
-  </button>
-)}
+                            <button className="action-icon-btn" title="Cancelar" onClick={() => handleCancelBooking(booking._id)}>
+                              <X size={14} />
+                            </button>
+                          )}
                           <button className="action-icon-btn" title="Contactar por WhatsApp">
                             <MessageSquare size={14} />
                           </button>
