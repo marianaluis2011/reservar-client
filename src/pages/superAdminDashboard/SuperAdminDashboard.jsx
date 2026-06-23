@@ -313,38 +313,38 @@ const SuperAdminDashboard = () => {
     const [loadingAccommodations, setLoadingAccommodations] = useState(true);
 
     useEffect(() => {
-    const loadDashboardData = async () => {
+        const loadDashboardData = async () => {
+            try {
+                setLoadingStats(true);
+                setLoadingAccommodations(true);
+
+                const [statsData, accommodationsData] = await Promise.all([
+                    getDashboardStats(),
+                    getAllAccommodationsForAdmin()
+                ]);
+
+                setStats(statsData);
+                setAccommodations(accommodationsData);
+            } catch (error) {
+                toast.error(error.response?.data?.message || 'Error al cargar el panel');
+            } finally {
+                setLoadingStats(false);
+                setLoadingAccommodations(false);
+            }
+        };
+
+        loadDashboardData();
+    }, [refreshDashboard]);
+
+    const handleAccommodationStatus = async (id, status) => {
         try {
-            setLoadingStats(true);
-            setLoadingAccommodations(true);
-
-            const [statsData, accommodationsData] = await Promise.all([
-                getDashboardStats(),
-                getAllAccommodationsForAdmin()
-            ]);
-
-            setStats(statsData);
-            setAccommodations(accommodationsData);
+            const res = await changeAccommodationStatus(id, status);
+            toast.success(res.message);
+            setRefreshDashboard((n) => n + 1);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Error al cargar el panel');
-        } finally {
-            setLoadingStats(false);
-            setLoadingAccommodations(false);
+            toast.error(error.response?.data?.message || 'Error al cambiar el estado del hospedaje');
         }
     };
-
-    loadDashboardData();
-}, [refreshDashboard]);
-
-const handleAccommodationStatus = async (id, status) => {
-    try {
-        const res = await changeAccommodationStatus(id, status);
-        toast.success(res.message);
-        setRefreshDashboard((n) => n + 1);
-    } catch (error) {
-        toast.error(error.response?.data?.message || 'Error al cambiar el estado del hospedaje');
-    }
-};
 
     const handleSidebarOptionClick = (option) => {
         if (option === 'Resumen') {
