@@ -570,7 +570,8 @@ export default function HostDashboard() {
             </div>
           </div>
         </div>
-      )}
-    </div>
+  )
+}
+    </div >
   );
 }
