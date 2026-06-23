@@ -278,7 +278,7 @@ export default function HostDashboard() {
           </ul>
         </nav>
         <div className="sidebar-footer">
-          <button className="btn-new-room">
+          <button className="btn-new-room" onClick={() => setShowRoomModal(true)}>
             <Plus size={14} /> Nueva habitación
           </button>
           <div className="user-info">
@@ -365,7 +365,7 @@ export default function HostDashboard() {
             <section className="rooms-section card">
               <div className="section-header-with-button">
                 <h2 className="section-title">Habitaciones</h2>
-                <button className="btn-new-room-small">
+                <button className="btn-new-room-small" onClick={() => setShowRoomModal(true)}>
                   <Plus size={16} /> Nueva
                 </button>
               </div>
