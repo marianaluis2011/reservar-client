@@ -354,8 +354,7 @@ const SuperAdminDashboard = () => {
                     <SuperAdminMetricCard title="Aprobados" value={loadingStats ? '...' : stats.approvedAccommodations} />
                     <SuperAdminMetricCard title="Admins registrados" value={loadingStats ? '...' : stats.registeredAdmins} />
                 </div>
-
-                {/* <PendingAccommodationsTable /> */}
+                      
                 <RegisteredAccommodationsTable
                     accommodations={accommodations}
                     loading={loadingAccommodations}
