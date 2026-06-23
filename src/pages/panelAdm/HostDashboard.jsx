@@ -201,20 +201,33 @@ export default function HostDashboard() {
     setRoomForm({ ...roomForm, [e.target.name]: e.target.value });
   };
 
-  const handleCreateRoom = async () => {
-    if (!accommodation?._id) {
-      toast.error("No se encontró el hospedaje del owner");
-      return;
-    }
+  const handleSaveRoom = async () => {
+  if (!accommodation?._id) {
+    toast.error("No se encontró el hospedaje del owner");
+    return;
+  }
 
-    if (!roomForm.name || !roomForm.description || !roomForm.maxCapacity || !roomForm.pricePerNight) {
-      toast.error("Completá todos los campos");
-      return;
-    }
+  if (!roomForm.name || !roomForm.description || !roomForm.maxCapacity || !roomForm.pricePerNight) {
+    toast.error("Completá todos los campos");
+    return;
+  }
 
-    try {
-      setSavingRoom(true);
+  try {
+    setSavingRoom(true);
 
+    if (editingRoom) {
+      const res = await updateOwnerRoom(editingRoom._id, {
+        name: roomForm.name,
+        description: roomForm.description,
+        maxCapacity: Number(roomForm.maxCapacity),
+        pricePerNight: Number(roomForm.pricePerNight)
+      });
+
+      toast.success(res.message || "Habitación actualizada correctamente");
+      setRooms((prev) =>
+        prev.map((room) => room._id === editingRoom._id ? (res.room || res.habitacion || res) : room)
+      );
+    } else {
       const res = await createOwnerRoom({
         name: roomForm.name,
         description: roomForm.description,
@@ -225,14 +238,17 @@ export default function HostDashboard() {
 
       toast.success(res.message || "Habitación creada correctamente");
       setRooms((prev) => [...prev, res.room]);
-      setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
-      setShowRoomModal(false);
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Error al crear habitación");
-    } finally {
-      setSavingRoom(false);
     }
-  };
+
+    setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
+    setEditingRoom(null);
+    setShowRoomModal(false);
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Error al guardar habitación");
+  } finally {
+    setSavingRoom(false);
+  }
+};
 
   const handleOpenEditRoom = (room) => {
     setEditingRoom(room);
