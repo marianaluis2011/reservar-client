@@ -14,7 +14,7 @@ export const getRoomsByAccommodation = async (accommodationId) => {
   return data;
 };
 
-export const getRoomsByAccommodation = async (accommodationId) => {
-  const { data } = await axios.get(`${API_BASE}/habitaciones/hospedaje/${accommodationId}`);
+export const getOwnerBookings = async () => {
+  const { data } = await axios.get(`${API_BASE}/reservas/owner`, authHeader());
   return data;
 };
