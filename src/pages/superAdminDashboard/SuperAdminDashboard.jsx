@@ -406,7 +406,10 @@ const SuperAdminDashboard = () => {
                 {showNewAdmin && (
                     <NewAdminModal
                         onClose={() => setShowNewAdmin(false)}
-                        onCreated={() => setRefreshUsers((n) => n + 1)}
+                        onCreated={() => {
+    setRefreshUsers((n) => n + 1);
+    setRefreshDashboard((n) => n + 1);
+}}
                     />
                 )}
             </div>
