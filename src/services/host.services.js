@@ -28,3 +28,8 @@ export const cancelOwnerBooking = async (bookingId) => {
   const { data } = await axios.patch(`${API_BASE}/reservas/${bookingId}/cancelar`, {}, authHeader());
   return data;
 };
+
+export const createOwnerRoom = async (roomData) => {
+  const { data } = await axios.post(`${API_BASE}/habitaciones`, roomData, authHeader());
+  return data;
+};
