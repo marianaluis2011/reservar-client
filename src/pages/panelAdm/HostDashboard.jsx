@@ -158,18 +158,18 @@ export default function HostDashboard() {
   };
 
   const handleConfirmBooking = async (bookingId) => {
-  try {
-    const res = await confirmOwnerBooking(bookingId);
-    toast.success(res.message);
-    setBookings((prev) =>
-      prev.map((booking) =>
-        booking._id === bookingId ? { ...booking, status: "confirmada" } : booking
-      )
-    );
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Error al confirmar la reserva");
-  }
-};
+    try {
+      const res = await confirmOwnerBooking(bookingId);
+      toast.success(res.message);
+      setBookings((prev) =>
+        prev.map((booking) =>
+          booking._id === bookingId ? { ...booking, status: "confirmada" } : booking
+        )
+      );
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error al confirmar la reserva");
+    }
+  };
 
   return (
     <div className="host-dashboard-wrapper">
