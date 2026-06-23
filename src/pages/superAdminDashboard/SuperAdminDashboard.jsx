@@ -193,8 +193,16 @@ const AdminsTable = () => {
 };
 
 const NewAdminModal = ({ onClose, onCreated }) => {
-    const [form, setForm] = useState({ fullName: '', email: '', password: '' });
-    const [enviando, setEnviando] = useState(false);
+   const [form, setForm] = useState({
+  fullName: '',
+  email: '',
+  password: '',
+  accommodationName: '',
+  province: '',
+  whatsapp: ''
+});
+const [provinces, setProvinces] = useState([]);
+const [enviando, setEnviando] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
