@@ -375,10 +375,10 @@ export default function HostDashboard() {
                             <Eye size={14} />
                           </button>
                           {booking.status === "pendiente" && (
-                            <button className="action-icon-btn" title="Confirmar">
-                              <Check size={14} />
-                            </button>
-                          )}
+  <button className="action-icon-btn" title="Confirmar" onClick={() => handleConfirmBooking(booking._id)}>
+    <Check size={14} />
+  </button>
+)}
                           {booking.status !== "cancelada" && (
                             <button className="action-icon-btn" title="Cancelar">
                               <X size={14} />
