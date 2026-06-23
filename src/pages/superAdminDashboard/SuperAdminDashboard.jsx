@@ -61,47 +61,6 @@ const SuperAdminMetricCard = ({ title, value }) => {
     );
 };
 
-// // Placeholder for PendingAccommodationsTable component
-// const PendingAccommodationsTable = () => {
-//     const mockData = [
-//         { name: 'Azure Coast Villa', location: 'Tucumán, Argentina', admin: 'Juan Carlos Pérez', status: 'Pendiente' },
-//         { name: 'Urban Loft Suites', location: 'Córdoba, Argentina', admin: 'Martina Domínguez', status: 'Pendiente' },
-//     ];
-
-//     return (
-//         <div className="table-section">
-//             <h3>HOSPEDAJES PENDIENTES</h3>
-//             <table>
-//                 <thead>
-//                     <tr>
-//                         <th>Nombre</th>
-//                         <th>Provincia / ubicación</th>
-//                         <th>Administrador</th>
-//                         <th>Estado</th>
-//                         <th>Acciones</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     {mockData.map((item, index) => (
-//                         <tr key={index}>
-//                             <td>{item.name}</td>
-//                             <td>{item.location}</td>
-//                             <td>{item.admin}</td>
-//                             <td><span className={`status-badge status-${item.status.toLowerCase()}`}>{item.status}</span></td>
-//                             <td>
-//                                 <button className="action-btn approve">Aprobar</button>
-//                                 <button className="action-btn reject">Rechazar</button>
-//                                 <button className="action-btn view-detail">Ver detalle</button>
-//                             </td>
-//                         </tr>
-//                     ))}
-//                 </tbody>
-//             </table>
-//         </div>
-//     );
-// };
-
-// Placeholder for RegisteredAccommodationsTable component
 const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus }) => {
     if (loading) {
         return <div className="table-section"><h3>HOSPEDAJES REGISTRADOS</h3><p>Cargando hospedajes...</p></div>;
