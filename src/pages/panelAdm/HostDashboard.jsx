@@ -88,6 +88,7 @@ export default function HostDashboard() {
   const [loadingDashboard, setLoadingDashboard] = useState(true);
   const [showRoomModal, setShowRoomModal] = useState(false);
   const [savingRoom, setSavingRoom] = useState(false);
+  const [editingRoom, setEditingRoom] = useState(null);
   const [roomForm, setRoomForm] = useState({
     name: "",
     description: "",
