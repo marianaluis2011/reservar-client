@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useLoginForm } from "./useLogin";
 import { toast } from "sonner";
 import { loginUser } from "../../services/auth.services";
@@ -9,7 +9,7 @@ import "./login.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // ✅ usamos el contexto
+  const { login } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -20,67 +20,42 @@ export default function Login() {
     isSubmitting,
   } = useLoginForm();
 
-const onSubmit = async (data) => {
-  try {
-    // Extraemos rememberMe para NO enviarlo al backend
-    const { email, password, rememberMe } = data;
+  const onSubmit = async (data) => {
+    try {
+      const { email, password, rememberMe } = data;
 
-    const result = await loginUser({
-      email,
-      password,
-    });
+      const result = await loginUser({
+        email,
+        password,
+      });
 
-    // Guarda la sesión en localStorage o sessionStorage
-    login(result.token, result.user, rememberMe);
+      // 🔐 Guardar sesión
+      login(result.token, result.user, rememberMe);
 
-    toast.success("Sesión iniciada correctamente");
+      toast.success("Sesión iniciada correctamente");
 
-    // Redirección por rol
-    switch (result.user.role) {
-      case "guest":
-        navigate("/");
-        break;
+      // 🚀 Redirección por rol (limpia y escalable)
+      const routesByRole = {
+        guest: "/",
+        host: "/host/dashboard",
+        super_admin: "/host/superAdmin",
+      };
 
-      case "host":
-        navigate("/host/dashboard");
-        break;
+      navigate(routesByRole[result.user.role] || "/");
 
-      case "super_admin":
-        navigate("/host/superAdmin");
-        break;
-
-      default:
-        navigate("/");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "Error al iniciar sesión"
+      );
     }
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Error al iniciar sesión");
-  }
-};
+  };
+
   return (
-    // <div className="min-h-screen flex flex-col lg:flex-row">
     <div className="container-one">
-      {/* HEADER MOBILE
-      <div className="lg:hidden bg-gradient-to-r from-slate-700 via-slate-800 to-blue-950 text-white py-6 px-4 text-center">
-        <h1 className="text-3xl font-bold">
-          ReservaHost
-        </h1>
-      </div> */}
 
       {/* PANEL IZQUIERDO */}
-      {/* <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 via-slate-800 to-blue-950 text-white p-12 items-end relative overflow-hidden"> */}
       <div className="panel-left min-h-screen flex flex-col lg:flex-row">
-        {/* <div className="absolute inset-0">
-          <div className="absolute left-0 top-0 h-full w-full bg-blue-950 opacity-50"></div>
-
-          <div
-            className="absolute left-0 top-0 h-full w-full"
-            style={{
-              clipPath: "polygon(0 0, 0 100%, 80% 100%)",
-              background: "rgba(0,0,0,0.15)",
-            }}
-          />
-        </div> */}
-
         <div className="absolute bottom-5 z-10 max-w-md">
           <h1 className="text-5xl font-bold mb-8">
             ReservaHost
@@ -90,15 +65,13 @@ const onSubmit = async (data) => {
             Accede a tu cuenta y continúa gestionando
             tus reservas y hospedajes.
           </h2>
-
-          {/* <div className="w-16 h-1 bg-cyan-400 rounded-full"></div> */}
         </div>
       </div>
 
       {/* PANEL DERECHO */}
-      {/* <div className="flex-1 flex items-center justify-center bg-slate-50 px-6 py-10"> */}
       <div className="panel-rigth">
         <div className="w-full max-w-md">
+
           {/* VOLVER */}
           <button
             type="button"
@@ -109,7 +82,7 @@ const onSubmit = async (data) => {
             Volver
           </button>
 
-          {/* TÍTULO */}
+          {/* TITULO */}
           <h2 className="text-4xl font-bold text-slate-900">
             Iniciar Sesión
           </h2>
@@ -123,6 +96,7 @@ const onSubmit = async (data) => {
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
           >
+
             {/* EMAIL */}
             <div>
               <label className="block text-sm text-slate-700 mb-2">
@@ -151,11 +125,7 @@ const onSubmit = async (data) => {
 
               <div className="relative">
                 <input
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
+                  type={showPassword ? "text" : "password"}
                   {...register("password")}
                   placeholder="••••••••"
                   className="btn-input"
@@ -190,16 +160,8 @@ const onSubmit = async (data) => {
                   type="checkbox"
                   {...register("rememberMe")}
                 />
-
                 Recordarme
               </label>
-
-              <button
-                type="button"
-                className="text-cyan-700 hover:text-cyan-800"
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
             </div>
 
             {/* SUBMIT */}
@@ -212,14 +174,20 @@ const onSubmit = async (data) => {
                 ? "Ingresando..."
                 : "Ingresar"}
             </button>
+
           </form>
 
           {/* REGISTER */}
           <p className="p-register">
             ¿Aún no tienes cuenta?{" "}
-            <button className="font-semibold text-cyan-700 hover:text-cyan-800" onClick={() => navigate("/register")}
-              >Registrarme</button>
+            <button
+              className="font-semibold text-cyan-700 hover:text-cyan-800"
+              onClick={() => navigate("/register")}
+            >
+              Registrarme
+            </button>
           </p>
+
         </div>
       </div>
     </div>
