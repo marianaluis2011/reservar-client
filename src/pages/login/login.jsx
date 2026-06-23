@@ -42,11 +42,11 @@ const onSubmit = async (data) => {
         break;
 
       case "host":
-        navigate("/hostdashboard");
+        navigate("/host/dashboard");
         break;
 
       case "super_admin":
-        navigate("/super-admin");
+        navigate("/host/superAdmin");
         break;
 
       default:
