@@ -88,6 +88,23 @@ export default function HostDashboard() {
 
   // Calendar state (mocked for Oct 2026 as per prompt)
   const [viewDate, setViewDate] = useState(new Date(2026, 9, 1)); // October 2026
+  useEffect(() => {
+  const loadOwnerDashboard = async () => {
+    try {
+      setLoadingDashboard(true);
+      const myAccommodation = await getMyAccommodation();
+      setAccommodation(myAccommodation);
+      const roomsData = await getRoomsByAccommodation(myAccommodation._id);
+      setRooms(roomsData);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error al cargar el panel del hospedaje");
+    } finally {
+      setLoadingDashboard(false);
+    }
+  };
+
+  loadOwnerDashboard();
+}, []);
 
   const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const getFirstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
