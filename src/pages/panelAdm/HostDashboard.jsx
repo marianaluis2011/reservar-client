@@ -87,13 +87,13 @@ export default function HostDashboard() {
   const [bookings, setBookings] = useState([]);
   const [loadingDashboard, setLoadingDashboard] = useState(true);
   const [showRoomModal, setShowRoomModal] = useState(false);
-const [savingRoom, setSavingRoom] = useState(false);
-const [roomForm, setRoomForm] = useState({
-  name: "",
-  description: "",
-  maxCapacity: "",
-  pricePerNight: ""
-});
+  const [savingRoom, setSavingRoom] = useState(false);
+  const [roomForm, setRoomForm] = useState({
+    name: "",
+    description: "",
+    maxCapacity: "",
+    pricePerNight: ""
+  });
 
   // Calendar state (mocked for Oct 2026 as per prompt)
   const [viewDate, setViewDate] = useState(new Date(2026, 9, 1)); // October 2026
