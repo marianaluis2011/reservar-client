@@ -360,8 +360,9 @@ const SuperAdminDashboard = () => {
     };
 
     const handleLogoutClick = () => {
-        navigate('/login'); // Assuming a login page exists
-    };
+    logout();
+    navigate('/login');
+};
 
     return (
         <div className="super-admin-dashboard-layout">
