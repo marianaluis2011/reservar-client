@@ -234,6 +234,17 @@ export default function HostDashboard() {
     }
   };
 
+  const handleOpenEditRoom = (room) => {
+  setEditingRoom(room);
+  setRoomForm({
+    name: room.name || "",
+    description: room.description || "",
+    maxCapacity: room.maxCapacity || "",
+    pricePerNight: room.pricePerNight || ""
+  });
+  setShowRoomModal(true);
+};
+
   return (
     <div className="host-dashboard-wrapper">
       {/* Mobile Sidebar Toggle */}
