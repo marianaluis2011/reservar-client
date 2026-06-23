@@ -172,21 +172,21 @@ export default function HostDashboard() {
   };
 
   const handleCancelBooking = async (bookingId) => {
-  const confirmCancel = window.confirm("¿Querés cancelar esta reserva?");
-  if (!confirmCancel) return;
+    const confirmCancel = window.confirm("¿Querés cancelar esta reserva?");
+    if (!confirmCancel) return;
 
-  try {
-    const res = await cancelOwnerBooking(bookingId);
-    toast.success(res.message);
-    setBookings((prev) =>
-      prev.map((booking) =>
-        booking._id === bookingId ? { ...booking, status: "cancelada" } : booking
-      )
-    );
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Error al cancelar la reserva");
-  }
-};
+    try {
+      const res = await cancelOwnerBooking(bookingId);
+      toast.success(res.message);
+      setBookings((prev) =>
+        prev.map((booking) =>
+          booking._id === bookingId ? { ...booking, status: "cancelada" } : booking
+        )
+      );
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error al cancelar la reserva");
+    }
+  };
 
   return (
     <div className="host-dashboard-wrapper">
