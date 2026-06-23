@@ -22,7 +22,7 @@ import {
   Banknote,
 } from "lucide-react";
 import "./HostDashboard.css";
-import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings } from "../../services/host.services.js";
+import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings } from "../../services/host.services.js";  
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast } from "sonner";
 
@@ -84,6 +84,7 @@ export default function HostDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [accommodation, setAccommodation] = useState(null);
   const [rooms, setRooms] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [loadingDashboard, setLoadingDashboard] = useState(true);
 
   // Calendar state (mocked for Oct 2026 as per prompt)
