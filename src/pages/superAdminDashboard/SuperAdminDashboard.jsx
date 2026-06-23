@@ -124,13 +124,25 @@ const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus
                     {accommodations.map((item) => (
                         <tr key={item._id}>
                             <td>{item.name}</td>
-                            <td>{item.location}</td>
-                            <td>{item.admin}</td>
-                            <td><span className={`status-badge status-${item.status.toLowerCase()}`}>{item.status}</span></td>
+                            <td>{item.province?.name || 'Sin provincia'}</td>
+                            <td>{item.admin?.fullName || item.admin?.email || 'Sin administrador'}</td>
+                            <td><span className={`status-badge status-${item.status}`}>{item.status}</span></td>
                             <td>
-                                <button className="action-btn activate">Activar</button>
-                                <button className="action-btn suspend">Suspender</button>
-                                <button className="action-btn view-detail">Ver detalle</button>
+                                {item.status !== 'aprobado' && (
+                                    <button className="action-btn activate" onClick={() => onChangeStatus(item._id, 'aprobado')}>
+                                        Aprobar
+                                    </button>
+                                )}
+                                {item.status !== 'suspendido' && (
+                                    <button className="action-btn suspend" onClick={() => onChangeStatus(item._id, 'suspendido')}>
+                                        Suspender
+                                    </button>
+                                )}
+                                {item.status === 'suspendido' && (
+                                    <button className="action-btn activate" onClick={() => onChangeStatus(item._id, 'aprobado')}>
+                                        Reactivar
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}
