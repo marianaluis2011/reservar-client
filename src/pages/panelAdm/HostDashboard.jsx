@@ -196,6 +196,43 @@ export default function HostDashboard() {
     }
   };
 
+  const handleRoomFormChange = (e) => {
+  setRoomForm({ ...roomForm, [e.target.name]: e.target.value });
+};
+
+const handleCreateRoom = async () => {
+  if (!accommodation?._id) {
+    toast.error("No se encontró el hospedaje del owner");
+    return;
+  }
+
+  if (!roomForm.name || !roomForm.description || !roomForm.maxCapacity || !roomForm.pricePerNight) {
+    toast.error("Completá todos los campos");
+    return;
+  }
+
+  try {
+    setSavingRoom(true);
+
+    const res = await createOwnerRoom({
+      name: roomForm.name,
+      description: roomForm.description,
+      maxCapacity: Number(roomForm.maxCapacity),
+      pricePerNight: Number(roomForm.pricePerNight),
+      accommodation: accommodation._id
+    });
+
+    toast.success(res.message || "Habitación creada correctamente");
+    setRooms((prev) => [...prev, res.room]);
+    setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
+    setShowRoomModal(false);
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Error al crear habitación");
+  } finally {
+    setSavingRoom(false);
+  }
+};
+
   return (
     <div className="host-dashboard-wrapper">
       {/* Mobile Sidebar Toggle */}
