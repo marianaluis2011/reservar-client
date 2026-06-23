@@ -5,6 +5,7 @@ import { useLoginForm } from "./useLogin";
 import { toast } from "sonner";
 import { loginUser } from "../../services/auth.services";
 import { AuthContext } from "../../context/AuthContext";
+import "./login.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -56,17 +57,19 @@ const onSubmit = async (data) => {
   }
 };
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* HEADER MOBILE */}
+    // <div className="min-h-screen flex flex-col lg:flex-row">
+    <div className="container-one">
+      {/* HEADER MOBILE
       <div className="lg:hidden bg-gradient-to-r from-slate-700 via-slate-800 to-blue-950 text-white py-6 px-4 text-center">
         <h1 className="text-3xl font-bold">
           ReservaHost
         </h1>
-      </div>
+      </div> */}
 
       {/* PANEL IZQUIERDO */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 via-slate-800 to-blue-950 text-white p-12 items-end relative overflow-hidden">
-        <div className="absolute inset-0">
+      {/* <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 via-slate-800 to-blue-950 text-white p-12 items-end relative overflow-hidden"> */}
+      <div className="panel-left min-h-screen flex flex-col lg:flex-row">
+        {/* <div className="absolute inset-0">
           <div className="absolute left-0 top-0 h-full w-full bg-blue-950 opacity-50"></div>
 
           <div
@@ -76,9 +79,9 @@ const onSubmit = async (data) => {
               background: "rgba(0,0,0,0.15)",
             }}
           />
-        </div>
+        </div> */}
 
-        <div className="relative z-10 max-w-md">
+        <div className="absolute bottom-5 z-10 max-w-md">
           <h1 className="text-5xl font-bold mb-8">
             ReservaHost
           </h1>
@@ -88,12 +91,13 @@ const onSubmit = async (data) => {
             tus reservas y hospedajes.
           </h2>
 
-          <div className="w-16 h-1 bg-cyan-400 rounded-full"></div>
+          {/* <div className="w-16 h-1 bg-cyan-400 rounded-full"></div> */}
         </div>
       </div>
 
       {/* PANEL DERECHO */}
-      <div className="flex-1 flex items-center justify-center bg-slate-50 px-6 py-10">
+      {/* <div className="flex-1 flex items-center justify-center bg-slate-50 px-6 py-10"> */}
+      <div className="panel-rigth">
         <div className="w-full max-w-md">
           {/* VOLVER */}
           <button
@@ -110,7 +114,7 @@ const onSubmit = async (data) => {
             Iniciar Sesión
           </h2>
 
-          <p className="text-slate-500 mt-3 mb-10">
+          <p className="p-title">
             Ingresa tus credenciales para continuar.
           </p>
 
@@ -129,7 +133,7 @@ const onSubmit = async (data) => {
                 type="email"
                 {...register("email")}
                 placeholder="ejemplo@reservahost.com"
-                className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="btn-input"
               />
 
               {errors.email && (
@@ -154,7 +158,7 @@ const onSubmit = async (data) => {
                   }
                   {...register("password")}
                   placeholder="••••••••"
-                  className="w-full border border-slate-300 rounded-lg px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  className="btn-input"
                 />
 
                 <button
@@ -202,7 +206,7 @@ const onSubmit = async (data) => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-cyan-400 hover:bg-cyan-500 disabled:opacity-50 text-slate-800 font-semibold py-3 rounded-lg transition-colors"
+              className="btn-register"
             >
               {isSubmitting
                 ? "Ingresando..."
@@ -211,17 +215,10 @@ const onSubmit = async (data) => {
           </form>
 
           {/* REGISTER */}
-          <p className="text-center text-sm text-slate-500 mt-10">
+          <p className="p-register">
             ¿Aún no tienes cuenta?{" "}
-            <button
-              type="button"
-              onClick={() =>
-                navigate("/register")
-              }
-              className="font-semibold text-cyan-700 hover:text-cyan-800"
-            >
-              Registrarme
-            </button>
+            <button className="font-semibold text-cyan-700 hover:text-cyan-800" onClick={() => navigate("/register")}
+              >Registrarme</button>
           </p>
         </div>
       </div>
