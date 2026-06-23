@@ -193,16 +193,16 @@ const AdminsTable = () => {
 };
 
 const NewAdminModal = ({ onClose, onCreated }) => {
-   const [form, setForm] = useState({
-  fullName: '',
-  email: '',
-  password: '',
-  accommodationName: '',
-  province: '',
-  whatsapp: ''
-});
-const [provinces, setProvinces] = useState([]);
-const [enviando, setEnviando] = useState(false);
+    const [form, setForm] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        accommodationName: '',
+        province: '',
+        whatsapp: ''
+    });
+    const [provinces, setProvinces] = useState([]);
+    const [enviando, setEnviando] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -363,7 +363,7 @@ const SuperAdminDashboard = () => {
                     <SuperAdminMetricCard title="Aprobados" value={loadingStats ? '...' : stats.approvedAccommodations} />
                     <SuperAdminMetricCard title="Admins registrados" value={loadingStats ? '...' : stats.registeredAdmins} />
                 </div>
-                      
+
                 <RegisteredAccommodationsTable
                     accommodations={accommodations}
                     loading={loadingAccommodations}
