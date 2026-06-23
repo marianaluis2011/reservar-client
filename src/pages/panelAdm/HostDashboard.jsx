@@ -526,7 +526,7 @@ export default function HostDashboard() {
   setShowRoomModal(false);
   setEditingRoom(null);
   setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
-}}
+}}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>{editingRoom ? "Editar habitación" : "Nueva habitación"}</h3>
 
