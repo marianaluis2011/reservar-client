@@ -263,6 +263,32 @@ const NewAdminModal = ({ onClose, onCreated }) => {
                     value={form.password}
                     onChange={handleChange}
                 />
+                <input
+    name="accommodationName"
+    placeholder="Nombre del hospedaje"
+    value={form.accommodationName}
+    onChange={handleChange}
+/>
+
+<select
+    name="province"
+    value={form.province}
+    onChange={handleChange}
+>
+    <option value="">Seleccionar provincia</option>
+    {provinces.map((province) => (
+        <option key={province._id} value={province._id}>
+            {province.name}
+        </option>
+    ))}
+</select>
+
+<input
+    name="whatsapp"
+    placeholder="WhatsApp del hospedaje"
+    value={form.whatsapp}
+    onChange={handleChange}
+/>
                 <div className="modal-actions">
                     <button className="action-btn" onClick={onClose} disabled={enviando}>
                         Cancelar
