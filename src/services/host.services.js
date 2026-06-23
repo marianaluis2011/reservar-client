@@ -18,3 +18,8 @@ export const getOwnerBookings = async () => {
     const { data } = await axios.get(`${API_BASE}/reservas/owner`, authHeader());
     return data;
 };
+
+export const confirmOwnerBooking = async (bookingId) => {
+  const { data } = await axios.patch(`${API_BASE}/reservas/${bookingId}/confirmar`, {}, authHeader());
+  return data;
+};
