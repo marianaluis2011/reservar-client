@@ -337,37 +337,47 @@ const formatBookingStatus = (status) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {dashboardData.recentBookings.map((booking) => (
-                    <tr key={booking.id}>
-                      <td>{booking.guestName}</td>
-                      <td>{booking.roomName}</td>
-                      <td>{booking.dates}</td>
-                      <td>
-                        <span className={`status-badge ${booking.status.toLowerCase()}`}>
-                          {booking.status}
-                        </span>
-                      </td>
-                      <td className="booking-actions">
-                        <button className="action-icon-btn" title="Ver detalle">
-                          <Eye size={14} />
-                        </button>
-                        {booking.status === "Pendiente" && (
-                          <button className="action-icon-btn" title="Confirmar">
-                            <Check size={14} />
-                          </button>
-                        )}
-                        {booking.status !== "Cancelada" && (
-                          <button className="action-icon-btn" title="Cancelar">
-                            <X size={14} />
-                          </button>
-                        )}
-                        <button className="action-icon-btn" title="Contactar por WhatsApp">
-                          <MessageSquare size={14} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+  {loadingDashboard ? (
+    <tr>
+      <td colSpan="5">Cargando reservas...</td>
+    </tr>
+  ) : bookings.length === 0 ? (
+    <tr>
+      <td colSpan="5">No hay reservas registradas.</td>
+    </tr>
+  ) : (
+    bookings.slice(0, 5).map((booking) => (
+      <tr key={booking._id}>
+        <td>{booking.user?.fullName || booking.user?.email || "Cliente"}</td>
+        <td>{booking.room?.name || "Habitación"}</td>
+        <td>{formatBookingDates(booking.checkIn, booking.checkOut)}</td>
+        <td>
+          <span className={`status-badge ${booking.status}`}>
+            {formatBookingStatus(booking.status)}
+          </span>
+        </td>
+        <td className="booking-actions">
+          <button className="action-icon-btn" title="Ver detalle">
+            <Eye size={14} />
+          </button>
+          {booking.status === "pendiente" && (
+            <button className="action-icon-btn" title="Confirmar">
+              <Check size={14} />
+            </button>
+          )}
+          {booking.status !== "cancelada" && (
+            <button className="action-icon-btn" title="Cancelar">
+              <X size={14} />
+            </button>
+          )}
+          <button className="action-icon-btn" title="Contactar por WhatsApp">
+            <MessageSquare size={14} />
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
               </table>
             </div>
           </section>
