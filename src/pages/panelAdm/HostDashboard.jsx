@@ -140,6 +140,23 @@ export default function HostDashboard() {
     setIsSidebarOpen(false); // Close sidebar on navigation for mobile
   };
 
+  const formatBookingDates = (checkIn, checkOut) => {
+  const options = { day: "2-digit", month: "short" };
+  const start = new Date(checkIn).toLocaleDateString("es-AR", options);
+  const end = new Date(checkOut).toLocaleDateString("es-AR", options);
+  return `${start} - ${end}`;
+};
+
+const formatBookingStatus = (status) => {
+  const labels = {
+    pendiente: "Pendiente",
+    confirmada: "Confirmada",
+    cancelada: "Cancelada",
+    completada: "Completada",
+  };
+  return labels[status] || status;
+};
+
   return (
     <div className="host-dashboard-wrapper">
       {/* Mobile Sidebar Toggle */}
