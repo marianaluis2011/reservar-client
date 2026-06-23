@@ -22,7 +22,7 @@ import {
   Banknote,
 } from "lucide-react";
 import "./HostDashboard.css";
-import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings, confirmOwnerBooking, cancelOwnerBooking, createOwnerRoom, updateOwnerRoom } from "../../services/host.services.js";
+import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings, confirmOwnerBooking, cancelOwnerBooking, createOwnerRoom, updateOwnerRoom, updateMyAccommodation } from "../../services/host.services.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast } from "sonner";
 
@@ -94,6 +94,14 @@ export default function HostDashboard() {
     description: "",
     maxCapacity: "",
     pricePerNight: ""
+  });
+  const [showAccommodationModal, setShowAccommodationModal] = useState(false);
+  const [savingAccommodation, setSavingAccommodation] = useState(false);
+  const [accommodationForm, setAccommodationForm] = useState({
+    name: "",
+    description: "",
+    whatsapp: "",
+    depositPercentage: ""
   });
 
   // Calendar state (mocked for Oct 2026 as per prompt)
@@ -261,6 +269,57 @@ export default function HostDashboard() {
     setShowRoomModal(true);
   };
 
+  const handleOpenAccommodationModal = () => {
+    if (!accommodation) {
+      toast.error("No se encontró el hospedaje");
+      return;
+    }
+
+    setAccommodationForm({
+      name: accommodation.name || "",
+      description: accommodation.description || "",
+      whatsapp: accommodation.whatsapp || "",
+      depositPercentage: accommodation.depositPercentage ?? ""
+    });
+
+    setShowAccommodationModal(true);
+  };
+
+  const handleAccommodationFormChange = (e) => {
+    setAccommodationForm({ ...accommodationForm, [e.target.name]: e.target.value });
+  };
+
+  const handleSaveAccommodation = async () => {
+    if (!accommodation?._id) {
+      toast.error("No se encontró el hospedaje");
+      return;
+    }
+
+    if (!accommodationForm.name || !accommodationForm.description || !accommodationForm.whatsapp) {
+      toast.error("Completá nombre, descripción y WhatsApp");
+      return;
+    }
+
+    try {
+      setSavingAccommodation(true);
+
+      const res = await updateMyAccommodation(accommodation._id, {
+        name: accommodationForm.name,
+        description: accommodationForm.description,
+        whatsapp: accommodationForm.whatsapp,
+        depositPercentage: Number(accommodationForm.depositPercentage || 0)
+      });
+
+      toast.success(res.message || "Hospedaje actualizado correctamente");
+      setAccommodation(res.accommodation || res.hospedaje || res);
+      setShowAccommodationModal(false);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error al actualizar el hospedaje");
+    } finally {
+      setSavingAccommodation(false);
+    }
+  };
+
   return (
     <div className="host-dashboard-wrapper">
       {/* Mobile Sidebar Toggle */}
@@ -275,7 +334,7 @@ export default function HostDashboard() {
       {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <h2 className="accommodation-name">
+          <h2 className="accommodation-name" onClick={handleOpenAccommodationModal}>
             {accommodation?.name || "Mi hospedaje"}
           </h2>
           <p className="admin-panel-subtitle">Panel Administrativo</p>
@@ -288,7 +347,7 @@ export default function HostDashboard() {
             >
               <Home size={16} /> Resumen
             </li>
-            <li onClick={() => handleSidebarNavigation("/host/my-accommodation")}>
+            <li onClick={handleOpenAccommodationModal}>
               <Building2 size={16} /> Mi hospedaje
             </li>
             <li onClick={() => handleSidebarNavigation("/host/bookings")}>
@@ -574,6 +633,57 @@ export default function HostDashboard() {
         </div>
       )
       }
+      {showAccommodationModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowAccommodationModal(false)}
+        >
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Editar hospedaje</h3>
+
+            <input
+              name="name"
+              placeholder="Nombre del hospedaje"
+              value={accommodationForm.name}
+              onChange={handleAccommodationFormChange}
+            />
+
+            <textarea
+              name="description"
+              placeholder="Descripción del hospedaje"
+              value={accommodationForm.description}
+              onChange={handleAccommodationFormChange}
+            />
+
+            <input
+              name="whatsapp"
+              placeholder="WhatsApp"
+              value={accommodationForm.whatsapp}
+              onChange={handleAccommodationFormChange}
+            />
+
+            <input
+              name="depositPercentage"
+              type="number"
+              placeholder="Porcentaje de seña"
+              value={accommodationForm.depositPercentage}
+              onChange={handleAccommodationFormChange}
+            />
+
+            <div className="modal-actions">
+              <button onClick={() => setShowAccommodationModal(false)} disabled={savingAccommodation}>
+                Cancelar
+              </button>
+              <button onClick={handleSaveAccommodation} disabled={savingAccommodation}>
+                {savingAccommodation ? "Guardando..." : "Guardar cambios"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div >
   );
 }
