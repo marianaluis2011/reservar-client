@@ -22,7 +22,7 @@ import {
   Banknote,
 } from "lucide-react";
 import "./HostDashboard.css";
-import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings, confirmOwnerBooking, cancelOwnerBooking, createOwnerRoom, updateOwnerRoom, updateMyAccommodation } from "../../services/host.services.js";
+import { getMyAccommodation, getRoomsByAccommodation, getOwnerBookings, confirmOwnerBooking, cancelOwnerBooking, createOwnerRoom, updateOwnerRoom, updateMyAccommodation, createOwnerBooking } from "../../services/host.services.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast } from "sonner";
 
@@ -102,6 +102,14 @@ export default function HostDashboard() {
     description: "",
     whatsapp: "",
     depositPercentage: ""
+  });
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [savingBooking, setSavingBooking] = useState(false);
+  const [bookingForm, setBookingForm] = useState({
+    guestEmail: "",
+    room: "",
+    checkIn: "",
+    checkOut: ""
   });
 
   // Calendar state (mocked for Oct 2026 as per prompt)
@@ -320,6 +328,37 @@ export default function HostDashboard() {
     }
   };
 
+  const handleBookingFormChange = (e) => {
+    setBookingForm({ ...bookingForm, [e.target.name]: e.target.value });
+  };
+
+  const handleCreateBooking = async () => {
+    if (!bookingForm.guestEmail || !bookingForm.room || !bookingForm.checkIn || !bookingForm.checkOut) {
+      toast.error("Completá cliente, habitación y fechas");
+      return;
+    }
+
+    try {
+      setSavingBooking(true);
+
+      const res = await createOwnerBooking({
+        guestEmail: bookingForm.guestEmail,
+        room: bookingForm.room,
+        checkIn: bookingForm.checkIn,
+        checkOut: bookingForm.checkOut
+      });
+
+      toast.success(res.message);
+      setBookings((prev) => [res.booking, ...prev]);
+      setBookingForm({ guestEmail: "", room: "", checkIn: "", checkOut: "" });
+      setShowBookingModal(false);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error al crear reserva");
+    } finally {
+      setSavingBooking(false);
+    }
+  };
+
   return (
     <div className="host-dashboard-wrapper">
       {/* Mobile Sidebar Toggle */}
@@ -386,7 +425,7 @@ export default function HostDashboard() {
             </p>
           </div>
           <div className="top-bar-actions">
-            <button className="btn-new-booking">
+            <button className="btn-new-booking" onClick={() => setShowBookingModal(true)}>
               <Plus size={16} /> Nueva reserva
             </button>
             <span className="badge badge-whatsapp">
@@ -679,6 +718,57 @@ export default function HostDashboard() {
               </button>
               <button onClick={handleSaveAccommodation} disabled={savingAccommodation}>
                 {savingAccommodation ? "Guardando..." : "Guardar cambios"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showBookingModal && (
+        <div className="modal-overlay" onClick={() => setShowBookingModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Nueva reserva</h3>
+
+            <input
+              name="guestEmail"
+              type="email"
+              placeholder="Email del cliente registrado"
+              value={bookingForm.guestEmail}
+              onChange={handleBookingFormChange}
+            />
+
+            <select
+              name="room"
+              value={bookingForm.room}
+              onChange={handleBookingFormChange}
+            >
+              <option value="">Seleccionar habitación</option>
+              {rooms.map((room) => (
+                <option key={room._id} value={room._id}>
+                  {room.name} - ${room.pricePerNight}
+                </option>
+              ))}
+            </select>
+
+            <input
+              name="checkIn"
+              type="date"
+              value={bookingForm.checkIn}
+              onChange={handleBookingFormChange}
+            />
+
+            <input
+              name="checkOut"
+              type="date"
+              value={bookingForm.checkOut}
+              onChange={handleBookingFormChange}
+            />
+
+            <div className="modal-actions">
+              <button onClick={() => setShowBookingModal(false)} disabled={savingBooking}>
+                Cancelar
+              </button>
+              <button onClick={handleCreateBooking} disabled={savingBooking}>
+                {savingBooking ? "Creando..." : "Crear reserva"}
               </button>
             </div>
           </div>
