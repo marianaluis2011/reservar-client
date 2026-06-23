@@ -562,13 +562,21 @@ export default function HostDashboard() {
                           <button className="action-icon-btn" title="Ver detalle">
                             <Eye size={14} />
                           </button>
-                          {booking.status === "pendiente" && (
-                            <button className="action-icon-btn" title="Confirmar" onClick={() => handleConfirmBooking(booking._id)}>
+                          {(booking.status === "pendiente" || booking.status === "cancelada") && (
+                            <button
+                              className="action-icon-btn"
+                              title={booking.status === "cancelada" ? "Reactivar reserva" : "Aprobar reserva"}
+                              onClick={() => handleConfirmBooking(booking._id)}
+                            >
                               <Check size={14} />
                             </button>
                           )}
                           {booking.status !== "cancelada" && (
-                            <button className="action-icon-btn" title="Cancelar" onClick={() => handleCancelBooking(booking._id)}>
+                            <button
+                              className="action-icon-btn"
+                              title={booking.status === "pendiente" ? "Rechazar reserva" : "Cancelar reserva"}
+                              onClick={() => handleCancelBooking(booking._id)}
+                            >
                               <X size={14} />
                             </button>
                           )}
