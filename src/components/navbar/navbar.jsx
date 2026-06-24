@@ -90,14 +90,14 @@ onClick={() => navigate('/')}
         className="btn-login"
         onClick={() => navigate('/login')}
       >
-        Login
+        Iniciar Sesión
       </button>
 
       <button
         className="btn-register"
         onClick={() => navigate('/register')}
       >
-        Register
+        Registrarse
       </button>
     </div>
   )}
