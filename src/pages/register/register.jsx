@@ -424,7 +424,7 @@ export default function Register() {
                     checked={termsAccepted}
                     onChange={() => setIsModalOpen(true)}
                   />
-                  <span>Términos y Servicios</span>
+                  <span>Acepto Términos y Servicios</span>
                 </label>
                 {/* Render del modal */}
                 <TermsModal
