@@ -76,11 +76,9 @@ onClick={() => navigate('/')}
         </a>
       </li>
 
-      <li>
-        <a href="#nosotros">
-          Nosotros
-        </a>
-      </li>
+      <li onClick={() => navigate("/about")}>
+      Nosotros
+    </li>
     </ul>
   )}
 

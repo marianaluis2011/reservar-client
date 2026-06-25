@@ -37,13 +37,14 @@
   padding: 0;
 }
 
-.navbar-links li a {
+.navbar-links li {
   color: #e2e8f0;
   text-decoration: none;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
-.navbar-links li a:hover {
+.navbar-links li:hover {
   color: #63b3ed;
 }
 
