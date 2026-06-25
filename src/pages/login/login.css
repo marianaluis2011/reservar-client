@@ -1,8 +1,12 @@
 .container-one {
     display: flex;
-    /* justify-content: column; */
     height: 100dvh;
 }
+
+.container-one>div>div {
+align-self: center;
+}
+
 .panel-left {
     width: 50%;
     height: 100vh;
