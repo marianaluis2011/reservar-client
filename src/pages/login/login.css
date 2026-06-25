@@ -90,8 +90,7 @@ content: "";
   width: 100%;
   background-color: #004aad;
   color: #ffffff;
-  cursor: pointer;
-}
+  }
 
 .btn-register:hover {
   background-color: #001f3f;
@@ -100,6 +99,9 @@ content: "";
   box-shadow: 0 10px 20px -5px rgba(26, 54, 93, 0.3);
 }
 
+button {
+    cursor: pointer;
+}
 
 @media (max-width: 768px) {
   .container-one {
