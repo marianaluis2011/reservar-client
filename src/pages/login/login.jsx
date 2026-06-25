@@ -56,7 +56,7 @@ export default function Login() {
 
       {/* PANEL IZQUIERDO */}
       <div className="panel-left min-h-screen flex flex-col lg:flex-row">
-        <div className="absolute bottom-5 z-10 max-w-md">
+        {/* <div className="absolute bottom-5 z-10 max-w-md">
           <h1 className="text-5xl font-bold mb-8">
             ReservaHost
           </h1>
@@ -65,7 +65,7 @@ export default function Login() {
             Accede a tu cuenta y continúa gestionando
             tus reservas y hospedajes.
           </h2>
-        </div>
+        </div> */}
       </div>
 
       {/* PANEL DERECHO */}
@@ -184,7 +184,7 @@ export default function Login() {
               className="font-semibold text-cyan-700 hover:text-cyan-800"
               onClick={() => navigate("/register")}
             >
-              Registrarme
+              Registrarse
             </button>
           </p>
 
