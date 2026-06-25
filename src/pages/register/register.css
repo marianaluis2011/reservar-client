@@ -1,9 +1,12 @@
-.container-header {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    border: 1px solid #1A365D;
-    border-radius: 10px;
-
+.container-header{
+    width:100%;
+    max-width:1000px;
+    min-height:900px;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
 }
 .form-body {
     padding: 20px 20px 40px 20px;
