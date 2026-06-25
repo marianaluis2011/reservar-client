@@ -129,4 +129,7 @@ content: "";
     padding: auto;
     margin:auto
   }
+  .mobile-menu-btn {
+    display: none
+  }
 }
