@@ -12,6 +12,7 @@ import './SuperAdminDashboard.css';
 import { getUsuarios, cambiarEstadoUsuario, crearAdmin } from '../../services/user.services.js';
 import { getDashboardStats } from '../../services/admin.services.js';
 import { getAllAccommodationsForAdmin, changeAccommodationStatus } from '../../services/accommodation.services.js';
+import { getProvinces } from '../../services/province.services.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { toast } from 'sonner';
 
@@ -192,15 +193,36 @@ const AdminsTable = () => {
 };
 
 const NewAdminModal = ({ onClose, onCreated }) => {
-    const [form, setForm] = useState({ fullName: '', email: '', password: '' });
+    const [form, setForm] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        accommodationName: '',
+        province: '',
+        whatsapp: ''
+    });
+    const [provinces, setProvinces] = useState([]);
     const [enviando, setEnviando] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    useEffect(() => {
+        const loadProvinces = async () => {
+            try {
+                const data = await getProvinces();
+                setProvinces(data);
+            } catch (error) {
+                toast.error('Error al cargar provincias');
+            }
+        };
+
+        loadProvinces();
+    }, []);
+
     const handleSubmit = async () => {
-        if (!form.fullName || !form.email || !form.password) {
+        if (!form.fullName || !form.email || !form.password || !form.accommodationName || !form.province || !form.whatsapp) {
             toast.error('Completá todos los campos');
             return;
         }
@@ -239,6 +261,32 @@ const NewAdminModal = ({ onClose, onCreated }) => {
                     type="password"
                     placeholder="Contraseña"
                     value={form.password}
+                    onChange={handleChange}
+                />
+                <input
+                    name="accommodationName"
+                    placeholder="Nombre del hospedaje"
+                    value={form.accommodationName}
+                    onChange={handleChange}
+                />
+
+                <select
+                    name="province"
+                    value={form.province}
+                    onChange={handleChange}
+                >
+                    <option value="">Seleccionar provincia</option>
+                    {provinces.map((province) => (
+                        <option key={province._id} value={province._id}>
+                            {province.name}
+                        </option>
+                    ))}
+                </select>
+
+                <input
+                    name="whatsapp"
+                    placeholder="WhatsApp del hospedaje"
+                    value={form.whatsapp}
                     onChange={handleChange}
                 />
                 <div className="modal-actions">
@@ -354,7 +402,7 @@ const SuperAdminDashboard = () => {
                     <SuperAdminMetricCard title="Aprobados" value={loadingStats ? '...' : stats.approvedAccommodations} />
                     <SuperAdminMetricCard title="Admins registrados" value={loadingStats ? '...' : stats.registeredAdmins} />
                 </div>
-                      
+
                 <RegisteredAccommodationsTable
                     accommodations={accommodations}
                     loading={loadingAccommodations}

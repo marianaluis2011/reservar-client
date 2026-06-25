@@ -5,10 +5,13 @@
 .host-dashboard-wrapper {
     display: flex;
     min-height: 100vh;
-    background-color: #f8fafc; /* Light background */
+    background-color: #f8fafc;
+    /* Light background */
     font-family: system-ui, -apple-system, sans-serif;
-    color: #0f172a; /* Dark text */
-    text-align: left; /* Reset del text-align: center de index.css */
+    color: #0f172a;
+    /* Dark text */
+    text-align: left;
+    /* Reset del text-align: center de index.css */
     width: 100%;
     overflow-x: hidden;
 }
@@ -25,19 +28,22 @@
     padding: 0.5rem 0.75rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    display: block; /* Show on mobile */
+    display: block;
+    /* Show on mobile */
 }
 
 @media (min-width: 1024px) {
     .mobile-sidebar-toggle {
-        display: none; /* Hide on desktop */
+        display: none;
+        /* Hide on desktop */
     }
 }
 
 /* Sidebar */
 .sidebar {
     width: 170px;
-    background-color: #1A365D; /* Dark blue */
+    background-color: #1A365D;
+    /* Dark blue */
     color: white;
     padding: 1rem;
     display: flex;
@@ -51,7 +57,8 @@
 }
 
 .sidebar.open {
-    transform: translateX(0); /* Show when open */
+    transform: translateX(0);
+    /* Show when open */
 }
 
 @media (min-width: 1024px) {
@@ -97,11 +104,13 @@
 }
 
 .sidebar-nav li:hover {
-    background-color: #2d4a73; /* Slightly lighter blue on hover */
+    background-color: #2d4a73;
+    /* Slightly lighter blue on hover */
 }
 
 .sidebar-nav li.active {
-    background-color: #2563eb; /* Active item blue */
+    background-color: #2563eb;
+    /* Active item blue */
     color: white;
 }
 
@@ -110,7 +119,8 @@
 }
 
 .sidebar-footer {
-    margin-top: auto; /* Pushes content to the bottom */
+    margin-top: auto;
+    /* Pushes content to the bottom */
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -121,7 +131,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background-color: #2563eb; /* Blue button */
+    background-color: #2563eb;
+    /* Blue button */
     color: white;
     padding: 0.5rem;
     border: none;
@@ -153,13 +164,167 @@
 .main-content {
     flex-grow: 1;
     flex-basis: 0;
-    min-width: 0; /* Permite que el contenido se encoja si es necesario */
+    min-width: 0;
+    /* Permite que el contenido se encoja si es necesario */
     padding: 2rem;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    width: min(420px, 92vw);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.modal-content h3 {
+    margin: 0 0 0.5rem;
+    color: #1A365D;
+}
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    padding: 0.7rem;
+    font: inherit;
+}
+
+.modal-content textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.modal-actions button {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.65rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.modal-actions button:last-child {
+    background: #2563eb;
+    color: white;
+}
+
+.calendar-day {
+    position: relative;
+}
+
+.calendar-tooltip {
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 180px;
+    background: #0f172a;
+    color: white;
+    border-radius: 0.6rem;
+    padding: 0.6rem;
+    font-size: 0.75rem;
+    z-index: 50;
+    display: none;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+}
+
+.calendar-day:hover .calendar-tooltip {
+    display: block;
+}
+
+.calendar-tooltip-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.calendar-tooltip-item+.calendar-tooltip-item {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.calendar-tooltip-item strong {
+    font-size: 0.78rem;
+}
+
+.calendar-tooltip-item span {
+    color: #cbd5e1;
+}
+
+.calendar-tooltip-item small {
+    color: #93c5fd;
+}
+
+.booking-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.booking-detail-list p {
+  margin: 0;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.booking-detail-list strong {
+  color: #0f172a;
+}
+
+.bookings-modal {
+  width: min(900px, 95vw);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.all-bookings-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.all-bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.all-bookings-table th,
+.all-bookings-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.all-bookings-table th {
+  color: #475569;
+  font-weight: 700;
+  background: #f8fafc;
 }
 
 @media (max-width: 1023px) {
     .main-content {
-        margin-left: 0; 
+        margin-left: 0;
         max-width: 100%;
         padding: 1rem;
     }
@@ -228,13 +393,17 @@
 }
 
 .badge-whatsapp {
-    background-color: #dcfce7; /* Light green */
-    color: #16a34a; /* Darker green */
+    background-color: #dcfce7;
+    /* Light green */
+    color: #16a34a;
+    /* Darker green */
 }
 
 .badge-deposit {
-    background-color: #e0f2fe; /* Light blue */
-    color: #0284c7; /* Darker blue */
+    background-color: #e0f2fe;
+    /* Light blue */
+    color: #0284c7;
+    /* Darker blue */
 }
 
 /* Dashboard Grid Layout */
@@ -368,7 +537,8 @@
     background-color: #fee2e2;
     color: #b91c1c;
     font-weight: 600;
-    border-radius: 0.5rem; /* Más cuadrado para estados de ocupación */
+    border-radius: 0.5rem;
+    /* Más cuadrado para estados de ocupación */
 }
 
 .calendar-day.pending {
@@ -387,7 +557,8 @@
 
 /* Recent Bookings Section */
 .bookings-table-container {
-    overflow-x: auto; /* Enable horizontal scroll on small screens */
+    overflow-x: auto;
+    /* Enable horizontal scroll on small screens */
 }
 
 .bookings-table {
@@ -444,7 +615,7 @@
 .action-icon-btn {
     background: none;
     border: none;
-color: #64748b;
+    color: #64748b;
     cursor: pointer;
     padding: 0.3rem;
     border-radius: 0.3rem;
@@ -572,7 +743,7 @@ color: #64748b;
 }
 
 /* Ajuste para que las imágenes no rompan el layout */
-.room-card-compact img, 
+.room-card-compact img,
 .calendar-grid div {
     max-width: 100%;
 }
