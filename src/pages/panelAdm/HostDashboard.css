@@ -276,6 +276,52 @@
     color: #93c5fd;
 }
 
+.booking-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.booking-detail-list p {
+  margin: 0;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.booking-detail-list strong {
+  color: #0f172a;
+}
+
+.bookings-modal {
+  width: min(900px, 95vw);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.all-bookings-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.all-bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.all-bookings-table th,
+.all-bookings-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.all-bookings-table th {
+  color: #475569;
+  font-weight: 700;
+  background: #f8fafc;
+}
+
 @media (max-width: 1023px) {
     .main-content {
         margin-left: 0;
