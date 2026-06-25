@@ -133,14 +133,15 @@
 }
 
 @media (max-width: 768px) {
-    .footer-bottom {
-        flex-direction: row;
+.footer-bottom {
+        flex-direction: column;
     }
-}
+
 
 .copyright {
     color: #64748b;
     font-size: 0.85rem;
+
 }
 
 .social-links {
@@ -172,7 +173,7 @@
     padding: auto;
     margin: auto;
 }
-
+}
 /* Tablets y móviles */
 @media (max-width: 1024px) {
     .brand-section1 {
