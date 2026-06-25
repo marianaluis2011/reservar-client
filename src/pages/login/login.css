@@ -90,6 +90,7 @@ content: "";
   width: 100%;
   background-color: #004aad;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .btn-register:hover {
