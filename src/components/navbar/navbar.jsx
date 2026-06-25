@@ -3,139 +3,279 @@ import logo from '../../assets/hospedar.jpeg';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { User } from 'lucide-react';
+import { User, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+const navigate = useNavigate();
+const location = useLocation();
 
-  const { user, logout, isAuthenticated } = useAuth();
+const { user, logout, isAuthenticated } = useAuth();
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
+const [menuOpen, setMenuOpen] = useState(false);
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isHome = location.pathname === '/';
-  const currentPath = location.pathname.toLowerCase();
-  const isPropertyRelated =
-    currentPath.includes('property') ||
-    currentPath.includes('room');
+const menuRef = useRef(null);
 
-  // cerrar menú al click afuera
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target)
-      ) {
-        setMenuOpen(false);
-      }
-    };
+const isHome = location.pathname === '/';
+const currentPath = location.pathname.toLowerCase();
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () =>
-      document.removeEventListener(
-        'mousedown',
-        handleClickOutside
-      );
-  }, []);
+const isPropertyRelated =
+currentPath.includes('property') ||
+currentPath.includes('room');
 
-  return (
-    <nav className="navbar">
+useEffect(() => {
+const handleClickOutside = (event) => {
+if (
+menuRef.current &&
+!menuRef.current.contains(event.target)
+) {
+setMenuOpen(false);
+}
+};
 
-      <div
-        className="navbar-logo-container"
-        onClick={() => navigate('/')}
+document.addEventListener(
+  'mousedown',
+  handleClickOutside
+);
+
+return () => {
+  document.removeEventListener(
+    'mousedown',
+    handleClickOutside
+  );
+};
+
+}, []);
+
+return ( <nav className="navbar">
+<div
+className="navbar-logo-container"
+onClick={() => navigate('/')}
+> <img
+       src={logo}
+       alt="Hospedar Logo"
+       className="navbar-logo-img"
+     />
+
+    <span className="navbar-brand-name">
+      Hospedar
+    </span>
+  </div>
+
+  {isPropertyRelated && (
+    <ul className="navbar-links">
+      <li>
+        <a href="#buscar">
+          Buscar Hospedaje
+        </a>
+      </li>
+
+      <li>
+        <a href="#usuario">
+          Usuario
+        </a>
+      </li>
+
+      <li>
+        <a href="#nosotros">
+          Nosotros
+        </a>
+      </li>
+    </ul>
+  )}
+
+  {isHome && !isAuthenticated && (
+    <div className="navbar-actions">
+      <button
+        className="btn-login"
+        onClick={() => navigate('/login')}
       >
-        <img
-          src={logo}
-          alt="Hospedar Logo"
-          className="navbar-logo-img"
-        />
-        <span className="navbar-brand-name">
-          Hospedar
-        </span>
-      </div>
+        Iniciar Sesión
+      </button>
 
-      {isPropertyRelated && (
-        <ul className="navbar-links">
-          <li><a href="#buscar">Buscar Hospedaje</a></li>
-          <li><a href="#usuario">Usuario</a></li>
-          <li><a href="#nosotros">Nosotros</a></li>
-        </ul>
-      )}
+      <button
+        className="btn-register"
+        onClick={() => navigate('/register')}
+      >
+        Registrarse
+      </button>
+    </div>
+  )}
 
-      {isHome && !isAuthenticated && (
-        <div className="navbar-actions">
+  {isAuthenticated && (
+    <div
+      className="navbar-actions"
+      ref={menuRef}
+    >
+      <button
+        className="btn-avatar"
+        onClick={() =>
+          setMenuOpen(!menuOpen)
+        }
+      >
+        <User size={24} />
+      </button>
+
+      {menuOpen && (
+        <div className="user-menu">
+          <p className="text-sm">
+            {user?.name ||
+              user?.username ||
+              'Usuario'}
+          </p>
+
+          <p className="text-xs">
+            {user?.email}
+          </p>
+
+          <hr />
+
           <button
-            className="btn-login"
-            onClick={() => navigate('/login')}
+            onClick={() =>
+              navigate('/profile')
+            }
           >
-            Login
+            Perfil
           </button>
 
           <button
-            className="btn-register"
-            onClick={() => navigate('/register')}
+            onClick={() =>
+              navigate('/settings')
+            }
           >
-            Register
+            Configuración
+          </button>
+
+          <button
+            onClick={() =>
+              navigate('/help')
+            }
+          >
+            Ayuda
+          </button>
+
+          <hr />
+
+          <button onClick={logout}>
+            Logout
           </button>
         </div>
       )}
+    </div>
+  )}
+
+  <button
+    className="mobile-menu-btn"
+    onClick={() =>
+      setMobileMenuOpen(
+        !mobileMenuOpen
+      )
+    }
+  >
+    {mobileMenuOpen ? (
+      <X size={28} />
+    ) : (
+      <Menu size={28} />
+    )}
+  </button>
+
+  {mobileMenuOpen && (
+    <div className="mobile-menu">
+      {isPropertyRelated && (
+        <>
+          <a href="#buscar">
+            Buscar Hospedaje
+          </a>
+
+          <a href="#usuario">
+            Usuario
+          </a>
+
+          <a href="#nosotros">
+            Nosotros
+          </a>
+        </>
+      )}
+
+      {isHome &&
+        !isAuthenticated && (
+          <>
+            <button
+              onClick={() => {
+                navigate('/login');
+                setMobileMenuOpen(false);
+              }}
+            >
+              Login
+            </button>
+
+            <button
+              onClick={() => {
+                navigate('/register');
+                setMobileMenuOpen(false);
+              }}
+            >
+              Register
+            </button>
+          </>
+        )}
 
       {isAuthenticated && (
-        <div
-          className="navbar-actions relative"
-          ref={menuRef}
-        >
+        <>
+          <div className="mobile-user-info">
+            <strong>
+              {user?.name ||
+                user?.username ||
+                'Usuario'}
+            </strong>
+
+            <small>
+              {user?.email}
+            </small>
+          </div>
+
           <button
-            className="btn-avatar"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => {
+              navigate('/profile');
+              setMobileMenuOpen(false);
+            }}
           >
-            <User size={24} />
+            Perfil
           </button>
 
-          {menuOpen && (
-            <div className="user-menu">
-              <p className="text-sm font-semibold">
-                {user?.name || user?.username || "Usuario"}
-              </p>
+          <button
+            onClick={() => {
+              navigate('/settings');
+              setMobileMenuOpen(false);
+            }}
+          >
+            Configuración
+          </button>
 
-              <p className="text-xs text-slate-400">
-                {user?.email}
-              </p>
+          <button
+            onClick={() => {
+              navigate('/help');
+              setMobileMenuOpen(false);
+            }}
+          >
+            Ayuda
+          </button>
 
-              <hr />
-
-              <button
-                onClick={() => navigate('/profile')}
-              >
-                Perfil
-              </button>
-
-              <button
-                onClick={() => navigate('/settings')}
-              >
-                Configuración
-              </button>
-
-              <button
-                onClick={() => navigate('/help')}
-              >
-                Ayuda
-              </button>
-
-              <hr />
-
-              <button onClick={logout}>
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
+          <button
+            onClick={() => {
+              logout();
+              setMobileMenuOpen(false);
+            }}
+          >
+            Logout
+          </button>
+        </>
       )}
+    </div>
+  )}
+</nav>
 
-    </nav>
-  );
+);
 };
 
 export default Navbar;
