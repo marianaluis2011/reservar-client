@@ -184,7 +184,7 @@ export default function Login() {
               className="font-semibold text-cyan-700 hover:text-cyan-800"
               onClick={() => navigate("/register")}
             >
-              Registrarme
+              Registrarse
             </button>
           </p>
 
