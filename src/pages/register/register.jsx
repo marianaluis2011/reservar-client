@@ -3,6 +3,9 @@ import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
 import { toast } from "sonner";
 import "./register.css";
+import React, { useState } from "react";
+import TermsModal from "./../terms/termsModal.jsx";
+
 
 const onSubmit = async (data) => {
   try {
@@ -31,6 +34,10 @@ export default function Register() {
   const handleRoleChange = (newRole) => {
     setValue("role", newRole);
   };
+
+  // 👉 Estado para manejar el modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
@@ -379,17 +386,23 @@ className="
             
 
 <div className="mt-8 pt-5 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <label className="flex items-center gap-2">
+               <label className="flex items-center gap-2">
                 <input
-                  type="checkbox"
-                  {...register("terms")}
-                />
-
-                <span className="text-sm">
-                  Acepto los Términos de Servicio
-                </span>
+                    type="checkbox"
+                    checked={termsAccepted}
+                    onChange={() => setIsModalOpen(true)}
+                  />
+                  <span>Términos y Servicios</span>
               </label>
-
+                {/* Render del modal */}
+    <TermsModal
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      onAccept={() => {
+        setTermsAccepted(true);
+        setIsModalOpen(false);
+      }}
+    />
               <button
   type="submit"
   disabled={isSubmitting}
