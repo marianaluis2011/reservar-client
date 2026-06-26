@@ -29,16 +29,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-/* Desktop refinements */
-@media (min-width: 1024px) {
-    .footer-content {
-        grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    }
-    .brand-section {
-        padding-right: 20px;
-    }
+    align-self: center;
+    align-content: center;
 }
 
 .footer-logo {
@@ -75,6 +67,7 @@
     margin-bottom: 25px;
     text-transform: uppercase;
     letter-spacing: 1px;
+
 }
 
 .footer-links {
@@ -125,24 +118,34 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
     gap: 20px;
 }
-
-@media (min-width: 768px) {
-    .footer-bottom {
-        flex-direction: row;
+.social-links {
+    display: flex;
+    gap: 15px;
+    flex-direction: row;
+    justify-content: center;
+}
+/* Desktop refinements */
+@media (min-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    }
+    .brand-section {
+        padding-right: 20px;
     }
 }
+
+@media (max-width: 900px) {
+.footer-bottom {
+        flex-direction: column;
+    }
+
 
 .copyright {
     color: #64748b;
     font-size: 0.85rem;
-}
 
-.social-links {
-    display: flex;
-    gap: 15px;
 }
 
 .social-links a {
@@ -152,6 +155,7 @@
     padding: 10px;
     border-radius: 50%;
     display: flex;
+    /* flex-direction: row; */
     align-items: center;
     justify-content: center;
 }
@@ -162,17 +166,14 @@
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
-
-/* Tablets y móviles */
-@media (max-width: 1024px) {
-    .brand-section1 {
-        flex-wrap: wrap;
-        gap: 20px;
-    }
+.footer-links,
+.contact-details {
+    text-align: left !important;
+    align-items: flex-start !important;
+    padding: auto;
+    margin: auto;
 }
-
-@media (max-width: 768px) {
-    .footer-content {
+.footer-content {
         flex-direction: column;
         gap: 30px;
     }
@@ -213,7 +214,14 @@
 @media (max-width: 480px) {
     .social-links {
         justify-content: center;
-        flex-wrap: wrap;
+        /* flex-wrap: wrap; */
         gap: 10px;
+    }
+}
+/* Tablets y móviles */
+@media (max-width: 1024px) {
+    .brand-section1 {
+        flex-wrap: wrap;
+        gap: 20px;
     }
 }

@@ -1,8 +1,12 @@
 .container-one {
     display: flex;
-    /* justify-content: column; */
     height: 100dvh;
 }
+
+.container-one>div>div {
+align-self: center;
+}
+
 .panel-left {
     width: 50%;
     height: 100vh;
@@ -86,7 +90,7 @@ content: "";
   width: 100%;
   background-color: #004aad;
   color: #ffffff;
-}
+  }
 
 .btn-register:hover {
   background-color: #001f3f;
@@ -95,6 +99,9 @@ content: "";
   box-shadow: 0 10px 20px -5px rgba(26, 54, 93, 0.3);
 }
 
+button {
+    cursor: pointer;
+}
 
 @media (max-width: 768px) {
   .container-one {
@@ -125,4 +132,7 @@ content: "";
     padding: auto;
     margin:auto
   }
+  /* .mobile-menu-btn {
+    display: none
+  } */
 }

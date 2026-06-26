@@ -76,11 +76,9 @@ onClick={() => navigate('/')}
         </a>
       </li>
 
-      <li>
-        <a href="#nosotros">
-          Nosotros
-        </a>
-      </li>
+      <li onClick={() => navigate("/about")}>
+      Nosotros
+    </li>
     </ul>
   )}
 
@@ -157,7 +155,7 @@ onClick={() => navigate('/')}
           <hr />
 
           <button onClick={logout}>
-            Logout
+            Cerrar Sesión
           </button>
         </div>
       )}
@@ -267,7 +265,7 @@ onClick={() => navigate('/')}
               setMobileMenuOpen(false);
             }}
           >
-            Logout
+            Cerrar Sesión
           </button>
         </>
       )}
