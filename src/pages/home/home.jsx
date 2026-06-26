@@ -1,33 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getPublicAccommodations } from "../../services/accommodation.services.js";
 import "./Home.css";
 
-const featuredProperties = [
-  {
-    id: 1,
-    name: "Lumina Suites",
-    location: "Tulum, México",
-    price: "$245",
-    rating: 4.8,
-    badge: "Superhost",
-    img: "https://images.unsplash.com/photo-1506059612708-99d6128a857a?w=400&q=80",
-  },
-  {
-    id: 2,
-    name: "Villa Azure Estate",
-    location: "Amalfi Coast, Italy",
-    price: "$410",
-    rating: 4.8,
-    img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80",
-  },
-  {
-    id: 3,
-    name: "Mountain Peak Lodge",
-    location: "Aspen, USA",
-    price: "$380",
-    rating: 5.0,
-    img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&q=80",
-  },
-];
+
 
 const pillars = [
   {
@@ -48,9 +24,26 @@ const pillars = [
 ];
 
 export default function Home() {
+  const navigate = useNavigate();
   const [location, setLocation] = useState("");
   const [dates, setDates] = useState("");
   const [guests, setGuests] = useState("");
+  const [accommodations, setAccommodations] = useState([]);
+  const [loadingAcc, setLoadingAcc] = useState(true);
+
+  useEffect(() => {
+    const fetchAccommodations = async () => {
+      try {
+        const data = await getPublicAccommodations();
+        setAccommodations(data);
+      } catch (error) {
+        console.error("Error al cargar hospedajes:", error);
+      } finally {
+        setLoadingAcc(false);
+      }
+    };
+    fetchAccommodations();
+  }, []);
 
   return (
     <div className="home">
@@ -105,7 +98,7 @@ export default function Home() {
         </div>
       </section>
 
-      
+
       <section className="results">
         <div className="container">
           <div className="results__layout">
@@ -153,10 +146,10 @@ export default function Home() {
               </div>
             </aside>
 
-          
+
             <div className="results__main">
               <div className="results__top">
-                <h2 className="results__count">Resultados encontrados (24)</h2>
+                <h2 className="results__count">Resultados encontrados ({accommodations.length})</h2>  
                 <div className="results__sort">
                   <span>Ordenar por:</span>
                   <select>
@@ -168,33 +161,36 @@ export default function Home() {
               </div>
 
               <div className="cards-grid">
-                {featuredProperties.map((prop) => (
-                  <div key={prop.id} className="property-card">
-                    <div className="property-card__img-wrap">
-                      <img src={prop.img} alt={prop.name} className="property-card__img" />
-                      {prop.badge && (
-                        <span className="property-card__badge">{prop.badge}</span>
-                      )}
-                      <button className="property-card__fav">♡</button>
-                    </div>
-                    <div className="property-card__body">
-                      <div className="property-card__top">
-                        <div>
-                          <h3 className="property-card__name">{prop.name}</h3>
-                          <p className="property-card__location">📍 {prop.location}</p>
-                        </div>
-                        <span className="property-card__rating">⭐ {prop.rating}</span>
+                {loadingAcc ? (
+                  <p>Cargando hospedajes...</p>
+                ) : accommodations.length === 0 ? (
+                  <p>No hay hospedajes disponibles por el momento.</p>
+                ) : (
+                  accommodations.map((acc) => (
+                    <div key={acc._id} className="property-card">
+                      <div className="property-card__img-wrap">
+                        <img src={acc.mainImage} alt={acc.name} className="property-card__img" />
+                        <button className="property-card__fav">♡</button>
                       </div>
-                      <div className="property-card__footer">
-                        <div>
-                          <p className="property-card__price-label">Precio por noche</p>
-                          <p className="property-card__price">{prop.price} USD</p>
+                      <div className="property-card__body">
+                        <div className="property-card__top">
+                          <div>
+                            <h3 className="property-card__name">{acc.name}</h3>
+                            <p className="property-card__location">📍 {acc.province?.name || "Sin ubicación"}</p>
+                          </div>
                         </div>
-                        <button className="btn btn--primary">Reservar</button>
+                        <div className="property-card__footer">
+                          <button
+                            className="btn btn--primary"
+                            onClick={() => navigate(`/propertyPage/${acc._id}`)}
+                          >
+                            Ver hospedaje
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
 
               <div className="results__more">
