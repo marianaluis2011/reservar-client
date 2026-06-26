@@ -168,21 +168,25 @@ export default function PropertyPage() {
             <section>
               <h2 className="section-title">Habitaciones disponibles</h2>
               <div className="rooms-list">
-                {property.rooms.map((room) => (
-                  <div key={room.id} className="room-card">
-                    <div className="room-image-wrapper">
-                      <img src={room.image} alt={room.name} className="room-card-image" />
-                    </div>
-                    <div className="room-info">
-                      <h3 className="room-title">{room.name}</h3>
-                      <p className="room-desc">{room.description}</p>
-                      <div className="room-footer">
-                        <span className="room-price">${room.price.toLocaleString()} <span className="room-price-detail">/noche</span></span>
-                        <button className="btn-reserve">Reservar</button>
+                {rooms.length === 0 ? (
+                  <p>Este hospedaje todavía no tiene habitaciones cargadas.</p>
+                ) : (
+                  rooms.map((room) => (
+                    <div key={room._id} className="room-card">
+                      <div className="room-image-wrapper">
+                        <img src={room.images?.[0] || property.mainImage} alt={room.name} className="room-card-image" />
+                      </div>
+                      <div className="room-info">
+                        <h3 className="room-title">{room.name}</h3>
+                        <p className="room-desc">{room.description}</p>
+                        <div className="room-footer">
+                          <span className="room-price">${room.pricePerNight?.toLocaleString()} <span className="room-price-detail">/noche</span></span>
+                          <button className="btn-reserve" onClick={() => navigate(`/roomDetail/${room._id}`)}>Reservar</button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </section>
           </div>
@@ -194,11 +198,11 @@ export default function PropertyPage() {
                 <iframe
                   className="map-iframe"
                   title="Ubicación de la propiedad"
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(property.location)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(property.province?.name || "Argentina")}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
                   allowFullScreen=""
                   loading="lazy"
                 ></iframe>
-                <div className="map-btn" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.location)}`, '_blank')}>
+                <div className="map-btn" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.province?.name || "Argentina")}`, '_blank')}>
                   <MapPin className="map-pin-icon" />
                   <span className="map-btn-text">Ver Mapa Completo</span>
                 </div>
@@ -214,14 +218,14 @@ export default function PropertyPage() {
                   <div className="contact-icon-bg">
                     <Phone className="contact-icon-white" />
                   </div>
-                  <span>{property.phone}</span>
+                  <span>{property.whatsapp}</span>
                 </div>
                 <div className="contact-item">
                   <div className="contact-icon-bg">
                     <Mail className="contact-icon-white" />
                   </div>
-                  <a href={`mailto:${property.email}`}>
-                    {property.email}
+                  <a href={`mailto:${property.contactEmail}`}>
+                    {property.contactEmail}
                   </a>
 
                 </div>
