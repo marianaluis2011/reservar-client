@@ -33,16 +33,6 @@
     align-content: center;
 }
 
-/* Desktop refinements */
-@media (min-width: 1024px) {
-    .footer-content {
-        grid-template-columns: 2fr 1fr 1fr 1.5fr;
-    }
-    .brand-section {
-        padding-right: 20px;
-    }
-}
-
 .footer-logo {
     display: flex;
     align-items: center;
@@ -136,6 +126,15 @@
     flex-direction: row;
     justify-content: center;
 }
+/* Desktop refinements */
+@media (min-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    }
+    .brand-section {
+        padding-right: 20px;
+    }
+}
 
 @media (max-width: 900px) {
 .footer-bottom {
@@ -148,13 +147,6 @@
     font-size: 0.85rem;
 
 }
-
-/* .social-links {
-    display: flex;
-    gap: 15px;
-    flex-direction: row;
-    justify-content: center;
-} */
 
 .social-links a {
     color: #94a3b8;
@@ -217,7 +209,6 @@
         align-items: center;
     }
 }
-
 
 /* Móviles pequeños */
 @media (max-width: 480px) {

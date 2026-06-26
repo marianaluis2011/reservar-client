@@ -155,7 +155,7 @@ onClick={() => navigate('/')}
           <hr />
 
           <button onClick={logout}>
-            Logout
+            Cerrar Sesión
           </button>
         </div>
       )}
@@ -265,7 +265,7 @@ onClick={() => navigate('/')}
               setMobileMenuOpen(false);
             }}
           >
-            Logout
+            Cerrar Sesión
           </button>
         </>
       )}
