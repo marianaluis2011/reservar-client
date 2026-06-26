@@ -83,7 +83,7 @@ export default function PropertyPage() {
             <h1 className="page-title">{property.name}</h1>
             <div className="location-info">
               <MapPin className="location-icon-header" />
-              <span>{property.location}</span>
+              <span>{property.province?.name || "Sin ubicación"}</span>
             </div>
           </div>
 
@@ -131,14 +131,14 @@ export default function PropertyPage() {
         {/* Galería de Imágenes */}
         <div className="gallery-grid">
           <div className="image-container main-image-wrapper">
-            <img src={property.images[0]} alt="Principal" className="gallery-image" />
+            <img src={property.mainImage} alt="Principal" className="gallery-image" />
           </div>
           <div className="gallery-sidebar">
             <div className="image-container gallery-item-small">
-              <img src={property.images[1]} alt="Interior" className="gallery-image" />
+              <img src={property.gallery?.[0] || property.mainImage} alt="Interior" className="gallery-image" />
             </div>
             <div className="image-container gallery-item-small">
-              <img src={property.images[2]} alt="Vistas" className="gallery-image" />
+              <img src={property.gallery?.[1] || property.mainImage} alt="Vistas" className="gallery-image" />
             </div>
           </div>
         </div>
