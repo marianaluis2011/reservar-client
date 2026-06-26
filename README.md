@@ -1,18 +1,57 @@
-# React + Vite
+# ReservaHost
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ReservaHost es una aplicación web para gestionar reservas de hospedajes. Proporciona una interfaz fácil de usar para los anfitriones y los usuarios para reservar y administrar hospedajes.
 
-Currently, two official plugins are available:
+## Instalación
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Clona el repositorio de GitHub:
+git clone https://github.com/tu-username/reservaHost.git
 
-## React Compiler
+2. Instala las dependencias:
+npm install
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+3. Inicia la aplicación:
+npm run dev
 
-Note: This will impact Vite dev & build performances.
 
-## Expanding the ESLint configuration
+## Uso
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Inicia sesión o regístrate para acceder a la aplicación.
+
+2. Explora los hospedajes disponibles y realiza una reserva.
+
+3. Si eres un anfitrión, puedes administrar tus hospedajes y reservas desde la página de panel de administración.
+
+## Tecnologías utilizadas
+
+- React
+- React Router
+- Axios
+- Tailwind CSS
+- Lucide React Icons
+- Firebase Authentication
+- Firebase Firestore
+
+## Contribución
+
+Si deseas contribuir a este proyecto, sigue estos pasos:
+
+1. Haz un fork del repositorio.
+
+2. Crea una rama para tu contribución:
+git checkout -b nombre-rama
+
+
+3. Realiza tus cambios y realiza un commit:
+git commit -m "Descripción de los cambios realizados"
+
+
+4. Envía tus cambios al repositorio remoto:
+git push origin nombre-rama
+
+
+5. Abre un pull request en GitHub.
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para obtener más detalles.
