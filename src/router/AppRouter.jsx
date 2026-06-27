@@ -12,6 +12,7 @@ import SuperAdminDashboard from "../pages/superAdminDashboard/SuperAdminDashboar
 import About from "../pages/about/About";
 import Error404 from "../pages/error/error";
 import MyBooking from "../pages/booking/MyBooking";
+import Help from "../pages/help/Help";
 
 export default function AppRouter() {
   return (
@@ -27,6 +28,7 @@ export default function AppRouter() {
         <Route path="/roomDetail" element={<RoomDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/myBooking" element={<MyBooking />} />
+        <Route path="/help" element={<Help />} />
 
         {/* Privadas */}
         <Route element={<ProtectedRoute allowedRoles={["host"]} />}>
