@@ -16,9 +16,27 @@ const MyBooking = () => {
       .catch(() => {
         // Datos de fallback si falla la API
         setBookings([
-          { id: 1, lodging: "Hotel Central", date: "12/07/2026", status: "Confirmada" },
-          { id: 2, lodging: "Cabañas del Sol", date: "20/07/2026", status: "Pendiente" },
-          { id: 3, lodging: "Hostel Urbano", date: "05/08/2026", status: "Cancelada" },
+          { 
+            id: 1, 
+            lodging: "Hotel Central", 
+            date: "12/07/2026", 
+            status: "Confirmada", 
+            image: "https://res.cloudinary.com/da8kxr6k5/image/upload/v1782588432/hotel_zs9zac.jpg" 
+          },
+          { 
+            id: 2, 
+            lodging: "Cabañas del Sol", 
+            date: "20/07/2026", 
+            status: "Pendiente", 
+            image: "https://res.cloudinary.com/demo/image/upload/cabana.jpg" 
+          },
+          { 
+            id: 3, 
+            lodging: "Hostel Urbano", 
+            date: "05/08/2026", 
+            status: "Cancelada", 
+            image: "https://res.cloudinary.com/demo/image/upload/hostel.jpg" 
+          },
         ]);
         setLoading(false);
       });
@@ -37,14 +55,19 @@ const MyBooking = () => {
         <div className="booking-list">
           {bookings.map((b) => (
             <div key={b.id} className="booking-card">
-              <div className="card-header">
-                <h2>{b.lodging}</h2>
+              <div className="card-image">
+                <img src={b.image} alt={b.lodging} />
               </div>
-              <div className="card-body">
-                <p><strong>Fecha:</strong> {b.date}</p>
-                <span className={`status ${b.status.toLowerCase()}`}>
-                  {b.status}
-                </span>
+              <div className="card-content">
+                <div className="card-header">
+                  <h2>{b.lodging}</h2>
+                </div>
+                <div className="card-body">
+                  <p><strong>Fecha:</strong> {b.date}</p>
+                  <span className={`status ${b.status.toLowerCase()}`}>
+                    {b.status}
+                  </span>
+                </div>
               </div>
             </div>
           ))}

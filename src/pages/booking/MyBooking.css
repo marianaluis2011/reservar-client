@@ -1,4 +1,3 @@
-/* Contenedor principal */
 .booking-container {
   max-width: 900px;
   margin: 40px auto;
@@ -10,7 +9,6 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Encabezado */
 .booking-header {
   text-align: center;
   margin-bottom: 30px;
@@ -27,14 +25,15 @@
   color: #334155;
 }
 
-/* Lista vertical */
 .booking-list {
   width: 60%;
   margin: 0 auto;
 }
 
-/* Tarjeta de reserva */
+/* Tarjeta de reserva con imagen */
 .booking-card {
+  display: flex;
+  align-items: stretch;
   background: #ffffff;
   border: 1px solid #1A365D;
   border-radius: 12px;
@@ -49,29 +48,43 @@
   box-shadow: 0 12px 28px rgba(26, 54, 93, 0.25);
 }
 
-.card-header {
-  /* background-color: #1A365D; */
-  color: #1A365D;
-  padding: 16px;
-  text-align: center;
- }
+/* Imagen lateral */
+.card-image {
+  flex: 1;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card-image img:hover {
+  transform: scale(1.1);
+}
+
+/* Contenido */
+.card-content {
+  flex: 2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .card-header h2 {
   color: #1A365D;
-  margin: 0;
+  margin: 0 0 10px 0;
   font-size: 1.4rem;
-  text-align: left;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.card-body {
-  padding: 20px;
-  color: #1A365D;
-}
-
 .card-body p {
   margin-bottom: 12px;
+  color: #1A365D;
 }
 
 /* Estados */
@@ -106,7 +119,6 @@
   color: #1A365D;
 }
 
-/* Responsividad */
 @media (max-width: 600px) {
   .booking-container {
     margin: 20px;
@@ -119,6 +131,14 @@
 
   .booking-list {
     width: 100%;
+  }
+
+  .booking-card {
+    flex-direction: column;
+  }
+
+  .card-image {
+    height: 180px;
   }
 
   .card-header h2 {
