@@ -73,7 +73,7 @@ onClick={() => navigate('/')}
       <li onClick={() => navigate("/about")}>
       Nosotros
     </li>
-
+    
       <li onClick={() => navigate("/help")}>
       Ayuda
     </li>
@@ -99,10 +99,11 @@ onClick={() => navigate('/')}
   )}
 
   {isAuthenticated && (
-    <div
+    <div 
       className="navbar-actions"
       ref={menuRef}
     >
+      
       <button
         className="btn-avatar"
         onClick={() =>

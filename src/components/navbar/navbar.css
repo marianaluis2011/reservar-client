@@ -42,6 +42,7 @@
   text-decoration: none;
   transition: color 0.3s ease;
   cursor: pointer;
+  
 }
 
 .navbar-links li:hover {
@@ -64,10 +65,13 @@
 } */
 
 .btn-login {
-  display: inline-block;
+  /* display: inline-block; */
+  width: fit-content;
   white-space: nowrap;
   background: transparent;
   color: white;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .btn-register {
