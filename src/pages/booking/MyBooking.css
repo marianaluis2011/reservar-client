@@ -124,6 +124,7 @@
 
 @media (max-width: 600px) {
   .booking-container {
+    display: inline-block;
     margin: 20px;
     padding: 15px;
   }
@@ -141,9 +142,12 @@
   }
 
   .card-image {
-    height: 80px;
+    width: 50%;
+    align-self: center;
   }
-
+  .booking-list {
+    width: 80%
+  }
   .card-header h2 {
     font-size: 1.2rem;
     align-items: center;
