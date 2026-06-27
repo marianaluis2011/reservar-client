@@ -23,6 +23,7 @@ const isPropertyRelated =
 currentPath.includes('property') ||
 currentPath.includes('booking') ||
 currentPath.includes('help') ||
+currentPath.includes('about') ||
 currentPath.includes('room');
 
 useEffect(() => {
@@ -66,20 +67,15 @@ onClick={() => navigate('/')}
 
   {isPropertyRelated && (
     <ul className="navbar-links">
-      <li>
-        <a href="#buscar">
-          Buscar Hospedaje
-        </a>
-      </li>
-
-      <li>
-        <a href="#usuario">
-          Usuario
-        </a>
-      </li>
-
+      <li onClick={() => navigate("/myBooking")}>
+      Mis Reservas
+    </li>
       <li onClick={() => navigate("/about")}>
       Nosotros
+    </li>
+
+      <li onClick={() => navigate("/help")}>
+      Ayuda
     </li>
     </ul>
   )}
