@@ -1,45 +1,55 @@
+import React, { useEffect, useState } from "react";
 import "./MyBooking.css";
 
 const MyBooking = () => {
-  const bookings = [
-    {
-      id: 1,
-      lodging: "Hotel Central",
-      date: "12/07/2026",
-      status: "Confirmada",
-    },
-    {
-      id: 2,
-      lodging: "Cabañas del Sol",
-      date: "20/07/2026",
-      status: "Pendiente",
-    },
-    {
-      id: 3,
-      lodging: "Hostel Urbano",
-      date: "05/08/2026",
-      status: "Cancelada",
-    },
-  ];
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulación de API: reemplaza con tu endpoint real
+    fetch("https://api.reservahost.com/bookings")
+      .then((res) => res.json())
+      .then((data) => {
+        setBookings(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        // Datos de fallback si falla la API
+        setBookings([
+          { id: 1, lodging: "Hotel Central", date: "12/07/2026", status: "Confirmada" },
+          { id: 2, lodging: "Cabañas del Sol", date: "20/07/2026", status: "Pendiente" },
+          { id: 3, lodging: "Hostel Urbano", date: "05/08/2026", status: "Cancelada" },
+        ]);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div className="booking-container">
       <div className="booking-header">
         <h1>Mis Reservas</h1>
-        <p>Aquí puedes ver el estado de tus reservas realizadas.</p>
+        <p>Consulta el estado de tus reservas en tiempo real.</p>
       </div>
 
-      <div className="booking-list">
-        {bookings.map((b) => (
-          <div key={b.id} className="booking-card">
-            <h2>{b.lodging}</h2>
-            <p><strong>Fecha:</strong> {b.date}</p>
-            <span className={`status ${b.status.toLowerCase()}`}>
-              {b.status}
-            </span>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <div className="loading">Cargando reservas...</div>
+      ) : (
+        <div className="booking-list">
+          {bookings.map((b) => (
+            <div key={b.id} className="booking-card">
+              <div className="card-header">
+                <h2>{b.lodging}</h2>
+              </div>
+              <div className="card-body">
+                <p><strong>Fecha:</strong> {b.date}</p>
+                <span className={`status ${b.status.toLowerCase()}`}>
+                  {b.status}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
