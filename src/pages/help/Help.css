@@ -43,7 +43,7 @@
 .help-section h2,
 .faq-section h2 {
   font-size: 2rem;
-  margin-bottom: 30px;
+  margin: 30px 0 30px 0;
   color: #1A365D;
   text-align: center;
   position: relative;
