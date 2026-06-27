@@ -179,17 +179,16 @@ onClick={() => navigate('/')}
     <div className="mobile-menu">
       {isPropertyRelated && (
         <>
-          <a href="#buscar">
-            Buscar Hospedaje
-          </a>
+      <li onClick={() => navigate("/myBooking")}>
+      Mis Reservas
+    </li>
+      <li onClick={() => navigate("/about")}>
+      Nosotros
+    </li>
 
-          <a href="#usuario">
-            Usuario
-          </a>
-
-          <a href="#nosotros">
-            Nosotros
-          </a>
+      <li onClick={() => navigate("/help")}>
+      Ayuda
+    </li>
         </>
       )}
 
