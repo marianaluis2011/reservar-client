@@ -28,14 +28,14 @@ const MyBooking = () => {
             lodging: "Cabañas del Sol", 
             date: "20/07/2026", 
             status: "Pendiente", 
-            image: "https://res.cloudinary.com/demo/image/upload/cabana.jpg" 
+            image: "https://res.cloudinary.com/da8kxr6k5/image/upload/v1782588432/hostel_x60ym9.jpg" 
           },
           { 
             id: 3, 
             lodging: "Hostel Urbano", 
             date: "05/08/2026", 
             status: "Cancelada", 
-            image: "https://res.cloudinary.com/demo/image/upload/hostel.jpg" 
+            image: "https://res.cloudinary.com/da8kxr6k5/image/upload/v1782588431/cabana_ntccrj.webp" 
           },
         ]);
         setLoading(false);
