@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { User, Menu, X } from 'lucide-react';
+import NavLinks from "./NavLinks";
 
 const Navbar = () => {
 const navigate = useNavigate();
@@ -67,19 +68,7 @@ onClick={() => navigate('/')}
   </div>
 
   {showNavigationLinks && (
-  <ul className="navbar-links">
-    <li onClick={() => navigate("/myBooking")}>
-      Mis Reservas
-    </li>
-
-    <li onClick={() => navigate("/about")}>
-      Nosotros
-    </li>
-
-    <li onClick={() => navigate("/help")}>
-      Ayuda
-    </li>
-  </ul>
+  <NavLinks navigate={navigate} />
 )}
 
   {isHome && !isAuthenticated && (
@@ -181,34 +170,11 @@ onClick={() => navigate('/')}
   {mobileMenuOpen && (
     <div className="mobile-menu">
       {showNavigationLinks && (
-  <>
-    <li
-      onClick={() => {
-        navigate("/myBooking");
-        setMobileMenuOpen(false);
-      }}
-    >
-      Mis Reservas
-    </li>
-
-    <li
-      onClick={() => {
-        navigate("/about");
-        setMobileMenuOpen(false);
-      }}
-    >
-      Nosotros
-    </li>
-
-    <li
-      onClick={() => {
-        navigate("/help");
-        setMobileMenuOpen(false);
-      }}
-    >
-      Ayuda
-    </li>
-  </>
+  <NavLinks
+    navigate={navigate}
+    mobile
+    closeMenu={() => setMobileMenuOpen(false)}
+  />
 )}
 
       {isHome &&
