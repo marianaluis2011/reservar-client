@@ -42,6 +42,7 @@
   text-decoration: none;
   transition: color 0.3s ease;
   cursor: pointer;
+  
 }
 
 .navbar-links li:hover {
@@ -64,10 +65,13 @@
 } */
 
 .btn-login {
-  display: inline-block;
+  /* display: inline-block; */
+  width: fit-content;
   white-space: nowrap;
   background: transparent;
   color: white;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .btn-register {
@@ -161,9 +165,10 @@
     border-radius: 10px;
     overflow: hidden;
   }
-
+  
   .mobile-menu a,
-  .mobile-menu button {
+  .mobile-menu button,
+  .mobile-menu>li {
     width: 100%;
     padding: 14px 18px;
     background: transparent;
@@ -175,7 +180,8 @@
   }
 
   .mobile-menu a:hover,
-  .mobile-menu button:hover {
+  .mobile-menu button:hover,
+  .mobile-menu>li:hover {
     background: #334155;
   }
 
@@ -183,6 +189,7 @@
     display: flex;
     flex-direction: column;
     padding: 16px;
+    border-top: 1px solid rgba(255,255,255,.1);
     border-bottom: 1px solid rgba(255,255,255,.1);
   }
 

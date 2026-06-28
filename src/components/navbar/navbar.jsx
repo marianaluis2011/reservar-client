@@ -22,6 +22,8 @@ const currentPath = location.pathname.toLowerCase();
 const isPropertyRelated =
 currentPath.includes('property') ||
 currentPath.includes('booking') ||
+currentPath.includes('help') ||
+currentPath.includes('about') ||
 currentPath.includes('room');
 
 useEffect(() => {
@@ -65,20 +67,15 @@ onClick={() => navigate('/')}
 
   {isPropertyRelated && (
     <ul className="navbar-links">
-      <li>
-        <a href="#buscar">
-          Buscar Hospedaje
-        </a>
-      </li>
-
-      <li>
-        <a href="#usuario">
-          Usuario
-        </a>
-      </li>
-
+      <li onClick={() => navigate("/myBooking")}>
+      Mis Reservas
+    </li>
       <li onClick={() => navigate("/about")}>
       Nosotros
+    </li>
+    
+      <li onClick={() => navigate("/help")}>
+      Ayuda
     </li>
     </ul>
   )}
@@ -102,10 +99,11 @@ onClick={() => navigate('/')}
   )}
 
   {isAuthenticated && (
-    <div
+    <div 
       className="navbar-actions"
       ref={menuRef}
     >
+      
       <button
         className="btn-avatar"
         onClick={() =>
@@ -182,17 +180,16 @@ onClick={() => navigate('/')}
     <div className="mobile-menu">
       {isPropertyRelated && (
         <>
-          <a href="#buscar">
-            Buscar Hospedaje
-          </a>
+      <li onClick={() => navigate("/myBooking")}>
+      Mis Reservas
+    </li>
+      <li onClick={() => navigate("/about")}>
+      Nosotros
+    </li>
 
-          <a href="#usuario">
-            Usuario
-          </a>
-
-          <a href="#nosotros">
-            Nosotros
-          </a>
+      <li onClick={() => navigate("/help")}>
+      Ayuda
+    </li>
         </>
       )}
 
