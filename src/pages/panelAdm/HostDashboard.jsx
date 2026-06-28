@@ -114,7 +114,7 @@ export default function HostDashboard() {
   });
   const [viewDate, setViewDate] = useState(new Date());
   const [selectedBooking, setSelectedBooking] = useState(null);
-  const [showAllBookings, setShowAllBookings] = useState(false);
+  const [bookingFilter, setBookingFilter] = useState("todos");
 
   useEffect(() => {
     const loadOwnerDashboard = async () => {
@@ -346,6 +346,13 @@ export default function HostDashboard() {
     }
   };
 
+  const filteredBookings = bookings.filter((booking) => {
+    if (bookingFilter === "todos") return true;
+    if (bookingFilter === "aprobados") return booking.status === "confirmada";
+    if (bookingFilter === "rechazados") return booking.status === "cancelada";
+    if (bookingFilter === "pendientes") return booking.status === "pendiente";
+    return true;
+  });
   const getDateKey = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -433,7 +440,7 @@ export default function HostDashboard() {
             <li onClick={handleOpenAccommodationModal}>
               <Building2 size={16} /> Mi hospedaje
             </li>
-            <li onClick={() => setShowAllBookings(true)}>
+            <li onClick={() => document.getElementById("bookings-section")?.scrollIntoView({ behavior: "smooth" })}>
               <CalendarCheck size={16} /> Reservas
             </li>
             <li onClick={() => handleSidebarNavigation("/host/rooms")}>
@@ -578,14 +585,30 @@ export default function HostDashboard() {
             </section>
           </div>
 
-          {/* Reservas Recientes (Ancho completo debajo) */}
-          <section className="recent-bookings-section card">
+          {/* Reservas (Ancho completo debajo) */}
+          <section id="bookings-section" className="recent-bookings-section card">
             <div className="section-header-with-button">
-              <h2 className="section-title">Reservas Recientes</h2>
-              <button className="view-all-btn" onClick={() => setShowAllBookings(true)}>
-                Ver todas
-              </button>
+              <h2 className="section-title">Reservas</h2>
             </div>
+
+            {/* Botones de filtro */}
+            <div className="booking-filters">
+              {[
+                { key: "todos", label: "Todas" },
+                { key: "aprobados", label: "Aprobadas" },
+                { key: "rechazados", label: "Rechazadas" },
+                { key: "pendientes", label: "Pendientes" },
+              ].map(({ key, label }) => (
+                <button
+                  key={key}
+                  className={`filter-btn ${bookingFilter === key ? "active" : ""}`}
+                  onClick={() => setBookingFilter(key)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
             <div className="bookings-table-container">
               <table className="bookings-table">
                 <thead>
@@ -602,12 +625,12 @@ export default function HostDashboard() {
                     <tr>
                       <td colSpan="5">Cargando reservas...</td>
                     </tr>
-                  ) : bookings.length === 0 ? (
+                  ) : filteredBookings.length === 0 ? (
                     <tr>
-                      <td colSpan="5">No hay reservas registradas.</td>
+                      <td colSpan="5">No hay reservas para este filtro.</td>
                     </tr>
                   ) : (
-                    bookings.slice(0, 5).map((booking) => (
+                    filteredBookings.map((booking) => (
                       <tr key={booking._id}>
                         <td>{booking.user?.fullName || booking.user?.email || "Cliente"}</td>
                         <td>{booking.room?.name || "Habitación"}</td>
@@ -890,88 +913,6 @@ export default function HostDashboard() {
 
             <div className="modal-actions">
               <button onClick={() => setSelectedBooking(null)}>
-                Cerrar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      {showAllBookings && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowAllBookings(false)}
-        >
-          <div
-            className="modal-content bookings-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>Todas las reservas</h3>
-
-            {bookings.length === 0 ? (
-              <p>No hay reservas registradas.</p>
-            ) : (
-              <div className="all-bookings-table-wrapper">
-                <table className="all-bookings-table">
-                  <thead>
-                    <tr>
-                      <th>Cliente</th>
-                      <th>Habitación</th>
-                      <th>Fechas</th>
-                      <th>Estado</th>
-                      <th>Total</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bookings.map((booking) => (
-                      <tr key={booking._id}>
-                        <td>{booking.user?.fullName || booking.user?.email || "Cliente"}</td>
-                        <td>{booking.room?.name || "Habitación"}</td>
-                        <td>{formatBookingDates(booking.checkIn, booking.checkOut)}</td>
-                        <td>
-                          <span className={`status-badge ${booking.status}`}>
-                            {formatBookingStatus(booking.status)}
-                          </span>
-                        </td>
-                        <td>${formatPrice(booking.totalPrice)}</td>
-                        <td className="booking-actions">
-                          <button
-                            className="action-icon-btn"
-                            title="Ver detalle"
-                            onClick={() => setSelectedBooking(booking)}
-                          >
-                            <Eye size={14} />
-                          </button>
-
-                          {(booking.status === "pendiente" || booking.status === "cancelada") && (
-                            <button
-                              className="action-icon-btn"
-                              title={booking.status === "cancelada" ? "Reactivar reserva" : "Aprobar reserva"}
-                              onClick={() => handleConfirmBooking(booking._id)}
-                            >
-                              <Check size={14} />
-                            </button>
-                          )}
-
-                          {booking.status !== "cancelada" && (
-                            <button
-                              className="action-icon-btn"
-                              title={booking.status === "pendiente" ? "Rechazar reserva" : "Cancelar reserva"}
-                              onClick={() => handleCancelBooking(booking._id)}
-                            >
-                              <X size={14} />
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-
-            <div className="modal-actions">
-              <button onClick={() => setShowAllBookings(false)}>
                 Cerrar
               </button>
             </div>

@@ -747,3 +747,27 @@
 .calendar-grid div {
     max-width: 100%;
 }
+/* Botones de filtro */
+
+.booking-filters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-btn {
+  padding: 6px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background: #64748b;
+  color: white;
+  border-color: #475569;
+}
