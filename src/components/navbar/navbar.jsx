@@ -74,7 +74,7 @@ onClick={() => navigate('/')}
 )}
 
   {isHome && !isAuthenticated && (
-    <div className="nav-btn btn-login">
+    <div className="navbar-actions">
       <button
         className="btn-login"
         onClick={() => navigate('/login')}
@@ -83,7 +83,7 @@ onClick={() => navigate('/')}
       </button>
 
       <button
-        className="nav-btn btn-register"
+        className="btn-register"
         onClick={() => navigate('/register')}
       >
         Registrarse
