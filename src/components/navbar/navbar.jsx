@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { User, Menu, X } from 'lucide-react';
 import NavLinks from "./NavLinks";
 import UserMenu from "./UserMenu";
+import MobileMenu from "./MobileMenu";
 
 const Navbar = () => {
 const navigate = useNavigate();
@@ -73,7 +74,7 @@ onClick={() => navigate('/')}
 )}
 
   {isHome && !isAuthenticated && (
-    <div className="navbar-actions">
+    <div className="nav-btn btn-login">
       <button
         className="btn-login"
         onClick={() => navigate('/login')}
@@ -82,7 +83,7 @@ onClick={() => navigate('/')}
       </button>
 
       <button
-        className="btn-register"
+        className="nav-btn btn-register"
         onClick={() => navigate('/register')}
       >
         Registrarse
@@ -105,10 +106,13 @@ onClick={() => navigate('/')}
         <User size={24} />
       </button>
 
-      {menuOpen && (
-    <div className="user-menu">
-        ...
-    </div>
+    {menuOpen && (
+  <UserMenu
+    user={user}
+    navigate={navigate}
+    logout={logout}
+    closeMenu={() => setMenuOpen(false)}
+  />
 )}
     </div>
   )}
@@ -128,50 +132,16 @@ onClick={() => navigate('/')}
     )}
   </button>
 
-  {mobileMenuOpen && (
-    <div className="mobile-menu">
-      {showNavigationLinks && (
-  <NavLinks
-    navigate={navigate}
-    mobile
-    closeMenu={() => setMobileMenuOpen(false)}
-  />
-)}
-
-      {isHome &&
-        !isAuthenticated && (
-          <>
-            <button
-              onClick={() => {
-                navigate('/login');
-                setMobileMenuOpen(false);
-              }}
-            >
-              Login
-            </button>
-
-            <button
-              onClick={() => {
-                navigate('/register');
-                setMobileMenuOpen(false);
-              }}
-            >
-              Register
-            </button>
-          </>
-        )}
-
-{isAuthenticated && (
-  <UserMenu
-    mobile
-    user={user}
-    navigate={navigate}
-    logout={logout}
-    closeMenu={() => setMobileMenuOpen(false)}
-  />
-)}
-    </div>
-  )}
+<MobileMenu
+  open={mobileMenuOpen}
+  showNavigationLinks={showNavigationLinks}
+  isHome={isHome}
+  isAuthenticated={isAuthenticated}
+  user={user}
+  navigate={navigate}
+  logout={logout}
+  closeMenu={() => setMobileMenuOpen(false)}
+/>
 </nav>
 
 );
