@@ -11,6 +11,7 @@ import HostDashboard from "../pages/panelAdm/HostDashboard";
 import SuperAdminDashboard from "../pages/superAdminDashboard/SuperAdminDashboard";
 import About from "../pages/about/About";
 import Error404 from "../pages/error/error";
+import MyBooking from "../pages/booking/MyBooking";
 
 export default function AppRouter() {
   return (
@@ -25,6 +26,7 @@ export default function AppRouter() {
         <Route path="/propertyPage" element={<PropertyPage />} />
         <Route path="/roomDetail" element={<RoomDetail />} />
         <Route path="/about" element={<About />} />
+        <Route path="/myBooking" element={<MyBooking />} />
 
         {/* Privadas */}
         <Route element={<ProtectedRoute allowedRoles={["host"]} />}>

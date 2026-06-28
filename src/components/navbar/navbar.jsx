@@ -21,6 +21,7 @@ const currentPath = location.pathname.toLowerCase();
 
 const isPropertyRelated =
 currentPath.includes('property') ||
+currentPath.includes('booking') ||
 currentPath.includes('room');
 
 useEffect(() => {
