@@ -19,12 +19,13 @@ const menuRef = useRef(null);
 const isHome = location.pathname === '/';
 const currentPath = location.pathname.toLowerCase();
 
-const isPropertyRelated =
-currentPath.includes('property') ||
-currentPath.includes('booking') ||
-currentPath.includes('help') ||
-currentPath.includes('about') ||
-currentPath.includes('room');
+const showNavigationLinks =
+  isHome ||
+  currentPath.includes('property') ||
+  currentPath.includes('booking') ||
+  currentPath.includes('help') ||
+  currentPath.includes('about') ||
+  currentPath.includes('room');
 
 useEffect(() => {
 const handleClickOutside = (event) => {
@@ -65,20 +66,21 @@ onClick={() => navigate('/')}
     </span>
   </div>
 
-  {isPropertyRelated && (
-    <ul className="navbar-links">
-      <li onClick={() => navigate("/myBooking")}>
+  {showNavigationLinks && (
+  <ul className="navbar-links">
+    <li onClick={() => navigate("/myBooking")}>
       Mis Reservas
     </li>
-      <li onClick={() => navigate("/about")}>
+
+    <li onClick={() => navigate("/about")}>
       Nosotros
     </li>
-    
-      <li onClick={() => navigate("/help")}>
+
+    <li onClick={() => navigate("/help")}>
       Ayuda
     </li>
-    </ul>
-  )}
+  </ul>
+)}
 
   {isHome && !isAuthenticated && (
     <div className="navbar-actions">
@@ -178,20 +180,36 @@ onClick={() => navigate('/')}
 
   {mobileMenuOpen && (
     <div className="mobile-menu">
-      {isPropertyRelated && (
-        <>
-      <li onClick={() => navigate("/myBooking")}>
+      {showNavigationLinks && (
+  <>
+    <li
+      onClick={() => {
+        navigate("/myBooking");
+        setMobileMenuOpen(false);
+      }}
+    >
       Mis Reservas
     </li>
-      <li onClick={() => navigate("/about")}>
+
+    <li
+      onClick={() => {
+        navigate("/about");
+        setMobileMenuOpen(false);
+      }}
+    >
       Nosotros
     </li>
 
-      <li onClick={() => navigate("/help")}>
+    <li
+      onClick={() => {
+        navigate("/help");
+        setMobileMenuOpen(false);
+      }}
+    >
       Ayuda
     </li>
-        </>
-      )}
+  </>
+)}
 
       {isHome &&
         !isAuthenticated && (
