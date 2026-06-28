@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { User, Menu, X } from 'lucide-react';
 import NavLinks from "./NavLinks";
+import UserMenu from "./UserMenu";
 
 const Navbar = () => {
 const navigate = useNavigate();
@@ -105,50 +106,10 @@ onClick={() => navigate('/')}
       </button>
 
       {menuOpen && (
-        <div className="user-menu">
-          <p className="text-sm">
-            {user?.name ||
-              user?.username ||
-              'Usuario'}
-          </p>
-
-          <p className="text-xs">
-            {user?.email}
-          </p>
-
-          <hr />
-
-          <button
-            onClick={() =>
-              navigate('/profile')
-            }
-          >
-            Perfil
-          </button>
-
-          <button
-            onClick={() =>
-              navigate('/settings')
-            }
-          >
-            Configuración
-          </button>
-
-          <button
-            onClick={() =>
-              navigate('/help')
-            }
-          >
-            Ayuda
-          </button>
-
-          <hr />
-
-          <button onClick={logout}>
-            Cerrar Sesión
-          </button>
-        </div>
-      )}
+    <div className="user-menu">
+        ...
+    </div>
+)}
     </div>
   )}
 
@@ -200,57 +161,15 @@ onClick={() => navigate('/')}
           </>
         )}
 
-      {isAuthenticated && (
-        <>
-          <div className="mobile-user-info">
-            <strong>
-              {user?.name ||
-                user?.username ||
-                'Usuario'}
-            </strong>
-
-            <small>
-              {user?.email}
-            </small>
-          </div>
-
-          <button
-            onClick={() => {
-              navigate('/profile');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Perfil
-          </button>
-
-          <button
-            onClick={() => {
-              navigate('/settings');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Configuración
-          </button>
-
-          <button
-            onClick={() => {
-              navigate('/help');
-              setMobileMenuOpen(false);
-            }}
-          >
-            Ayuda
-          </button>
-
-          <button
-            onClick={() => {
-              logout();
-              setMobileMenuOpen(false);
-            }}
-          >
-            Cerrar Sesión
-          </button>
-        </>
-      )}
+{isAuthenticated && (
+  <UserMenu
+    mobile
+    user={user}
+    navigate={navigate}
+    logout={logout}
+    closeMenu={() => setMobileMenuOpen(false)}
+  />
+)}
     </div>
   )}
 </nav>
