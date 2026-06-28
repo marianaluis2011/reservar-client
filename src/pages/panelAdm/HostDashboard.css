@@ -760,14 +760,15 @@
   padding: 6px 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background: transparent;
+  background: #94a3b8;
+  color: white;
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s;
 }
 
 .filter-btn.active {
-  background: #64748b;
+  background: #1d4ed8;
   color: white;
   border-color: #475569;
 }
