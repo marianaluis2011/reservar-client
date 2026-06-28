@@ -9,6 +9,11 @@ const UserMenu = ({
 }) => {
   const userName = user?.name || user?.username || "Usuario";
 
+  const handleClick = (path) => {
+    navigate(path);
+    closeMenu();
+  };
+
   if (mobile) {
     return (
       <>
@@ -20,10 +25,7 @@ const UserMenu = ({
         {userLinks.map((item) => (
           <button
             key={item.path}
-            onClick={() => {
-              navigate(item.path);
-              closeMenu();
-            }}
+            onClick={() => handleClick(item.path)}
           >
             {item.label}
           </button>
@@ -52,7 +54,7 @@ const UserMenu = ({
       {userLinks.map((item) => (
         <button
           key={item.path}
-          onClick={() => navigate(item.path)}
+          onClick={() => handleClick(item.path)}
         >
           {item.label}
         </button>
@@ -60,7 +62,12 @@ const UserMenu = ({
 
       <hr />
 
-      <button onClick={logout}>
+      <button
+        onClick={() => {
+          logout();
+          closeMenu();
+        }}
+      >
         Cerrar Sesión
       </button>
     </div>
