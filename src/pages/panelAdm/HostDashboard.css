@@ -294,6 +294,9 @@
 }
 .hd-modal-content textarea { min-height: 90px; resize: vertical; }
 
+.modal-field { display: flex; flex-direction: column; gap: .3rem; }
+.modal-field label { font-size: .8rem; font-weight: 600; color: var(--navy, #1A365D); }
+
 .hd-modal-actions { display: flex; justify-content: flex-end; gap: .75rem; margin-top: .5rem; }
 .hd-modal-actions button {
   border: none; border-radius: .5rem;

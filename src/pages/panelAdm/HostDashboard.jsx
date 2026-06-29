@@ -468,10 +468,22 @@ export default function HostDashboard() {
             <button onClick={handleCloseRoomModal} disabled={savingRoom}>Cancelar</button>
             <button onClick={handleSaveRoom} disabled={savingRoom}>{savingRoom ? "Guardando..." : editingRoom ? "Guardar cambios" : "Crear habitación"}</button>
           </>}>
-          <input name="name" placeholder="Nombre de la habitación" value={roomForm.name} onChange={(e) => setRoomForm({ ...roomForm, name: e.target.value })} />
-          <textarea name="description" placeholder="Descripción" value={roomForm.description} onChange={(e) => setRoomForm({ ...roomForm, description: e.target.value })} />
-          <input name="maxCapacity" type="number" placeholder="Capacidad máxima" value={roomForm.maxCapacity} onChange={(e) => setRoomForm({ ...roomForm, maxCapacity: e.target.value })} />
-          <input name="pricePerNight" type="number" placeholder="Precio por noche" value={roomForm.pricePerNight} onChange={(e) => setRoomForm({ ...roomForm, pricePerNight: e.target.value })} />
+          <div className="modal-field">
+            <label>Nombre de la habitación</label>
+            <input name="name" placeholder="Ej. Suite doble" value={roomForm.name} onChange={(e) => setRoomForm({ ...roomForm, name: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>Descripción</label>
+            <textarea name="description" placeholder="Describí la habitación" value={roomForm.description} onChange={(e) => setRoomForm({ ...roomForm, description: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>Capacidad máxima</label>
+            <input name="maxCapacity" type="number" placeholder="Ej. 2" value={roomForm.maxCapacity} onChange={(e) => setRoomForm({ ...roomForm, maxCapacity: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>Precio por noche</label>
+            <input name="pricePerNight" type="number" placeholder="Ej. 15000" value={roomForm.pricePerNight} onChange={(e) => setRoomForm({ ...roomForm, pricePerNight: e.target.value })} />
+          </div>
           <label className="file-input-label">
             Imágenes {editingRoom ? "(opcional, reemplazan las actuales)" : "(opcional, hasta 5)"}
             <input name="imagenes" type="file" accept="image/*" multiple onChange={(e) => setRoomForm({ ...roomForm, images: Array.from(e.target.files) })} />
@@ -486,10 +498,22 @@ export default function HostDashboard() {
             <button onClick={() => setShowAccommodationModal(false)} disabled={savingAccommodation}>Cancelar</button>
             <button onClick={handleSaveAccommodation} disabled={savingAccommodation}>{savingAccommodation ? "Guardando..." : "Guardar cambios"}</button>
           </>}>
-          <input name="name" placeholder="Nombre del hospedaje" value={accommodationForm.name} onChange={(e) => setAccommodationForm({ ...accommodationForm, name: e.target.value })} />
-          <textarea name="description" placeholder="Descripción del hospedaje" value={accommodationForm.description} onChange={(e) => setAccommodationForm({ ...accommodationForm, description: e.target.value })} />
-          <input name="whatsapp" placeholder="WhatsApp" value={accommodationForm.whatsapp} onChange={(e) => setAccommodationForm({ ...accommodationForm, whatsapp: e.target.value })} />
-          <input name="depositPercentage" type="number" placeholder="Porcentaje de seña" value={accommodationForm.depositPercentage} onChange={(e) => setAccommodationForm({ ...accommodationForm, depositPercentage: e.target.value })} />
+          <div className="modal-field">
+            <label>Nombre del hospedaje</label>
+            <input name="name" placeholder="Ej. Hotel Paraíso" value={accommodationForm.name} onChange={(e) => setAccommodationForm({ ...accommodationForm, name: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>Descripción</label>
+            <textarea name="description" placeholder="Describí el hospedaje" value={accommodationForm.description} onChange={(e) => setAccommodationForm({ ...accommodationForm, description: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>WhatsApp</label>
+            <input name="whatsapp" placeholder="Ej. 5493815833048" value={accommodationForm.whatsapp} onChange={(e) => setAccommodationForm({ ...accommodationForm, whatsapp: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>Porcentaje de seña</label>
+            <input name="depositPercentage" type="number" placeholder="Ej. 30" value={accommodationForm.depositPercentage} onChange={(e) => setAccommodationForm({ ...accommodationForm, depositPercentage: e.target.value })} />
+          </div>
           <label className="file-input-label">
             Imagen principal (opcional, reemplaza la actual)
             <input name="mainImage" type="file" accept="image/*" onChange={(e) => setAccommodationForm({ ...accommodationForm, mainImage: e.target.files[0] || null })} />
@@ -508,13 +532,25 @@ export default function HostDashboard() {
             <button onClick={() => setShowBookingModal(false)} disabled={savingBooking}>Cancelar</button>
             <button onClick={handleCreateBooking} disabled={savingBooking}>{savingBooking ? "Creando..." : "Crear reserva"}</button>
           </>}>
-          <input name="guestEmail" type="email" placeholder="Email del cliente registrado" value={bookingForm.guestEmail} onChange={(e) => setBookingForm({ ...bookingForm, guestEmail: e.target.value })} />
-          <select name="room" value={bookingForm.room} onChange={(e) => setBookingForm({ ...bookingForm, room: e.target.value })}>
-            <option value="">Seleccionar habitación</option>
-            {rooms.map((r) => <option key={r._id} value={r._id}>{r.name} - ${r.pricePerNight}</option>)}
-          </select>
-          <input name="checkIn" type="date" value={bookingForm.checkIn} onChange={(e) => setBookingForm({ ...bookingForm, checkIn: e.target.value })} />
-          <input name="checkOut" type="date" value={bookingForm.checkOut} onChange={(e) => setBookingForm({ ...bookingForm, checkOut: e.target.value })} />
+          <div className="modal-field">
+            <label>Email del cliente</label>
+            <input name="guestEmail" type="email" placeholder="cliente@ejemplo.com" value={bookingForm.guestEmail} onChange={(e) => setBookingForm({ ...bookingForm, guestEmail: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>Habitación</label>
+            <select name="room" value={bookingForm.room} onChange={(e) => setBookingForm({ ...bookingForm, room: e.target.value })}>
+              <option value="">Seleccionar habitación</option>
+              {rooms.map((r) => <option key={r._id} value={r._id}>{r.name} - ${r.pricePerNight}</option>)}
+            </select>
+          </div>
+          <div className="modal-field">
+            <label>Check-in</label>
+            <input name="checkIn" type="date" value={bookingForm.checkIn} onChange={(e) => setBookingForm({ ...bookingForm, checkIn: e.target.value })} />
+          </div>
+          <div className="modal-field">
+            <label>Check-out</label>
+            <input name="checkOut" type="date" value={bookingForm.checkOut} onChange={(e) => setBookingForm({ ...bookingForm, checkOut: e.target.value })} />
+          </div>
         </Modal>
       )}
 
