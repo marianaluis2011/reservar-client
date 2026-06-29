@@ -51,10 +51,11 @@ const MyBooking = () => {
               <div className="mb-card-image">
                 <img
                   src={
+                    b.room?.images?.[0] ||
                     b.accommodation?.mainImage ||
                     "https://placehold.co/600x400?text=Hospedaje"
                   }
-                  alt={b.accommodation?.name || "Hospedaje"}
+                  alt={b.room?.name || b.accommodation?.name || "Hospedaje"}
                 />
               </div>
               <div className="mb-card-content">
