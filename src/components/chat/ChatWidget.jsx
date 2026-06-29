@@ -53,8 +53,8 @@ export default function ChatWidget() {
 
   return (
     <>
-      <button onClick={() => setOpen(!open)} className="chat-fab">
-        💬
+      <button onClick={() => setOpen(!open)} className="chat-fab" aria-label="Abrir asistente IA">
+        ✨
       </button>
 
       {open && (
