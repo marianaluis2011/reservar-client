@@ -1,4 +1,5 @@
 import { Bed, Building2, CheckCircle, Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
 import { toast } from "sonner";
@@ -7,21 +8,8 @@ import React, { useState } from "react";
 import TermsModal from "./../terms/termsModal.jsx";
 
 
-const onSubmit = async (data) => {
-  try {
-    // eslint-disable-next-line no-unused-vars
-    const response = await registerUser(data);
-
-    toast.success("Usuario registrado correctamente");
-  } catch (error) {
-    toast.error(
-      error.response?.data?.message ||
-      "Error al registrar usuario"
-    );
-  }
-};
-
 export default function Register() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -30,6 +18,20 @@ export default function Register() {
     setValue,
     role,
   } = useRegisterForm();
+
+  const onSubmit = async (data) => {
+    try {
+      // eslint-disable-next-line no-unused-vars
+      const response = await registerUser(data);
+      toast.success("Usuario registrado correctamente");
+      navigate("/login");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+        "Error al registrar usuario"
+      );
+    }
+  };  
 
   const handleRoleChange = (newRole) => {
     setValue("role", newRole);
@@ -267,27 +269,27 @@ export default function Register() {
                 )}
               </div>
 
-              </div>
+            </div>
 
-              {/* HOST */}
-              {role === "host" && (
+            {/* HOST */}
+            {role === "host" && (
+              <div className="mt-3 border-t pt-3">
                 <div className="mt-3 border-t pt-3">
-                  <div className="mt-3 border-t pt-3">
-                    <h3 className="text-lg font-bold text-slate-800 mb-4">
-                      Datos del Hospedaje
-                    </h3>
+                  <h3 className="text-lg font-bold text-slate-800 mb-4">
+                    Datos del Hospedaje
+                  </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-2">
-                          Nombre del Hospedaje
-                        </label>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Nombre del Hospedaje
+                      </label>
 
-                        <input
-                          {...register("name")}
-                          placeholder="Ej. Hotel Paraíso"
-                          className="
+                      <input
+                        {...register("name")}
+                        placeholder="Ej. Hotel Paraíso"
+                        className="
   w-full
   border
   border-slate-300
@@ -300,22 +302,22 @@ export default function Register() {
   focus:ring-cyan-500
 "                    />
 
-                        {errors.name && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.name.message}
-                          </p>
-                        )}
-                      </div>
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-2">
-                          Ubicación
-                        </label>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Ubicación
+                      </label>
 
-                        <input
-                          {...register("province")}
-                          placeholder="Ciudad, País"
-                          className="
+                      <input
+                        {...register("province")}
+                        placeholder="Ciudad, País"
+                        className="
   w-full
   border
   border-slate-300
@@ -328,23 +330,23 @@ export default function Register() {
   focus:ring-cyan-500
 "                    />
 
-                        {errors.province && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.province.message}
-                          </p>
-                        )}
-                      </div>
+                      {errors.province && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.province.message}
+                        </p>
+                      )}
+                    </div>
 
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-slate-700 mb-1">
-                          Descripción
-                        </label>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-slate-700 mb-1">
+                        Descripción
+                      </label>
 
-                        <textarea
-                          rows={1}
-                          {...register("description")}
-                          placeholder="Cuéntanos sobre tu hospedaje..."
-                          className="
+                      <textarea
+                        rows={1}
+                        {...register("description")}
+                        placeholder="Cuéntanos sobre tu hospedaje..."
+                        className="
   w-full
   border
   border-slate-300
@@ -357,24 +359,24 @@ export default function Register() {
   focus:ring-2
   focus:ring-cyan-500
 "
-                        />
+                      />
 
-                        {errors.description && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.description.message}
-                          </p>
-                        )}
-                      </div>
+                      {errors.description && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.description.message}
+                        </p>
+                      )}
+                    </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-2">
-                          WhatsApp
-                        </label>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        WhatsApp
+                      </label>
 
-                        <input
-                          {...register("whatsapp")}
-                          placeholder="+54 9 11 ..."
-                          className="
+                      <input
+                        {...register("whatsapp")}
+                        placeholder="+54 9 11 ..."
+                        className="
   w-full
   border
   border-slate-300
@@ -387,67 +389,80 @@ export default function Register() {
   focus:ring-cyan-500
 "                />
 
-                        {errors.whatsapp && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.whatsapp.message}
-                          </p>
-                        )}
-                      </div>
+                      {errors.whatsapp && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.whatsapp.message}
+                        </p>
+                      )}
                     </div>
+                  </div>
 
-                    <div className="mt-4 rounded-xl bg-cyan-50 border border-cyan-200 p-3">
-                      <div className="section-state">
-                        <CheckCircle className="w-5 h-5 text-[rgb(27,85,52)] mt-0.5" />
+                  <div className="mt-4 rounded-xl bg-cyan-50 border border-cyan-200 p-3">
+                    <div className="section-state">
+                      <CheckCircle className="w-5 h-5 text-[rgb(27,85,52)] mt-0.5" />
 
-                        <div>
-                          <h4 className="font-semibold text-cyan-900">
-                            Estado: Pendiente de aprobación
-                          </h4>
+                      <div>
+                        <h4 className="font-semibold text-cyan-900">
+                          Estado: Pendiente de aprobación
+                        </h4>
 
-                          <p className="text-sm text-cyan-800 mt-1">
-                            Tu cuenta y hospedaje han sido creados.
-                            Se encuentran pendientes de aprobación
-                            por el Super Administrador.
-                          </p>
-                        </div>
+                        <p className="text-sm text-cyan-800 mt-1">
+                          Tu cuenta y hospedaje han sido creados.
+                          Se encuentran pendientes de aprobación
+                          por el Super Administrador.
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
 
 
-              <div className="mt-8 pt-5 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={termsAccepted}
-                    onChange={() => setIsModalOpen(true)}
-                  />
-                  <span>Acepto Términos y Servicios</span>
-                </label>
-                {/* Render del modal */}
-                <TermsModal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                  onAccept={() => {
-                    setTermsAccepted(true);
-                    setIsModalOpen(false);
+            <div className="mt-8 pt-5 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={termsAccepted}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setIsModalOpen(true);
+                    } else {
+                      setTermsAccepted(false);
+                      setValue("terms", false, { shouldValidate: true });
+                    }
                   }}
                 />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-lodging"
-                >
-                  {isSubmitting
-                    ? "Procesando..."
-                    : role === "guest"
-                      ? "Crear cuenta"
-                      : "Registrar Hospedaje"}
-                </button>
+                <span>Acepto Términos y Servicios</span>
+              </label>
+              {errors.terms && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.terms.message}
+                </p>
+              )}
+              {/* Render del modal */}
+              <TermsModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onAccept={() => {
+                  setTermsAccepted(true);
+                  setValue("terms", true, { shouldValidate: true });
+                  setIsModalOpen(false);
+                }}
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-lodging"
+              >
+                {isSubmitting
+                  ? "Procesando..."
+                  : role === "guest"
+                    ? "Crear cuenta"
+                    : "Registrar Hospedaje"}
+              </button>
 
-              </div>
+            </div>
 
           </form>
         </div>
