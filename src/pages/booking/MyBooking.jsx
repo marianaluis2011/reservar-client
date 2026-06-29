@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getMyBookings } from "../../services/booking.services.js";
 import { toast } from "sonner";
 import "./MyBooking.css";
@@ -14,6 +15,7 @@ const capitalizar = (texto) =>
   texto ? texto.charAt(0).toUpperCase() + texto.slice(1) : "";
 
 const MyBooking = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,6 +38,7 @@ const MyBooking = () => {
   return (
     <div className="mb-container">
       <div className="mb-header">
+        <button className="mb-back" onClick={() => navigate("/")}>← Volver al inicio</button>
         <h1>Mis Reservas</h1>
         <p>Consulta el estado de tus reservas en tiempo real.</p>
       </div>
