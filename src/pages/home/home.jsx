@@ -227,8 +227,8 @@ export default function Home() {
             Únete a cientos de operadores que ya transformaron su gestión con ReservaHost.
           </p>
           <div className="cta-section__btns">
-            <button className="btn btn--primary">Empezar Ahora</button>
-            <button className="btn btn--ghost">Saber más</button>
+            <button className="btn btn--primary" onClick={() => navigate("/register")}>Empezar Ahora</button>
+            <button className="btn btn--ghost" onClick={() => navigate("/about")}>Saber más</button>
           </div>
         </div>
       </section>
