@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getPublicAccommodations } from "../../services/accommodation.services.js";
+import { getProvinces } from "../../services/province.services.js";
 import "./Home.css";
 
 
@@ -25,43 +26,33 @@ const pillars = [
 
 export default function Home() {
   const navigate = useNavigate();
-  const [location, setLocation] = useState("");
-  const [dates, setDates] = useState("");
-  const [guests, setGuests] = useState("");
   const [accommodations, setAccommodations] = useState([]);
   const [loadingAcc, setLoadingAcc] = useState(true);
   const [selectedProvince, setSelectedProvince] = useState("");
+  const [provinces, setProvinces] = useState([]);
 
   useEffect(() => {
-    const fetchAccommodations = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getPublicAccommodations();
-        setAccommodations(data);
+        const [accData, provData] = await Promise.all([
+          getPublicAccommodations(),
+          getProvinces(),
+        ]);
+        setAccommodations(accData);
+        setProvinces(provData);
       } catch (error) {
-        console.error("Error al cargar hospedajes:", error);
+        console.error("Error al cargar datos:", error);
       } finally {
         setLoadingAcc(false);
       }
     };
-    fetchAccommodations();
+    fetchData();
   }, []);
 
-  // Provincias disponibles (derivadas de los hospedajes cargados).
-  const provincesAvailable = [
-    ...new Set(accommodations.map((a) => a.province?.name).filter(Boolean)),
-  ].sort();
-
-  // Filtro real: por texto (nombre/provincia) y por provincia seleccionada.
-  const filteredAccommodations = accommodations.filter((acc) => {
-    const q = location.trim().toLowerCase();
-    const matchesText =
-      !q ||
-      acc.name?.toLowerCase().includes(q) ||
-      acc.province?.name?.toLowerCase().includes(q);
-    const matchesProvince =
-      !selectedProvince || acc.province?.name === selectedProvince;
-    return matchesText && matchesProvince;
-  });
+  // Filtro por provincia seleccionada.
+  const filteredAccommodations = accommodations.filter(
+    (acc) => !selectedProvince || acc.province?.name === selectedProvince
+  );
 
   return (
     <div className="home">
@@ -82,32 +73,15 @@ export default function Home() {
           <div className="search-bar">
             <div className="search-bar__field">
               <span className="search-bar__icon">📍</span>
-              <input
-                type="text"
-                placeholder="¿A dónde vas?"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
-            </div>
-            <div className="search-bar__divider" />
-            <div className="search-bar__field">
-              <span className="search-bar__icon">📅</span>
-              <input
-                type="text"
-                placeholder="Entrada - Salida"
-                value={dates}
-                onChange={(e) => setDates(e.target.value)}
-              />
-            </div>
-            <div className="search-bar__divider" />
-            <div className="search-bar__field">
-              <span className="search-bar__icon">👥</span>
-              <input
-                type="text"
-                placeholder="¿Cuántos?"
-                value={guests}
-                onChange={(e) => setGuests(e.target.value)}
-              />
+              <select
+                value={selectedProvince}
+                onChange={(e) => setSelectedProvince(e.target.value)}
+              >
+                <option value="">Todas las provincias</option>
+                {provinces.map((p) => (
+                  <option key={p._id} value={p.name}>{p.name}</option>
+                ))}
+              </select>
             </div>
             <button className="btn btn--primary search-bar__btn">
               🔍 Buscar hospedaje
@@ -123,7 +97,7 @@ export default function Home() {
             <aside className="filters">
               <div className="filters__header">
                 <span className="filters__title">Filtros</span>
-                <button className="filters__clear" onClick={() => { setLocation(""); setSelectedProvince(""); }}>Limpiar</button>
+                <button className="filters__clear" onClick={() => setSelectedProvince("")}>Limpiar</button>
               </div>
 
               <div className="filter-group">
@@ -136,14 +110,14 @@ export default function Home() {
                     onChange={() => setSelectedProvince("")}
                   /> Todas
                 </label>
-                {provincesAvailable.map((prov) => (
-                  <label key={prov} className="filter-group__check">
+                {provinces.map((p) => (
+                  <label key={p._id} className="filter-group__check">
                     <input
                       type="radio"
                       name="province"
-                      checked={selectedProvince === prov}
-                      onChange={() => setSelectedProvince(prov)}
-                    /> {prov}
+                      checked={selectedProvince === p.name}
+                      onChange={() => setSelectedProvince(p.name)}
+                    /> {p.name}
                   </label>
                 ))}
               </div>
