@@ -4,13 +4,13 @@ const TermsModal = ({ isOpen, onClose, onAccept }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
+    <div className="terms-modal-overlay">
       <div className="modal-container">
         <div className="modal-header">
           <h2>Términos y Servicios</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
-        <div className="modal-body">
+        <div className="terms-modal-body">
             <p>
                 Al crear una cuenta aceptas utilizar la plataforma de forma
                 responsable y conforme a la legislación vigente.

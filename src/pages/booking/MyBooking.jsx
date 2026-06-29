@@ -34,21 +34,21 @@ const MyBooking = () => {
   }, []);
 
   return (
-    <div className="booking-container">
-      <div className="booking-header">
+    <div className="mb-container">
+      <div className="mb-header">
         <h1>Mis Reservas</h1>
         <p>Consulta el estado de tus reservas en tiempo real.</p>
       </div>
 
       {loading ? (
-        <div className="loading">Cargando reservas...</div>
+        <div className="mb-loading">Cargando reservas...</div>
       ) : bookings.length === 0 ? (
-        <div className="loading">Todavía no tenés reservas.</div>
+        <div className="mb-loading">Todavía no tenés reservas.</div>
       ) : (
-        <div className="booking-list">
+        <div className="mb-list">
           {bookings.map((b) => (
-            <div key={b._id} className="booking-card">
-              <div className="card-image">
+            <div key={b._id} className="mb-card">
+              <div className="mb-card-image">
                 <img
                   src={
                     b.accommodation?.mainImage ||
@@ -57,11 +57,11 @@ const MyBooking = () => {
                   alt={b.accommodation?.name || "Hospedaje"}
                 />
               </div>
-              <div className="card-content">
-                <div className="card-header">
+              <div className="mb-card-content">
+                <div className="mb-card-header">
                   <h2>{b.accommodation?.name || "Hospedaje"}</h2>
                 </div>
-                <div className="card-body">
+                <div className="mb-card-body">
                   <p><strong>Habitación:</strong> {b.room?.name || "-"}</p>
                   <p>
                     <strong>Fechas:</strong> {formatFecha(b.checkIn)} - {formatFecha(b.checkOut)}
@@ -69,7 +69,7 @@ const MyBooking = () => {
                   {typeof b.totalPrice === "number" && (
                     <p><strong>Total:</strong> ${b.totalPrice.toLocaleString()}</p>
                   )}
-                  <span className={`status ${b.status}`}>
+                  <span className={`mb-status ${b.status}`}>
                     {capitalizar(b.status)}
                   </span>
                 </div>

@@ -240,8 +240,8 @@ const NewAdminModal = ({ onClose, onCreated }) => {
     };
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="sa-modal-overlay" onClick={onClose}>
+            <div className="sa-modal-content" onClick={(e) => e.stopPropagation()}>
                 <h3>Nuevo Administrador</h3>
                 <input
                     name="fullName"
@@ -289,7 +289,7 @@ const NewAdminModal = ({ onClose, onCreated }) => {
                     value={form.whatsapp}
                     onChange={handleChange}
                 />
-                <div className="modal-actions">
+                <div className="sa-modal-actions">
                     <button className="action-btn" onClick={onClose} disabled={enviando}>
                         Cancelar
                     </button>

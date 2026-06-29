@@ -275,31 +275,31 @@
 .setting-subtitle { font-size: .7rem; color: var(--slate-mid); }
 
 /* ── Modal ─────────────────────────────────────────────────────── */
-.modal-overlay {
+.hd-modal-overlay {
   position: fixed; inset: 0;
   background: rgba(15,23,42,.55);
   display: flex; align-items: center; justify-content: center; z-index: 2000;
 }
-.modal-content {
+.hd-modal-content {
   background: white; width: min(420px, 92vw);
   border-radius: 1rem; padding: 1.5rem;
   display: flex; flex-direction: column; gap: .75rem;
 }
-.modal-content h3    { margin: 0 0 .5rem; color: var(--navy); }
-.modal-content input,
-.modal-content textarea,
-.modal-content select {
+.hd-modal-content h3    { margin: 0 0 .5rem; color: var(--navy); }
+.hd-modal-content input,
+.hd-modal-content textarea,
+.hd-modal-content select {
   width: 100%; border: 1px solid #cbd5e1;
   border-radius: .5rem; padding: .7rem; font: inherit;
 }
-.modal-content textarea { min-height: 90px; resize: vertical; }
+.hd-modal-content textarea { min-height: 90px; resize: vertical; }
 
-.modal-actions { display: flex; justify-content: flex-end; gap: .75rem; margin-top: .5rem; }
-.modal-actions button {
+.hd-modal-actions { display: flex; justify-content: flex-end; gap: .75rem; margin-top: .5rem; }
+.hd-modal-actions button {
   border: none; border-radius: .5rem;
   padding: .65rem 1rem; cursor: pointer; font-weight: 600;
 }
-.modal-actions button:last-child { background: var(--blue); color: white; }
+.hd-modal-actions button:last-child { background: var(--blue); color: white; }
 
 .booking-detail-list { display: flex; flex-direction: column; gap: .6rem; }
 .booking-detail-list p { margin: 0; color: #1e293b; font-size: .95rem; }

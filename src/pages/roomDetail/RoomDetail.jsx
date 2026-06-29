@@ -374,8 +374,8 @@ export default function RoomDetail() {
 
       {/* Modal de Confirmación */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="rd-modal-overlay">
+          <div className="rd-modal-content">
             <button className="modal-close-btn" onClick={() => setShowModal(false)} aria-label="Cerrar">
               <X size={20} />
             </button>
@@ -384,7 +384,7 @@ export default function RoomDetail() {
               <img src={images[0]} alt={room?.name} />
             </div>
 
-            <div className="modal-body">
+            <div className="rd-modal-body">
               <h2 className="modal-title">Detalles de la Reserva</h2>
 
               <div className="modal-info-section">

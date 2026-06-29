@@ -1,4 +1,4 @@
-.modal-overlay {
+.terms-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -57,7 +57,7 @@
   color: #004aad;
 }
 
-.modal-body {
+.terms-modal-body {
   padding: 25px;
   color: #1A365D;
   font-size: 1rem;
@@ -66,12 +66,12 @@
   overflow-y: auto;
 }
 
-.modal-body h3 {
+.terms-modal-body h3 {
   margin-top: 20px;
   font-size: 1.2rem;
   color: #004aad;
 }
-.modal-body p {
+.terms-modal-body p {
   font-size: medium;
   font-weight: normal;
 }
