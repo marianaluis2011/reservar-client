@@ -4,7 +4,8 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 // El back monta /api/usuarios, pero VITE_API_URL termina en /api/auth.
 // Subimos un nivel para llegar a /api.
-const API_BASE = API_URL.replace("/auth", "");
+
+// const API_BASE = API_URL.replace("/auth", "");
 
 const getToken = () =>
   localStorage.getItem("token") || sessionStorage.getItem("token");
