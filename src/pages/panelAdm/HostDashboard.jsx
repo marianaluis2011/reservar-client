@@ -141,6 +141,13 @@ export default function HostDashboard() {
   };
 
   // ── Handlers de reservas ───────────────────────────────────────────────────
+  const askConfirm = (mensaje, onConfirm) => {
+    toast(mensaje, {
+      action: { label: "Sí", onClick: onConfirm },
+      cancel: { label: "No" },
+    });
+  };
+
   const handleConfirmBooking = async (id) => {
     try {
       setProcessingBookingId(id);
@@ -152,7 +159,6 @@ export default function HostDashboard() {
   };
 
   const handleCancelBooking = async (id) => {
-    if (!window.confirm("¿Querés cancelar esta reserva?")) return;
     try {
       setProcessingBookingId(id);
       const res = await cancelOwnerBooking(id);
@@ -409,10 +415,10 @@ export default function HostDashboard() {
                         ) : (
                           <>
                             {(b.status === "pendiente" || b.status === "cancelada") && (
-                              <button className="action-icon-btn" title={b.status === "cancelada" ? "Reactivar" : "Aprobar"} onClick={() => handleConfirmBooking(b._id)}><Check size={14} /></button>
+                              <button className="action-icon-btn" title={b.status === "cancelada" ? "Reactivar" : "Aprobar"} onClick={() => askConfirm(b.status === "cancelada" ? "¿Reactivar esta reserva?" : "¿Aprobar esta reserva?", () => handleConfirmBooking(b._id))}><Check size={14} /></button>
                             )}
                             {b.status !== "cancelada" && (
-                              <button className="action-icon-btn" title={b.status === "pendiente" ? "Rechazar" : "Cancelar"} onClick={() => handleCancelBooking(b._id)}><X size={14} /></button>
+                              <button className="action-icon-btn" title={b.status === "pendiente" ? "Rechazar" : "Cancelar"} onClick={() => askConfirm(b.status === "pendiente" ? "¿Rechazar esta reserva?" : "¿Cancelar esta reserva?", () => handleCancelBooking(b._id))}><X size={14} /></button>
                             )}
                             <button className="action-icon-btn" title="Contactar por WhatsApp"><MessageSquare size={14} /></button>
                           </>

@@ -267,7 +267,7 @@ const SuperAdminDashboard = () => {
         loadDashboardData();
     }, [refreshDashboard, page]);
 
-    const handleAccommodationStatus = async (id, status) => {
+    const doAccommodationStatus = async (id, status) => {
         try {
             const res = await changeAccommodationStatus(id, status);
             toast.success(res.message);
@@ -275,6 +275,18 @@ const SuperAdminDashboard = () => {
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error al cambiar el estado del hospedaje');
         }
+    };
+
+    const handleAccommodationStatus = (id, status) => {
+        const mensajes = {
+            aprobado: "¿Aprobar este hospedaje?",
+            rechazado: "¿Rechazar este hospedaje?",
+            suspendido: "¿Suspender este hospedaje?",
+        };
+        toast(mensajes[status] || "¿Confirmar esta acción?", {
+            action: { label: "Sí", onClick: () => doAccommodationStatus(id, status) },
+            cancel: { label: "No" },
+        });
     };
 
     const handleSidebarOptionClick = (option) => {

@@ -57,6 +57,17 @@ const MobileMenu = ({
         </button>
       )}
 
+      {isAuthenticated && user?.role === "guest" && (
+        <button
+          onClick={() => {
+            navigate("/myBooking");
+            closeMenu();
+          }}
+        >
+          Mis reservas
+        </button>
+      )}
+
       {isAuthenticated && (
         <UserMenu
           mobile

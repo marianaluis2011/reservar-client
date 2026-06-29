@@ -98,12 +98,21 @@ onClick={() => navigate('/')}
     >
       {(user?.role === "host" || user?.role === "super_admin") && (
         <button
-          className="btn-login"
+          className="btn-panel"
           onClick={() =>
             navigate(user.role === "super_admin" ? "/host/superAdmin" : "/host/dashboard")
           }
         >
           Mi panel
+        </button>
+      )}
+
+      {user?.role === "guest" && (
+        <button
+          className="btn-panel"
+          onClick={() => navigate("/myBooking")}
+        >
+          Mis reservas
         </button>
       )}
 
