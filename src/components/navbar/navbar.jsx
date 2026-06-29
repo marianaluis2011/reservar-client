@@ -92,11 +92,21 @@ onClick={() => navigate('/')}
   )}
 
   {isAuthenticated && (
-    <div 
+    <div
       className="navbar-actions"
       ref={menuRef}
     >
-      
+      {(user?.role === "host" || user?.role === "super_admin") && (
+        <button
+          className="btn-login"
+          onClick={() =>
+            navigate(user.role === "super_admin" ? "/host/superAdmin" : "/host/dashboard")
+          }
+        >
+          Mi panel
+        </button>
+      )}
+
       <button
         className="btn-avatar"
         onClick={() =>

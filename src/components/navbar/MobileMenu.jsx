@@ -46,6 +46,17 @@ const MobileMenu = ({
         </>
       )}
 
+      {isAuthenticated && (user?.role === "host" || user?.role === "super_admin") && (
+        <button
+          onClick={() => {
+            navigate(user.role === "super_admin" ? "/host/superAdmin" : "/host/dashboard");
+            closeMenu();
+          }}
+        >
+          Mi panel
+        </button>
+      )}
+
       {isAuthenticated && (
         <UserMenu
           mobile
