@@ -51,7 +51,7 @@ export default function Home() {
         <div className="hero__overlay" />
         <img
           src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1400&q=80"
-          alt="Hero"
+          alt="Hospedaje destacado"
           className="hero__bg"
         />
         <div className="hero__content">
@@ -128,7 +128,7 @@ export default function Home() {
 
               <div className="filter-group">
                 <p className="filter-group__label">Comodidades</p>
-                {["WiFi Alta Velocidad", "Piscina Infinita", "Pet Friendly"].map((t) => (
+                {["WiFi Alta Velocidad", "Piscina Infinita", "Admite mascotas"].map((t) => (
                   <label key={t} className="filter-group__check">
                     <input type="checkbox" /> {t}
                   </label>

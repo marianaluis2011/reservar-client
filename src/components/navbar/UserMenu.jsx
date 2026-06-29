@@ -7,7 +7,7 @@ const UserMenu = ({
   mobile = false,
   closeMenu = () => {},
 }) => {
-  const userName = user?.name || user?.username || "Usuario";
+  const userName = user?.fullName || user?.name || user?.email || "Usuario";
 
   const handleClick = (path) => {
     navigate(path);
