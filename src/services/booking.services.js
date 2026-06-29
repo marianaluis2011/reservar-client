@@ -9,3 +9,8 @@ export const createBooking = async (bookingData) => {
   const { data } = await axios.post(`${API_BASE}/reservas`, bookingData, authHeader());
   return data;
 };
+
+export const getMyBookings = async () => {
+  const { data } = await axios.get(`${API_BASE}/reservas`, authHeader());
+  return data;
+};

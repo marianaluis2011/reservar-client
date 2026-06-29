@@ -155,7 +155,7 @@ export default function RoomDetail() {
       });
       toast.success(res.message || "Reserva creada con éxito");
       setShowModal(false);
-      navigate("/");
+      navigate("/myBooking");
     } catch (error) {
       toast.error(error.response?.data?.message || "Error al crear la reserva");
     } finally {
