@@ -1,0 +1,63 @@
+import NavLinks from "./NavLinks";
+import UserMenu from "./UserMenu";
+
+const MobileMenu = ({
+  open,
+  showNavigationLinks,
+  isHome,
+  isAuthenticated,
+  user,
+  navigate,
+  logout,
+  closeMenu,
+}) => {
+  if (!open) return null;
+
+  return (
+    <div className="mobile-menu">
+
+      {showNavigationLinks && (
+        <NavLinks
+          navigate={navigate}
+          mobile
+          closeMenu={closeMenu}
+        />
+      )}
+
+      {isHome && !isAuthenticated && (
+        <>
+          <button
+            onClick={() => {
+              navigate("/login");
+              closeMenu();
+            }}
+          >
+            Iniciar Sesión
+          </button>
+
+          <button
+            onClick={() => {
+              navigate("/register");
+              closeMenu();
+            }}
+          >
+            Registrarse
+          </button>
+        </>
+      )}
+
+      {isAuthenticated && (
+        <UserMenu
+          mobile
+          user={user}
+          navigate={navigate}
+          logout={logout}
+          closeMenu={closeMenu}
+        />
+      )}
+
+    </div>
+  );
+};
+
+export default MobileMenu;
