@@ -30,6 +30,7 @@ export default function Home() {
   const [guests, setGuests] = useState("");
   const [accommodations, setAccommodations] = useState([]);
   const [loadingAcc, setLoadingAcc] = useState(true);
+  const [selectedProvince, setSelectedProvince] = useState("");
 
   useEffect(() => {
     const fetchAccommodations = async () => {
@@ -44,6 +45,23 @@ export default function Home() {
     };
     fetchAccommodations();
   }, []);
+
+  // Provincias disponibles (derivadas de los hospedajes cargados).
+  const provincesAvailable = [
+    ...new Set(accommodations.map((a) => a.province?.name).filter(Boolean)),
+  ].sort();
+
+  // Filtro real: por texto (nombre/provincia) y por provincia seleccionada.
+  const filteredAccommodations = accommodations.filter((acc) => {
+    const q = location.trim().toLowerCase();
+    const matchesText =
+      !q ||
+      acc.name?.toLowerCase().includes(q) ||
+      acc.province?.name?.toLowerCase().includes(q);
+    const matchesProvince =
+      !selectedProvince || acc.province?.name === selectedProvince;
+    return matchesText && matchesProvince;
+  });
 
   return (
     <div className="home">
@@ -105,51 +123,36 @@ export default function Home() {
             <aside className="filters">
               <div className="filters__header">
                 <span className="filters__title">Filtros</span>
-                <button className="filters__clear">Limpiar</button>
+                <button className="filters__clear" onClick={() => { setLocation(""); setSelectedProvince(""); }}>Limpiar</button>
               </div>
 
               <div className="filter-group">
-                <p className="filter-group__label">Rango de Precio</p>
-                <div className="filter-group__range">
-                  <span>$50</span>
-                  <input type="range" min="50" max="1000" defaultValue="500" className="range-input" />
-                  <span>$1000+</span>
-                </div>
-              </div>
-
-              <div className="filter-group">
-                <p className="filter-group__label">Tipo de Alojamiento</p>
-                {["Villas Privadas", "Hoteles Boutique", "Cabinas Modernas"].map((t) => (
-                  <label key={t} className="filter-group__check">
-                    <input type="checkbox" /> {t}
+                <p className="filter-group__label">Provincia</p>
+                <label className="filter-group__check">
+                  <input
+                    type="radio"
+                    name="province"
+                    checked={selectedProvince === ""}
+                    onChange={() => setSelectedProvince("")}
+                  /> Todas
+                </label>
+                {provincesAvailable.map((prov) => (
+                  <label key={prov} className="filter-group__check">
+                    <input
+                      type="radio"
+                      name="province"
+                      checked={selectedProvince === prov}
+                      onChange={() => setSelectedProvince(prov)}
+                    /> {prov}
                   </label>
                 ))}
-              </div>
-
-              <div className="filter-group">
-                <p className="filter-group__label">Comodidades</p>
-                {["WiFi Alta Velocidad", "Piscina Infinita", "Admite mascotas"].map((t) => (
-                  <label key={t} className="filter-group__check">
-                    <input type="checkbox" /> {t}
-                  </label>
-                ))}
-              </div>
-
-              <div className="filter-group">
-                <p className="filter-group__label">Calificación</p>
-                <label className="filter-group__check">
-                  <input type="radio" name="rating" /> ⭐⭐⭐⭐⭐
-                </label>
-                <label className="filter-group__check">
-                  <input type="radio" name="rating" /> 4.0+
-                </label>
               </div>
             </aside>
 
 
             <div className="results__main">
               <div className="results__top">
-                <h2 className="results__count">Resultados encontrados ({accommodations.length})</h2>  
+                <h2 className="results__count">Resultados encontrados ({filteredAccommodations.length})</h2>
                 <div className="results__sort">
                   <span>Ordenar por:</span>
                   <select>
@@ -163,10 +166,10 @@ export default function Home() {
               <div className="cards-grid">
                 {loadingAcc ? (
                   <p>Cargando hospedajes...</p>
-                ) : accommodations.length === 0 ? (
-                  <p>No hay hospedajes disponibles por el momento.</p>
+                ) : filteredAccommodations.length === 0 ? (
+                  <p>No se encontraron hospedajes para tu búsqueda.</p>
                 ) : (
-                  accommodations.map((acc) => (
+                  filteredAccommodations.map((acc) => (
                     <div key={acc._id} className="property-card">
                       <div className="property-card__img-wrap">
                         <img src={acc.mainImage} alt={acc.name} className="property-card__img" />

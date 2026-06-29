@@ -222,6 +222,7 @@ body {
   border-radius: var(--radius);
   padding: 20px;
   box-shadow: var(--shadow);
+  box-sizing: border-box;
 }
 
 .filters__header {
@@ -281,6 +282,7 @@ body {
 
 .range-input {
   flex: 1;
+  min-width: 0;
   accent-color: var(--secondary);
 }
 
