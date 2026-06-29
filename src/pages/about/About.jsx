@@ -2,11 +2,9 @@ import "./About.css";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGem, FaCogs, FaLightbulb, FaUsers } from "react-icons/fa";
 
 const team = [
-  { name: "Santiago", role: "Creative Director", img: "caricatura1.png" },
-  { name: "Mariana", role: "Technical Director", img: "caricatura2.png" },
+  { name: "Santiago", role: "Scrum Master", img: "caricatura1.png" },
+  { name: "Mariana", role: "Directora Técnica", img: "caricatura2.png" },
   { name: "Sebastián", role: "Developer", img: "caricatura3.png" },
-  { name: "Santino", role: "Designer", img: "caricatura4.png" },
-  { name: "Nazareno", role: "Marketing Specialist", img: "caricatura5.png" },
 ];
 
 export default function About() {
@@ -38,7 +36,7 @@ export default function About() {
 
       {/* Team Section */}
       <section className="team-section">
-        <h2>MEET THE TEAM</h2>
+        <h2>NUESTRO EQUIPO</h2>
         {team.map((member, index) => (
           <div className={`team-card ${index % 2 === 0 ? "left" : "right"}`} key={index}>
             <div className="team-img">
