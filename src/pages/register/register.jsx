@@ -59,6 +59,13 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
       <div className="container-header">
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-800 mb-4"
+        >
+          ← Volver al inicio
+        </button>
         {/* HEADER */}
         <div className="header-one">
           <h1 className="header-title">
