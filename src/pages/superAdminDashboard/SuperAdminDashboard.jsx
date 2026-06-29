@@ -273,52 +273,68 @@ const NewAdminModal = ({ onClose, onCreated }) => {
         <div className="sa-modal-overlay" onClick={onClose}>
             <div className="sa-modal-content" onClick={(e) => e.stopPropagation()}>
                 <h3>Nuevo Administrador</h3>
-                <input
-                    name="fullName"
-                    placeholder="Nombre completo"
-                    value={form.fullName}
-                    onChange={handleChange}
-                />
-                <input
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                />
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Contraseña"
-                    value={form.password}
-                    onChange={handleChange}
-                />
-                <input
-                    name="accommodationName"
-                    placeholder="Nombre del hospedaje"
-                    value={form.accommodationName}
-                    onChange={handleChange}
-                />
-
-                <select
-                    name="province"
-                    value={form.province}
-                    onChange={handleChange}
-                >
-                    <option value="">Seleccionar provincia</option>
-                    {provinces.map((province) => (
-                        <option key={province._id} value={province._id}>
-                            {province.name}
-                        </option>
-                    ))}
-                </select>
-
-                <input
-                    name="whatsapp"
-                    placeholder="WhatsApp del hospedaje"
-                    value={form.whatsapp}
-                    onChange={handleChange}
-                />
+                <div className="modal-field">
+                    <label>Nombre completo</label>
+                    <input
+                        name="fullName"
+                        placeholder="Nombre completo del administrador"
+                        value={form.fullName}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="modal-field">
+                    <label>Email</label>
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="admin@ejemplo.com"
+                        value={form.email}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="modal-field">
+                    <label>Contraseña</label>
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        value={form.password}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="modal-field">
+                    <label>Nombre del hospedaje</label>
+                    <input
+                        name="accommodationName"
+                        placeholder="Ej. Hotel Paraíso"
+                        value={form.accommodationName}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="modal-field">
+                    <label>Provincia</label>
+                    <select
+                        name="province"
+                        value={form.province}
+                        onChange={handleChange}
+                    >
+                        <option value="">Seleccionar provincia</option>
+                        {provinces.map((province) => (
+                            <option key={province._id} value={province._id}>
+                                {province.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="modal-field">
+                    <label>WhatsApp del hospedaje</label>
+                    <input
+                        name="whatsapp"
+                        placeholder="Ej. 5493815833048"
+                        value={form.whatsapp}
+                        onChange={handleChange}
+                    />
+                </div>
                 <div className="sa-modal-actions">
                     <button className="action-btn" onClick={onClose} disabled={enviando}>
                         Cancelar
