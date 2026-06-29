@@ -62,7 +62,7 @@ const SuperAdminMetricCard = ({ title, value }) => {
     );
 };
 
-const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus }) => {
+const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus, pagination = {}, onPageChange }) => {
     if (loading) {
         return <div className="table-section"><h3>HOSPEDAJES REGISTRADOS</h3><p>Cargando hospedajes...</p></div>;
     }
@@ -108,6 +108,36 @@ const RegisteredAccommodationsTable = ({ accommodations, loading, onChangeStatus
                     )}
                 </tbody>
             </table>
+
+            {pagination.totalPages > 1 && (
+                <div className="pagination">
+                    <button
+                        disabled={!pagination.hasPrevPage}
+                        onClick={() => onPageChange(pagination.currentPage - 1)}
+                    >
+                        Anterior
+                    </button>
+
+                    <div className="pages">
+                        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
+                            <button
+                                key={p}
+                                className={pagination.currentPage === p ? "page-btn active" : "page-btn"}
+                                onClick={() => onPageChange(p)}
+                            >
+                                {p}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        disabled={!pagination.hasNextPage}
+                        onClick={() => onPageChange(pagination.currentPage + 1)}
+                    >
+                        Siguiente
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
@@ -316,6 +346,9 @@ const SuperAdminDashboard = () => {
         registeredAdmins: 0
     });
     const [accommodations, setAccommodations] = useState([]);
+    const [pagination, setPagination] = useState({});
+    const [page, setPage] = useState(1);
+    const limit = 10;
     const [loadingStats, setLoadingStats] = useState(true);
     const [loadingAccommodations, setLoadingAccommodations] = useState(true);
 
@@ -327,11 +360,12 @@ const SuperAdminDashboard = () => {
 
                 const [statsData, accommodationsData] = await Promise.all([
                     getDashboardStats(),
-                    getAllAccommodationsForAdmin()
+                    getAllAccommodationsForAdmin(page, limit)
                 ]);
 
                 setStats(statsData);
-                setAccommodations(accommodationsData);
+                setAccommodations(accommodationsData.accommodations);
+                setPagination(accommodationsData.pagination);
             } catch (error) {
                 toast.error(error.response?.data?.message || 'Error al cargar el panel');
             } finally {
@@ -341,7 +375,7 @@ const SuperAdminDashboard = () => {
         };
 
         loadDashboardData();
-    }, [refreshDashboard]);
+    }, [refreshDashboard, page]);
 
     const handleAccommodationStatus = async (id, status) => {
         try {
@@ -414,6 +448,8 @@ const SuperAdminDashboard = () => {
                     accommodations={accommodations}
                     loading={loadingAccommodations}
                     onChangeStatus={handleAccommodationStatus}
+                    pagination={pagination}
+                    onPageChange={setPage}
                 />
                 <AdminsTable key={refreshUsers} />
                 {showNewAdmin && (

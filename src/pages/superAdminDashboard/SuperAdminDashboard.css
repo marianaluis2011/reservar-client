@@ -330,6 +330,40 @@ table tbody tr:hover {
     margin-top: 8px;
 }
 
+/* Paginación */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 6px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination .pages {
+    display: flex;
+    gap: 6px;
+}
+
+.pagination .page-btn.active {
+    background: #1A365D;
+    color: #fff;
+    border-color: #1A365D;
+}
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
