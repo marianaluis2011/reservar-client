@@ -1,9 +1,5 @@
 export const navLinks = [
   {
-    label: "Mis Reservas",
-    path: "/myBooking",
-  },
-  {
     label: "Nosotros",
     path: "/about",
   },
