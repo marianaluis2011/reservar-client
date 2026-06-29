@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Home, Building2, Bed, CalendarDays, CalendarCheck,
   Settings, Plus, ChevronLeft, ChevronRight,
@@ -26,10 +25,10 @@ const FILTER_OPTIONS = [
 ];
 
 const SIDEBAR_NAV = [
-  { icon: Home,         label: "Resumen",       path: "/host/dashboard" },
-  { icon: Bed,          label: "Habitaciones",   path: "/host/rooms" },
-  { icon: CalendarDays, label: "Calendario",     path: "/host/calendar" },
-  { icon: Settings,     label: "Configuración",  path: "/host/settings" },
+  { icon: Home,         label: "Resumen",       sectionId: null },
+  { icon: Bed,          label: "Habitaciones",  sectionId: "rooms-section" },
+  { icon: CalendarDays, label: "Calendario",    sectionId: "calendar-section" },
+  { icon: Settings,     label: "Configuración", sectionId: "quick-settings-section" },
 ];
 
 const QUICK_SETTINGS = [
@@ -53,7 +52,6 @@ function Modal({ onClose, title, children, footer }) {
 }
 
 export default function HostDashboard() {
-  const navigate = useNavigate();
   const { user } = useAuth();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -75,6 +73,7 @@ export default function HostDashboard() {
   const [savingAccommodation, setSavingAccommodation] = useState(false);
   const [savingBooking,       setSavingBooking]       = useState(false);
   const [editingRoom,         setEditingRoom]         = useState(null);
+  const [processingBookingId, setProcessingBookingId] = useState(null);
 
   const [roomForm, setRoomForm] = useState({ name: "", description: "", maxCapacity: "", pricePerNight: "", images: [] });
   const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "", mainImage: null, gallery: [] });
@@ -150,27 +149,35 @@ export default function HostDashboard() {
   });
 
   // ── Handlers de navegación ─────────────────────────────────────────────────
-  const handleSidebarNav = (path) => {
-    navigate(path === "/host/dashboard" ? path : "/404");
+  const scrollToSection = (sectionId) => {
+    if (!sectionId) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }
     setIsSidebarOpen(false);
   };
 
   // ── Handlers de reservas ───────────────────────────────────────────────────
   const handleConfirmBooking = async (id) => {
     try {
+      setProcessingBookingId(id);
       const res = await confirmOwnerBooking(id);
       toast.success(res.message);
       setBookings((prev) => prev.map((b) => b._id === id ? { ...b, status: "confirmada" } : b));
     } catch (e) { toast.error(e.response?.data?.message || "Error al confirmar"); }
+    finally { setProcessingBookingId(null); }
   };
 
   const handleCancelBooking = async (id) => {
     if (!window.confirm("¿Querés cancelar esta reserva?")) return;
     try {
+      setProcessingBookingId(id);
       const res = await cancelOwnerBooking(id);
       toast.success(res.message);
       setBookings((prev) => prev.map((b) => b._id === id ? { ...b, status: "cancelada" } : b));
     } catch (e) { toast.error(e.response?.data?.message || "Error al cancelar"); }
+    finally { setProcessingBookingId(null); }
   };
 
   const handleCreateBooking = async () => {
@@ -277,7 +284,7 @@ export default function HostDashboard() {
 
         <nav className="sidebar-nav">
           <ul>
-            <li className="active" onClick={() => handleSidebarNav("/host/dashboard")}>
+            <li className="active" onClick={() => scrollToSection(null)}>
               <Home size={16} /> Resumen
             </li>
             <li onClick={handleOpenAccommodationModal}>
@@ -286,8 +293,8 @@ export default function HostDashboard() {
             <li onClick={() => document.getElementById("bookings-section")?.scrollIntoView({ behavior: "smooth" })}>
               <CalendarCheck size={16} /> Reservas
             </li>
-            {SIDEBAR_NAV.slice(1).map(({ icon: Icon, label, path }) => (
-              <li key={path} onClick={() => handleSidebarNav(path)}>
+            {SIDEBAR_NAV.slice(1).map(({ icon: Icon, label, sectionId }) => (
+              <li key={label} onClick={() => scrollToSection(sectionId)}>
                 <Icon size={16} /> {label}
               </li>
             ))}
@@ -324,7 +331,7 @@ export default function HostDashboard() {
         <div className="dashboard-grid">
           <div className="dashboard-top-row">
             {/* Calendario */}
-            <section className="calendar-section card">
+            <section id="calendar-section" className="calendar-section card">
               <h2 className="section-title">Calendario de Ocupación</h2>
               <div className="calendar-header-nav">
                 <button className="calendar-nav-btn" onClick={() => setViewDate(new Date(year, month - 1, 1))} aria-label="Mes anterior"><ChevronLeft size={18} /></button>
@@ -359,7 +366,7 @@ export default function HostDashboard() {
             </section>
 
             {/* Habitaciones */}
-            <section className="rooms-section card">
+            <section id="rooms-section" className="rooms-section card">
               <div className="section-header-with-button">
                 <h2 className="section-title">Habitaciones</h2>
                 <button className="btn-new-room-small" onClick={() => setShowRoomModal(true)}><Plus size={16} /> Nueva</button>
@@ -415,13 +422,19 @@ export default function HostDashboard() {
                       <td><span className={`status-badge ${b.status}`}>{formatBookingStatus(b.status)}</span></td>
                       <td className="booking-actions">
                         <button className="action-icon-btn" title="Ver detalle" onClick={() => setSelectedBooking(b)}><Eye size={14} /></button>
-                        {(b.status === "pendiente" || b.status === "cancelada") && (
-                          <button className="action-icon-btn" title={b.status === "cancelada" ? "Reactivar" : "Aprobar"} onClick={() => handleConfirmBooking(b._id)}><Check size={14} /></button>
+                        {processingBookingId === b._id ? (
+                          <span className="booking-processing">Procesando...</span>
+                        ) : (
+                          <>
+                            {(b.status === "pendiente" || b.status === "cancelada") && (
+                              <button className="action-icon-btn" title={b.status === "cancelada" ? "Reactivar" : "Aprobar"} onClick={() => handleConfirmBooking(b._id)}><Check size={14} /></button>
+                            )}
+                            {b.status !== "cancelada" && (
+                              <button className="action-icon-btn" title={b.status === "pendiente" ? "Rechazar" : "Cancelar"} onClick={() => handleCancelBooking(b._id)}><X size={14} /></button>
+                            )}
+                            <button className="action-icon-btn" title="Contactar por WhatsApp"><MessageSquare size={14} /></button>
+                          </>
                         )}
-                        {b.status !== "cancelada" && (
-                          <button className="action-icon-btn" title={b.status === "pendiente" ? "Rechazar" : "Cancelar"} onClick={() => handleCancelBooking(b._id)}><X size={14} /></button>
-                        )}
-                        <button className="action-icon-btn" title="Contactar por WhatsApp"><MessageSquare size={14} /></button>
                       </td>
                     </tr>
                   ))}
@@ -431,11 +444,11 @@ export default function HostDashboard() {
           </section>
 
           {/* Configuración rápida */}
-          <section className="quick-settings-section card">
+          <section id="quick-settings-section" className="quick-settings-section card">
             <h2 className="section-title">Configuración rápida</h2>
             <div className="quick-settings-grid">
               {QUICK_SETTINGS.map(({ icon: Icon, title, subtitle }) => (
-                <div key={title} className="setting-card">
+                <div key={title} className="setting-card" onClick={handleOpenAccommodationModal} style={{ cursor: "pointer" }}>
                   <Icon size={20} className="setting-icon" />
                   <div className="setting-text">
                     <h4 className="setting-title">{title}</h4>
