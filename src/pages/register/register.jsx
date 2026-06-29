@@ -4,8 +4,9 @@ import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
 import { toast } from "sonner";
 import "./register.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TermsModal from "./../terms/termsModal.jsx";
+import { getProvinces } from "../../services/province.services.js";
 
 
 export default function Register() {
@@ -42,6 +43,19 @@ export default function Register() {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [provinces, setProvinces] = useState([]);
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const data = await getProvinces();
+        setProvinces(data);
+      } catch (error) {
+        toast.error("No se pudieron cargar las provincias");
+      }
+    };
+    fetchProvinces();
+  }, []);
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
       <div className="container-header">
@@ -311,12 +325,11 @@ export default function Register() {
 
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Ubicación
+                        Provincia
                       </label>
 
-                      <input
+                      <select
                         {...register("province")}
-                        placeholder="Ciudad, País"
                         className="
   w-full
   border
@@ -328,7 +341,14 @@ export default function Register() {
   focus:outline-none
   focus:ring-2
   focus:ring-cyan-500
-"                    />
+"                    >
+                        <option value="">Seleccioná una provincia</option>
+                        {provinces.map((p) => (
+                          <option key={p._id} value={p.name}>
+                            {p.name}
+                          </option>
+                        ))}
+                      </select>
 
                       {errors.province && (
                         <p className="text-red-500 text-sm mt-1">
