@@ -76,8 +76,8 @@ export default function HostDashboard() {
   const [savingBooking,       setSavingBooking]       = useState(false);
   const [editingRoom,         setEditingRoom]         = useState(null);
 
-  const [roomForm, setRoomForm] = useState({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
-  const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "" });
+  const [roomForm, setRoomForm] = useState({ name: "", description: "", maxCapacity: "", pricePerNight: "", images: [] });
+  const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "", mainImage: null, gallery: [] });
   const [bookingForm, setBookingForm] = useState({ guestEmail: "", room: "", checkIn: "", checkOut: "" });
 
   // ── Carga inicial ──────────────────────────────────────────────────────────
@@ -190,28 +190,35 @@ export default function HostDashboard() {
   // ── Handlers de habitaciones ───────────────────────────────────────────────
   const handleOpenEditRoom = (room) => {
     setEditingRoom(room);
-    setRoomForm({ name: room.name || "", description: room.description || "", maxCapacity: room.maxCapacity || "", pricePerNight: room.pricePerNight || "" });
+    setRoomForm({ name: room.name || "", description: room.description || "", maxCapacity: room.maxCapacity || "", pricePerNight: room.pricePerNight || "", images: [] });
     setShowRoomModal(true);
   };
 
   const handleCloseRoomModal = () => {
     setShowRoomModal(false);
     setEditingRoom(null);
-    setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
+    setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "", images: [] });
   };
 
   const handleSaveRoom = async () => {
     if (!accommodation?._id) { toast.error("No se encontró el hospedaje"); return; }
-    const { name, description, maxCapacity, pricePerNight } = roomForm;
+    const { name, description, maxCapacity, pricePerNight, images } = roomForm;
     if (!name || !description || !maxCapacity || !pricePerNight) { toast.error("Completá todos los campos"); return; }
     try {
       setSavingRoom(true);
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("maxCapacity", maxCapacity);
+      formData.append("pricePerNight", pricePerNight);
+      images.forEach((file) => formData.append("imagenes", file));
       if (editingRoom) {
-        const res = await updateOwnerRoom(editingRoom._id, { name, description, maxCapacity: +maxCapacity, pricePerNight: +pricePerNight });
+        const res = await updateOwnerRoom(editingRoom._id, formData);
         toast.success(res.message || "Habitación actualizada");
         setRooms((prev) => prev.map((r) => r._id === editingRoom._id ? (res.room || res.habitacion || res) : r));
       } else {
-        const res = await createOwnerRoom({ name, description, maxCapacity: +maxCapacity, pricePerNight: +pricePerNight, accommodation: accommodation._id });
+        formData.append("accommodation", accommodation._id);
+        const res = await createOwnerRoom(formData);
         toast.success(res.message || "Habitación creada");
         setRooms((prev) => [...prev, res.room]);
       }
@@ -223,17 +230,24 @@ export default function HostDashboard() {
   // ── Handlers de hospedaje ──────────────────────────────────────────────────
   const handleOpenAccommodationModal = () => {
     if (!accommodation) { toast.error("No se encontró el hospedaje"); return; }
-    setAccommodationForm({ name: accommodation.name || "", description: accommodation.description || "", whatsapp: accommodation.whatsapp || "", depositPercentage: accommodation.depositPercentage ?? "" });
+    setAccommodationForm({ name: accommodation.name || "", description: accommodation.description || "", whatsapp: accommodation.whatsapp || "", depositPercentage: accommodation.depositPercentage ?? "", mainImage: null, gallery: [] });
     setShowAccommodationModal(true);
   };
 
   const handleSaveAccommodation = async () => {
     if (!accommodation?._id) { toast.error("No se encontró el hospedaje"); return; }
-    const { name, description, whatsapp, depositPercentage } = accommodationForm;
+    const { name, description, whatsapp, depositPercentage, mainImage, gallery } = accommodationForm;
     if (!name || !description || !whatsapp) { toast.error("Completá nombre, descripción y WhatsApp"); return; }
     try {
       setSavingAccommodation(true);
-      const res = await updateMyAccommodation(accommodation._id, { name, description, whatsapp, depositPercentage: Number(depositPercentage || 0) });
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("whatsapp", whatsapp);
+      formData.append("depositPercentage", Number(depositPercentage || 0));
+      if (mainImage) formData.append("mainImage", mainImage);
+      gallery.forEach((file) => formData.append("gallery", file));
+      const res = await updateMyAccommodation(accommodation._id, formData);
       toast.success(res.message || "Hospedaje actualizado");
       setAccommodation(res.accommodation || res.hospedaje || res);
       setShowAccommodationModal(false);
@@ -445,6 +459,10 @@ export default function HostDashboard() {
           <textarea name="description" placeholder="Descripción" value={roomForm.description} onChange={(e) => setRoomForm({ ...roomForm, description: e.target.value })} />
           <input name="maxCapacity" type="number" placeholder="Capacidad máxima" value={roomForm.maxCapacity} onChange={(e) => setRoomForm({ ...roomForm, maxCapacity: e.target.value })} />
           <input name="pricePerNight" type="number" placeholder="Precio por noche" value={roomForm.pricePerNight} onChange={(e) => setRoomForm({ ...roomForm, pricePerNight: e.target.value })} />
+          <label className="file-input-label">
+            Imágenes {editingRoom ? "(opcional, reemplazan las actuales)" : "(opcional, hasta 5)"}
+            <input name="imagenes" type="file" accept="image/*" multiple onChange={(e) => setRoomForm({ ...roomForm, images: Array.from(e.target.files) })} />
+          </label>
         </Modal>
       )}
 
@@ -459,6 +477,14 @@ export default function HostDashboard() {
           <textarea name="description" placeholder="Descripción del hospedaje" value={accommodationForm.description} onChange={(e) => setAccommodationForm({ ...accommodationForm, description: e.target.value })} />
           <input name="whatsapp" placeholder="WhatsApp" value={accommodationForm.whatsapp} onChange={(e) => setAccommodationForm({ ...accommodationForm, whatsapp: e.target.value })} />
           <input name="depositPercentage" type="number" placeholder="Porcentaje de seña" value={accommodationForm.depositPercentage} onChange={(e) => setAccommodationForm({ ...accommodationForm, depositPercentage: e.target.value })} />
+          <label className="file-input-label">
+            Imagen principal (opcional, reemplaza la actual)
+            <input name="mainImage" type="file" accept="image/*" onChange={(e) => setAccommodationForm({ ...accommodationForm, mainImage: e.target.files[0] || null })} />
+          </label>
+          <label className="file-input-label">
+            Galería (opcional, hasta 5)
+            <input name="gallery" type="file" accept="image/*" multiple onChange={(e) => setAccommodationForm({ ...accommodationForm, gallery: Array.from(e.target.files) })} />
+          </label>
         </Modal>
       )}
 
