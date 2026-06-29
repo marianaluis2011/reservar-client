@@ -367,8 +367,16 @@ const SuperAdminDashboard = () => {
     };
 
     const handleLogoutClick = () => {
-        logout();
-        navigate('/login');
+        toast("¿Cerrar sesión?", {
+            action: {
+                label: "Sí, salir",
+                onClick: () => {
+                    logout();
+                    navigate('/login');
+                },
+            },
+            cancel: { label: "Cancelar" },
+        });
     };
 
     return (
@@ -381,7 +389,6 @@ const SuperAdminDashboard = () => {
             />
             <div className="main-content">
                 <div className="top-bar">
-                    <input type="text" placeholder="Buscar..." className="global-search" />
                     <div className="top-bar-right">
                         <span className="notification-icon">🔔</span>
                         <div className="user-profile">
