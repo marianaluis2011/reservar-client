@@ -72,12 +72,16 @@
   color: white;
   padding: 10px;
   border-radius: 10px;
+  border: 1px solid transparent;
 }
 
 .btn-register {
   width: fit-content;
   background: #2563eb;
   color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
 }
 
 .btn-login:hover, .btn-register:hover {
