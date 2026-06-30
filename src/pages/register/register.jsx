@@ -57,15 +57,17 @@ export default function Register() {
     fetchProvinces();
   }, []);
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-6">
-      <div className="container-header">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
+      <div className="register-back-wrapper">
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-800 mb-4"
+          className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-800"
         >
           ← Volver al inicio
         </button>
+      </div>
+      <div className="container-header">
         {/* HEADER */}
         <div className="header-one">
           <h1 className="header-title">
