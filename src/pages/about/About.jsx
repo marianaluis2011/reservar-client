@@ -2,7 +2,7 @@ import "./About.css";
 import {
   FaGem, FaCogs, FaLightbulb, FaUsers,
   FaFacebookF, FaTwitter, FaLinkedinIn,
-  FaShieldAlt, FaChartLine,
+  FaShieldAlt, FaChartLine, FaArrowLeft,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -39,6 +39,10 @@ export default function About() {
 
   return (
     <div className="about-page">
+      <button className="about-back" onClick={() => navigate(-1)}>
+        <FaArrowLeft /> Volver
+      </button>
+
       {/* HERO */}
       <section className="about-hero">
         <div className="about-hero__inner">
