@@ -324,8 +324,9 @@
 .booking-detail-list p { margin: 0; color: #1e293b; font-size: .95rem; }
 
 .dashboard-welcome {
-  background: linear-gradient(135deg, #1A365D 0%, #2563eb 100%);
-  color: #fff;
+  background: #f5f8ff;
+  border: 1px solid #e2e8f0;
+  color: #1A365D;
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1.25rem;
@@ -334,9 +335,10 @@
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0 0 .25rem;
+  color: #0f1f3d;
 }
 .dashboard-welcome__text {
   font-size: .9rem;
   margin: 0;
-  opacity: .9;
+  color: #1A365D;
 }
