@@ -58,7 +58,7 @@ export default function About() {
                 Conocé más
               </button>
               <button className="about-btn about-btn--outline" onClick={() => navigate("/help")}>
-                Contactanos
+                Ir a Ayuda
               </button>
             </div>
           </div>
