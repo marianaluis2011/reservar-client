@@ -123,7 +123,7 @@
 .team-card.left .team-img { order: 1; }
 .team-card.left .team-info { order: 2; text-align: left; }
 .team-card.right .team-img { order: 2; }
-.team-card.right .team-info { order: 1; text-align: right; }
+.team-card.right .team-info { order: 1; text-align: left; }
 
 .team-img img {
   width: 200px;   /* vertical rectangular */
