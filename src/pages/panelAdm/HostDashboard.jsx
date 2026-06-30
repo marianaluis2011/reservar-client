@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Home, Building2, Bed, CalendarDays, CalendarCheck,
   Settings, Plus, ChevronLeft, ChevronRight,
@@ -44,6 +45,7 @@ const QUICK_SETTINGS = [
 ];
 
 export default function HostDashboard() {
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -54,6 +56,7 @@ export default function HostDashboard() {
   const [bookingFilter, setBookingFilter]   = useState("todos");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [viewDate, setViewDate]             = useState(new Date());
+  const [calendarRoom, setCalendarRoom]     = useState("");
 
   // Estados de modales
   const [showRoomModal,          setShowRoomModal]          = useState(false);
@@ -111,16 +114,21 @@ export default function HostDashboard() {
     return dates;
   };
 
+  // Reservas del calendario, filtradas por la habitación elegida (o todas).
+  const calendarBookings = calendarRoom
+    ? bookings.filter((b) => (b.room?._id || b.room) === calendarRoom)
+    : bookings;
+
   const getCalendarDayStatus = (day) => {
     const key = getDateKey(new Date(viewDate.getFullYear(), viewDate.getMonth(), day));
-    if (bookings.some((b) => b.status === "confirmada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "occupied";
-    if (bookings.some((b) => b.status === "pendiente"  && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "pending";
+    if (calendarBookings.some((b) => b.status === "confirmada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "occupied";
+    if (calendarBookings.some((b) => b.status === "pendiente"  && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "pending";
     return "";
   };
 
   const getCalendarDayBookings = (day) => {
     const key = getDateKey(new Date(viewDate.getFullYear(), viewDate.getMonth(), day));
-    return bookings.filter((b) => b.status !== "cancelada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key));
+    return calendarBookings.filter((b) => b.status !== "cancelada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key));
   };
 
   const filteredBookings = bookings.filter((b) => {
@@ -321,6 +329,13 @@ export default function HostDashboard() {
             {/* Calendario */}
             <section id="calendar-section" className="calendar-section card">
               <h2 className="section-title">Calendario de Ocupación</h2>
+              <div className="calendar-room-filter">
+                <label>Habitación:</label>
+                <select value={calendarRoom} onChange={(e) => setCalendarRoom(e.target.value)}>
+                  <option value="">Todas</option>
+                  {rooms.map((r) => <option key={r._id} value={r._id}>{r.name}</option>)}
+                </select>
+              </div>
               <div className="calendar-header-nav">
                 <button className="calendar-nav-btn" onClick={() => setViewDate(new Date(year, month - 1, 1))} aria-label="Mes anterior"><ChevronLeft size={18} /></button>
                 <h3 className="calendar-month-year">{MONTHS[month]} {year}</h3>
@@ -420,7 +435,7 @@ export default function HostDashboard() {
                             {b.status !== "cancelada" && (
                               <button className="action-icon-btn" title={b.status === "pendiente" ? "Rechazar" : "Cancelar"} onClick={() => askConfirm(b.status === "pendiente" ? "¿Rechazar esta reserva?" : "¿Cancelar esta reserva?", () => handleCancelBooking(b._id))}><X size={14} /></button>
                             )}
-                            <button className="action-icon-btn" title="Contactar por WhatsApp"><MessageSquare size={14} /></button>
+                            <button className="action-icon-btn" title="Contactar por WhatsApp" onClick={() => navigate("/404")}><MessageSquare size={14} /></button>
                           </>
                         )}
                       </td>
