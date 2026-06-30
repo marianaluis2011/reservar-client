@@ -58,8 +58,15 @@ align-self: center;
     align-content: center;
 }
 .container-one > .panel-rigth > div {
-    align-self: flex-start;
-    padding-top: 60px;
+    align-self: stretch;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 0;
+}
+.container-one > .panel-rigth > div > button:first-child {
+    margin-bottom: auto;
 }
 .panel-rigth h2 {
     color: #0f172a;
