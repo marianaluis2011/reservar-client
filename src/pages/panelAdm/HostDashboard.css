@@ -297,6 +297,20 @@
 .modal-field { display: flex; flex-direction: column; gap: .3rem; }
 .modal-field label { font-size: .8rem; font-weight: 600; color: var(--navy, #1A365D); }
 
+.calendar-room-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: .85rem;
+}
+.calendar-room-filter select {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
 .hd-modal-actions { display: flex; justify-content: flex-end; gap: .75rem; margin-top: .5rem; }
 .hd-modal-actions button {
   border: none; border-radius: .5rem;

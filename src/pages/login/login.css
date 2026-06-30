@@ -48,8 +48,6 @@ align-self: center;
     font-family: system-ui, -apple-system, sans-serif;
     color: #0f172a; /* Dark text */
     text-align: left; /* Reset del text-align: center de index.css */
-    /* width: 100%; */
-    /* overflow-x: hidden; */
     display: flex;
     justify-content: center;
 }
@@ -67,7 +65,8 @@ align-self: center;
     margin-bottom: 36px;
 }
 .panel-rigth h2 {
-    color: #0f172a;
+    color: #032b88;
+    font-size: 30px;
 }
 
 .p-title {

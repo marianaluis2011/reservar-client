@@ -76,6 +76,11 @@ const MyBooking = () => {
                   <span className={`mb-status ${b.status}`}>
                     {capitalizar(b.status)}
                   </span>
+                  {b.status === "pendiente" && (
+                    <p className="mb-pending-note">
+                      ⏳ Tu reserva está pendiente de confirmación del hospedaje.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

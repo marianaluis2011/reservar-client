@@ -14,3 +14,8 @@ export const getMyBookings = async () => {
   const { data } = await axios.get(`${API_BASE}/reservas`, authHeader());
   return data;
 };
+
+export const getOccupiedDates = async (roomId) => {
+  const { data } = await axios.get(`${API_BASE}/reservas/ocupadas/${roomId}`);
+  return data;
+};
