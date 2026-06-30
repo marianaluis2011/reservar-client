@@ -154,7 +154,6 @@ onClick={() => navigate('/')}
 <MobileMenu
   open={mobileMenuOpen}
   showNavigationLinks={showNavigationLinks}
-  isHome={isHome}
   isAuthenticated={isAuthenticated}
   user={user}
   navigate={navigate}

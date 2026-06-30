@@ -4,7 +4,7 @@ import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
 import { toast } from "sonner";
 import "./register.css";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TermsModal from "./../terms/termsModal.jsx";
 import { getProvinces } from "../../services/province.services.js";
 
@@ -49,7 +49,7 @@ export default function Register() {
       try {
         const data = await getProvinces();
         setProvinces(data);
-      } catch (error) {
+      } catch {
         toast.error("No se pudieron cargar las provincias");
       }
     };

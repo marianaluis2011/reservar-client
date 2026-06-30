@@ -2,10 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import {
   ChevronLeft,
   ChevronRight,
-  Wifi,
-  Wind,
-  Tv,
-  Coffee,
   ShieldCheck,
   Star,
   Share,
