@@ -297,6 +297,15 @@ export default function HostDashboard() {
       </aside>
 
       <main className="main-content">
+        <div className="dashboard-welcome">
+          <h2 className="dashboard-welcome__title">
+            ¡Hola, {user?.fullName || accommodation?.admin?.fullName || "anfitrión"}! 👋
+          </h2>
+          <p className="dashboard-welcome__text">
+            Bienvenido a tu panel. Acá gestionás tu hospedaje "{accommodation?.name || "tu hospedaje"}".
+          </p>
+        </div>
+
         <header className="top-bar">
           <div className="top-bar-text">
             <h1 className="page-title">Panel de Control</h1>
