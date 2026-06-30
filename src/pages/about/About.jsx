@@ -1,5 +1,6 @@
 import "./About.css";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGem, FaCogs, FaLightbulb, FaUsers } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const team = [
   { name: "Santiago", role: "Scrum Master", img: "caricatura1.png" },
@@ -8,6 +9,7 @@ const team = [
 ];
 
 export default function About() {
+  const navigate = useNavigate();
   return (
     <div className="about-page">
       {/* High Values Section */}
@@ -46,9 +48,9 @@ export default function About() {
               <h3>{member.name}</h3>
               <p>{member.role}</p>
               <div className="social-icons">
-                <FaFacebookF />
-                <FaTwitter />
-                <FaLinkedinIn />
+                <FaFacebookF onClick={() => navigate("/404")} />
+                <FaTwitter onClick={() => navigate("/404")} />
+                <FaLinkedinIn onClick={() => navigate("/404")} />
               </div>
             </div>
           </div>
