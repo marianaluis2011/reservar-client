@@ -142,6 +142,14 @@
   color: #ccc;
 }
 
+.team-info .team-bio {
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  margin-top: 10px;
+  max-width: 380px;
+  line-height: 1.5;
+}
+
 .social-icons {
   display: flex;
   gap: 10px;

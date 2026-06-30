@@ -3,9 +3,24 @@ import { FaFacebookF, FaTwitter, FaLinkedinIn, FaGem, FaCogs, FaLightbulb, FaUse
 import { useNavigate } from "react-router-dom";
 
 const team = [
-  { name: "Santiago", role: "Scrum Master", img: "caricatura1.png" },
-  { name: "Mariana", role: "Directora Técnica", img: "caricatura2.png" },
-  { name: "Sebastián", role: "Developer", img: "caricatura3.png" },
+  {
+    name: "Santiago Brizuela",
+    role: "Scrum Master / Dev Junior",
+    img: "santiago.jpg",
+    bio: "Scrum Master del equipo y desarrollador junior. Coordiné el flujo de trabajo y participé en el desarrollo de la plataforma.",
+  },
+  {
+    name: "Mariana Luis",
+    role: "Directora Técnica / Dev Junior",
+    img: "mariana.jpg",
+    bio: "Directora técnica: creó los repositorios del proyecto y trabajó como desarrolladora junior.",
+  },
+  {
+    name: "Sebastián Varela",
+    role: "Developer Junior",
+    img: "sebastian.jpg",
+    bio: "Desarrollador junior, parte del equipo de desarrollo de la plataforma.",
+  },
 ];
 
 export default function About() {
@@ -47,6 +62,7 @@ export default function About() {
             <div className="team-info">
               <h3>{member.name}</h3>
               <p>{member.role}</p>
+              <p className="team-bio">{member.bio}</p>
               <div className="social-icons">
                 <FaFacebookF onClick={() => navigate("/404")} />
                 <FaTwitter onClick={() => navigate("/404")} />
