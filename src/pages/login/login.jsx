@@ -57,9 +57,10 @@ export default function Login() {
       {/* PANEL IZQUIERDO */}
       <div className="panel-left min-h-screen flex flex-col lg:flex-row">
         <div className="login-brand">
-          <h1 className="login-brand__title">Hospedar</h1>
+          <h1 className="login-brand__title">HospedAR</h1>
           <p className="login-brand__slogan">
-            Tu próximo viaje empieza acá. Encontrá hospedajes en todo el país
+            Tu próximo viaje empieza acá. 
+            Encontrá hospedajes en todo el país
             y gestioná tus reservas de forma simple y segura.
           </p>
         </div>
@@ -159,6 +160,13 @@ export default function Login() {
                 />
                 Recordarme
               </label>
+              <button
+                type="button"
+                onClick={() => navigate("/404")}
+                className="font-semibold text-cyan-700 hover:text-cyan-800"
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
             </div>
 
             {/* SUBMIT */}
