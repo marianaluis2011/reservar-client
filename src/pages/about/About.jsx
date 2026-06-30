@@ -11,7 +11,7 @@ const team = [
     name: "Santiago Brizuela",
     role: "Scrum Master / Developer Junior",
     img: "santiago.jpg",
-    bio: "Scrum Master del equipo y desarrollador junior. Coordiné el flujo de trabajo y participé en el desarrollo de la plataforma.",
+    bio: "Scrum Master del equipo y desarrollador junior. Coordinó el flujo de trabajo y participó en el desarrollo de la plataforma.",
   },
   {
     name: "Mariana Luis",
