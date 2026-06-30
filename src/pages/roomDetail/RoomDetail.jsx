@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getRoomById } from "../../services/accommodation.services.js";
-import { createBooking } from "../../services/booking.services.js";
+import { createBooking, getOccupiedDates } from "../../services/booking.services.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast } from "sonner";
 import "./RoomDetail.css";
@@ -42,6 +42,7 @@ export default function RoomDetail() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [viewDate, setViewDate] = useState(new Date());
+  const [occupiedDates, setOccupiedDates] = useState(() => new Set());
   const shareMenuRef = useRef(null);
 
   useEffect(() => {
@@ -56,6 +57,31 @@ export default function RoomDetail() {
       }
     };
     fetchRoom();
+  }, [id]);
+
+  // Cargar fechas ya ocupadas de esta habitación para bloquearlas en el calendario.
+  useEffect(() => {
+    const fetchOccupied = async () => {
+      try {
+        const ranges = await getOccupiedDates(id);
+        const set = new Set();
+        ranges.forEach(({ checkIn, checkOut }) => {
+          const cur = new Date(checkIn.slice(0, 10) + "T00:00:00");
+          const end = new Date(checkOut.slice(0, 10) + "T00:00:00");
+          while (cur < end) {
+            const y = cur.getFullYear();
+            const m = String(cur.getMonth() + 1).padStart(2, "0");
+            const d = String(cur.getDate()).padStart(2, "0");
+            set.add(`${y}-${m}-${d}`);
+            cur.setDate(cur.getDate() + 1);
+          }
+        });
+        setOccupiedDates(set);
+      } catch (error) {
+        console.error("Error al cargar fechas ocupadas:", error);
+      }
+    };
+    fetchOccupied();
   }, [id]);
 
   // Valores derivados: se calculan en cada render basándose en el estado de checkIn/checkOut
@@ -112,8 +138,9 @@ export default function RoomDetail() {
     const clickedDate = new Date(dateStr + "T00:00:00").getTime();
     const checkInDate = checkIn ? new Date(checkIn + "T00:00:00").getTime() : null;
 
-    // Evitar seleccionar fechas pasadas
+    // Evitar seleccionar fechas pasadas u ocupadas
     if (clickedDate < today.getTime()) return;
+    if (occupiedDates.has(dateStr)) return;
 
     if (!checkIn || (checkIn && checkOut)) {
       setCheckIn(dateStr);
@@ -305,12 +332,13 @@ export default function RoomDetail() {
                       currentDate > new Date(`${checkIn}T00:00:00`).getTime() &&
                       currentDate < new Date(`${checkOut}T00:00:00`).getTime();
                     const isPast = currentDate < today.getTime();
+                    const isReserved = occupiedDates.has(dateStr);
 
                     return (
                       <div
                         key={day}
-                        className={`calendar-day ${isPast ? 'is-past' : ''} ${isCheckIn || isCheckOut ? 'active-date' : ''} ${isBetween ? 'selected-range' : ''}`}
-                        onClick={() => !isPast && handleDateClick(day)}
+                        className={`calendar-day ${isPast ? 'is-past' : ''} ${isReserved ? 'is-reserved' : ''} ${isCheckIn || isCheckOut ? 'active-date' : ''} ${isBetween ? 'selected-range' : ''}`}
+                        onClick={() => !isPast && !isReserved && handleDateClick(day)}
                       >
                         {day}
                       </div>
@@ -424,12 +452,14 @@ export default function RoomDetail() {
                 <button className="btn-reserve-now" onClick={handleReservar} disabled={savingBooking}>
                   {savingBooking ? "Creando reserva..." : "Confirmar reserva"}
                 </button>
-                <button className="btn-whatsapp-modal" onClick={() => window.open(`https://wa.me/${room?.accommodation?.whatsapp || ""}?text=${encodeURIComponent("Hola, quiero consultar por una reserva para " + (room?.name || "") + " desde el " + checkIn.split("-").reverse().join("/") + " hasta el " + checkOut.split("-").reverse().join("/"))}`, '_blank')}>
+                {room?.accommodation?.whatsapp && (
+                <button className="btn-whatsapp-modal" onClick={() => window.open(`https://wa.me/${room.accommodation.whatsapp}?text=${encodeURIComponent("¡Hola! Quiero consultar por una reserva en " + (room?.accommodation?.name || "el hospedaje") + " - " + (room?.name || "") + (checkIn && checkOut ? ", del " + checkIn.split("-").reverse().join("/") + " al " + checkOut.split("-").reverse().join("/") : "") + ".")}`, '_blank')}>
                   <svg className="whatsapp-icon-modal" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z" />
                   </svg>
                   Consultar por WhatsApp
                 </button>
+                )}
               </div>
             </div>
           </div>
