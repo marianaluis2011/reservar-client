@@ -39,12 +39,12 @@ export default function About() {
 
   return (
     <div className="about-page">
-      <button className="about-back" onClick={() => navigate(-1)}>
-        <FaArrowLeft /> Volver
-      </button>
 
       {/* HERO */}
       <section className="about-hero">
+        <button className="about-back" onClick={() => navigate(-1)}>
+          <FaArrowLeft /> Volver
+        </button>
         <div className="about-hero__inner">
           <div className="about-hero__text">
             <span className="about-badge">NUESTRA HISTORIA</span>

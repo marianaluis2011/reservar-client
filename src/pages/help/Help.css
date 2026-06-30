@@ -11,13 +11,14 @@
   gap: 8px;
   background: none;
   border: none;
-  color: #002045;
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  padding: 20px 24px;
+  padding: 0 0 24px 0;
 }
 .help-back:hover {
+  color: #fff;
   text-decoration: underline;
 }
 

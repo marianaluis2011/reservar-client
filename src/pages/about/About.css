@@ -93,7 +93,7 @@
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  padding: 20px 24px;
+  padding: 16px 24px 0;
 }
 .about-back:hover {
   text-decoration: underline;

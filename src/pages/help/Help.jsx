@@ -19,11 +19,11 @@ const Help = () => {
 
   return (
     <div className="help-container">
-      <button className="about-back help-back" onClick={() => navigate(-1)}>
-        <FaArrowLeft /> Volver
-      </button>
       <header className="help-header">
         <div className="help-gradient">
+          <button className="help-back" onClick={() => navigate(-1)}>
+            <FaArrowLeft /> Volver
+          </button>
           <h1 className="help-title">Centro de Ayuda</h1>
           <p className="help-subtitle">Encuentra respuestas y soporte para tu experiencia en ReservaHost.</p>
           <span className="line"></span>
