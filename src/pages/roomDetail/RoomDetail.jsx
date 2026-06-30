@@ -8,7 +8,6 @@ import {
   Coffee,
   ShieldCheck,
   Star,
-  Heart,
   Share,
   X,
   MapPin,
@@ -37,7 +36,6 @@ export default function RoomDetail() {
 
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -238,13 +236,6 @@ export default function RoomDetail() {
               )}
             </div>
 
-            <button
-              className={`btn-icon ${isSaved ? 'is-saved' : ''}`}
-              onClick={() => setIsSaved(!isSaved)}
-            >
-              <Heart className={`heart-icon ${isSaved ? 'filled' : ''}`} />
-              {isSaved ? 'Guardado' : 'Guardar'}
-            </button>
           </div>
         </div>
 
