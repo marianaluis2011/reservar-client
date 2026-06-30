@@ -5,6 +5,22 @@
   margin: 0;
 }
 
+.help-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #002045;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 20px 24px;
+}
+.help-back:hover {
+  text-decoration: underline;
+}
+
 /* Header con gradiente */
 .help-header {
   margin-bottom: 40px;
