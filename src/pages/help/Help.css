@@ -25,7 +25,7 @@
   text-decoration: underline;
 }
 
-/* Header con gradiente */
+
 .help-header {
   margin-bottom: 40px;
 }
@@ -60,7 +60,7 @@
   border-radius: 2px;
 }
 
-/* Secciones */
+
 .help-section h2,
 .faq-section h2 {
   font-size: 2rem;
@@ -81,7 +81,7 @@
   border-radius: 2px;
 }
 
-/* Cards */
+
 .help-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -113,7 +113,7 @@
   color: #4A5568;
 }
 
-/* FAQ con acordeón */
+
 .faq-item {
   background-color: #f9fafb;
   border: 1px solid #cbd5e0;
@@ -163,7 +163,7 @@
   background: linear-gradient(to bottom, #ecfeff, #f9fafb);
 }
 
-/* Responsividad */
+
 @media (max-width: 768px) {
   .help-title {
     font-size: 2.2rem;

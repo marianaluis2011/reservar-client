@@ -38,7 +38,6 @@ export default function Register() {
     setValue("role", newRole);
   };
 
-  // 👉 Estado para manejar el modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -68,7 +67,6 @@ export default function Register() {
         </button>
       </div>
       <div className="container-header">
-        {/* HEADER */}
         <div className="header-one">
           <h1 className="header-title">
             Crea tu cuenta
@@ -79,7 +77,6 @@ export default function Register() {
           </p>
         </div>
 
-        {/* BODY */}
         <div className="p-8">
           <form className="form-body" onSubmit={handleSubmit(onSubmit)}>
 
@@ -143,7 +140,6 @@ export default function Register() {
               </button>
             </div>
 
-            {/* DATOS PERSONALES */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
               <div>
@@ -294,7 +290,6 @@ export default function Register() {
 
             </div>
 
-            {/* HOST */}
             {role === "host" && (
               <div className="mt-3 border-t pt-3">
                 <div className="mt-3 border-t pt-3">
@@ -469,7 +464,6 @@ export default function Register() {
                   {errors.terms.message}
                 </p>
               )}
-              {/* Render del modal */}
               <TermsModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

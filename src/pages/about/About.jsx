@@ -40,7 +40,6 @@ export default function About() {
   return (
     <div className="about-page">
 
-      {/* HERO */}
       <section className="about-hero">
         <button className="about-back" onClick={() => navigate(-1)}>
           <FaArrowLeft /> Volver
@@ -75,7 +74,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* VALORES */}
       <section className="about-values">
         <div className="about-values__header">
           <h2>Nuestros Valores Fundamentales</h2>
@@ -96,7 +94,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* EQUIPO (cards que ya teníamos) */}
       <section className="team-section">
         <h2>NUESTRO EQUIPO</h2>
         {team.map((member, index) => (
@@ -118,7 +115,6 @@ export default function About() {
         ))}
       </section>
 
-      {/* VISIÓN / SEGURIDAD */}
       <section className="about-bento">
         <div className="about-bento__grid">
           <div className="bento-vision">

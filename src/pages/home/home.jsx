@@ -51,19 +51,16 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Filtro por provincia seleccionada.
   const filteredAccommodations = accommodations.filter(
     (acc) => !selectedProvince || acc.province?.name === selectedProvince
   );
 
-  // Paginación client-side.
   const totalPages = Math.ceil(filteredAccommodations.length / perPage) || 1;
   const paginatedAccommodations = filteredAccommodations.slice(
     (page - 1) * perPage,
     page * perPage
   );
 
-  // Si cambia el filtro, vuelvo a la primera página.
   useEffect(() => {
     setPage(1);
   }, [selectedProvince]);

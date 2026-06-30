@@ -1,4 +1,4 @@
-/* ── Reset y wrapper ───────────────────────────────────────────── */
+
 .host-dashboard-wrapper * { box-sizing: border-box; }
 
 .host-dashboard-wrapper {
@@ -12,7 +12,7 @@
   text-align: left;
 }
 
-/* ── Variables de color (centralizadas) ────────────────────────── */
+
 :root {
   --navy:      #1A365D;
   --navy-mid:  #2d4a73;
@@ -29,7 +29,7 @@
   --red-bg:    #fee2e2; --red-text:   #ef4444;
 }
 
-/* ── Sidebar toggle (mobile) ───────────────────────────────────── */
+
 .mobile-sidebar-toggle {
   position: fixed;
   top: 1rem; left: 1rem;
@@ -44,7 +44,7 @@
 }
 @media (min-width: 1024px) { .mobile-sidebar-toggle { display: none; } }
 
-/* ── Sidebar ───────────────────────────────────────────────────── */
+
 .sidebar {
   width: 170px;
   background-color: var(--navy);
@@ -102,14 +102,14 @@
 .user-info { text-align: center; font-size: .75rem; color: #cbd5e1; }
 .user-name  { display: block; font-weight: 600; color: white; }
 
-/* ── Main content ──────────────────────────────────────────────── */
+
 .main-content {
   flex-grow: 1; flex-basis: 0; min-width: 0;
   padding: 2rem;
 }
 @media (max-width: 1023px) { .main-content { padding: 1rem; } }
 
-/* ── Top bar ───────────────────────────────────────────────────── */
+
 .top-bar {
   display: flex; flex-direction: column; gap: .5rem;
   margin-bottom: 1.25rem; padding-bottom: .75rem;
@@ -134,7 +134,7 @@
 .badge-whatsapp { background-color: var(--green-bg); color: var(--green-text); }
 .badge-deposit  { background-color: #e0f2fe; color: #0284c7; }
 
-/* ── Dashboard grid ────────────────────────────────────────────── */
+
 .dashboard-grid    { display: flex; flex-direction: column; gap: 1.25rem; }
 .dashboard-top-row { display: grid; grid-template-columns: auto 1fr; gap: 1.25rem; align-items: start; }
 
@@ -149,7 +149,7 @@
   display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;
 }
 
-/* ── Calendario ────────────────────────────────────────────────── */
+
 .calendar-section { width: 280px; flex-shrink: 0; }
 
 .calendar-header-nav {
@@ -200,7 +200,7 @@
 .calendar-tooltip-item span   { color: #cbd5e1; }
 .calendar-tooltip-item small  { color: #93c5fd; }
 
-/* ── Habitaciones ──────────────────────────────────────────────── */
+
 .rooms-list { display: flex; flex-direction: column; gap: .75rem; }
 
 .room-card-compact {
@@ -224,7 +224,7 @@
 }
 .btn-new-room-small:hover { background-color: var(--navy-mid); }
 
-/* ── Filtros de reservas ───────────────────────────────────────── */
+
 .booking-filters { display: flex; justify-content: center;gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
 
 .filter-btn {
@@ -234,7 +234,7 @@
 }
 .filter-btn.active { background: var(--blue-dark); border-color: var(--slate); }
 
-/* ── Tabla de reservas ─────────────────────────────────────────── */
+
 .bookings-table-container { overflow-x: auto; }
 
 .bookings-table { width: 100%; border-collapse: collapse; }
@@ -260,7 +260,7 @@
 }
 .action-icon-btn:hover { background-color: var(--border); color: var(--navy); }
 
-/* ── Configuración rápida ──────────────────────────────────────── */
+
 .quick-settings-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; }
 
 .setting-card {
@@ -274,7 +274,7 @@
 .setting-title   { font-size: .85rem; font-weight: 600; color: var(--navy); margin-bottom: .1rem; }
 .setting-subtitle { font-size: .7rem; color: var(--slate-mid); }
 
-/* ── Modal ─────────────────────────────────────────────────────── */
+
 .hd-modal-overlay {
   position: fixed; inset: 0;
   background: rgba(15,23,42,.55);

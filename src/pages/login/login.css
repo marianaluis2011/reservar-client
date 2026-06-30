@@ -44,10 +44,10 @@ align-self: center;
 .panel-rigth {
     width: 50%;
     height: 100vh;
-    background-color: #f8fafc; /* Light background */
+    background-color: #f8fafc; 
     font-family: system-ui, -apple-system, sans-serif;
-    color: #0f172a; /* Dark text */
-    text-align: left; /* Reset del text-align: center de index.css */
+    color: #0f172a; 
+    text-align: left; 
     display: flex;
     justify-content: center;
 }
@@ -119,7 +119,7 @@ button {
 
 @media (max-width: 768px) {
   .container-one {
-    flex-direction: column; /* apila los paneles */
+    flex-direction: column; 
   }
 
   .panel-left>div>h1, h2 {
@@ -146,7 +146,5 @@ button {
     padding: auto;
     margin:auto
   }
-  /* .mobile-menu-btn {
-    display: none
-  } */
+  
 }

@@ -58,12 +58,10 @@ export default function HostDashboard() {
   const [viewDate, setViewDate]             = useState(new Date());
   const [calendarRoom, setCalendarRoom]     = useState("");
 
-  // Estados de modales
   const [showRoomModal,          setShowRoomModal]          = useState(false);
   const [showAccommodationModal, setShowAccommodationModal] = useState(false);
   const [showBookingModal,       setShowBookingModal]       = useState(false);
 
-  // Estados de formularios
   const [savingRoom,          setSavingRoom]          = useState(false);
   const [savingAccommodation, setSavingAccommodation] = useState(false);
   const [savingBooking,       setSavingBooking]       = useState(false);
@@ -74,7 +72,6 @@ export default function HostDashboard() {
   const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "", mainImage: null, gallery: [] });
   const [bookingForm, setBookingForm] = useState({ guestName: "", guestEmail: "", room: "", checkIn: "", checkOut: "" });
 
-  // ── Carga inicial ──────────────────────────────────────────────────────────
   useEffect(() => {
     const load = async () => {
       try {
@@ -96,7 +93,6 @@ export default function HostDashboard() {
     load();
   }, []);
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
   const getDateKey = (date) => {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -114,7 +110,6 @@ export default function HostDashboard() {
     return dates;
   };
 
-  // Reservas del calendario, filtradas por la habitación elegida (o todas).
   const calendarBookings = calendarRoom
     ? bookings.filter((b) => (b.room?._id || b.room) === calendarRoom)
     : bookings;
@@ -138,7 +133,6 @@ export default function HostDashboard() {
     return true;
   });
 
-  // ── Handlers de navegación ─────────────────────────────────────────────────
   const scrollToSection = (sectionId) => {
     if (!sectionId) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -148,7 +142,6 @@ export default function HostDashboard() {
     setIsSidebarOpen(false);
   };
 
-  // ── Handlers de reservas ───────────────────────────────────────────────────
   const askConfirm = (mensaje, onConfirm) => {
     toast(mensaje, {
       action: { label: "Sí", onClick: onConfirm },
@@ -190,7 +183,6 @@ export default function HostDashboard() {
     finally { setSavingBooking(false); }
   };
 
-  // ── Handlers de habitaciones ───────────────────────────────────────────────
   const handleOpenEditRoom = (room) => {
     setEditingRoom(room);
     setRoomForm({ name: room.name || "", description: room.description || "", maxCapacity: room.maxCapacity || "", pricePerNight: room.pricePerNight || "", images: [] });
@@ -230,7 +222,6 @@ export default function HostDashboard() {
     finally { setSavingRoom(false); }
   };
 
-  // ── Handlers de hospedaje ──────────────────────────────────────────────────
   const handleOpenAccommodationModal = () => {
     if (!accommodation) { toast.error("No se encontró el hospedaje"); return; }
     setAccommodationForm({ name: accommodation.name || "", description: accommodation.description || "", whatsapp: accommodation.whatsapp || "", depositPercentage: accommodation.depositPercentage ?? "", mainImage: null, gallery: [] });
@@ -258,18 +249,15 @@ export default function HostDashboard() {
     finally { setSavingAccommodation(false); }
   };
 
-  // ── Calendario ─────────────────────────────────────────────────────────────
   const year  = viewDate.getFullYear();
   const month = viewDate.getMonth();
   const daysInMonth   = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = new Date(year, month, 1).getDay();
 
-  // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="host-dashboard-wrapper">
       <button className="mobile-sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)} aria-label="Abrir menú lateral">☰</button>
 
-      {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <h2 className="accommodation-name" onClick={handleOpenAccommodationModal}>
@@ -308,7 +296,6 @@ export default function HostDashboard() {
         </div>
       </aside>
 
-      {/* Main */}
       <main className="main-content">
         <header className="top-bar">
           <div className="top-bar-text">
@@ -326,7 +313,6 @@ export default function HostDashboard() {
 
         <div className="dashboard-grid">
           <div className="dashboard-top-row">
-            {/* Calendario */}
             <section id="calendar-section" className="calendar-section card">
               <h2 className="section-title">Calendario de Ocupación</h2>
               <div className="calendar-room-filter">
@@ -368,7 +354,6 @@ export default function HostDashboard() {
               <p className="calendar-continuity-text">El calendario continúa...</p>
             </section>
 
-            {/* Habitaciones */}
             <section id="rooms-section" className="rooms-section card">
               <div className="section-header-with-button">
                 <h2 className="section-title">Habitaciones</h2>
@@ -393,7 +378,6 @@ export default function HostDashboard() {
             </section>
           </div>
 
-          {/* Reservas */}
           <section id="bookings-section" className="recent-bookings-section card">
             <h2 className="section-title">Reservas</h2>
 
@@ -446,7 +430,6 @@ export default function HostDashboard() {
             </div>
           </section>
 
-          {/* Configuración rápida */}
           <section id="quick-settings-section" className="quick-settings-section card">
             <h2 className="section-title">Configuración rápida</h2>
             <div className="quick-settings-grid">

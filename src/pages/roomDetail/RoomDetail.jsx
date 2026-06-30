@@ -27,7 +27,6 @@ export default function RoomDetail() {
   const { id } = useParams();
   const { user } = useAuth();
 
-  // Definimos "today" de forma que sea inmutable para comparaciones
   const today = new Date(new Date().setHours(0, 0, 0, 0));
 
   const [room, setRoom] = useState(null);
@@ -57,7 +56,6 @@ export default function RoomDetail() {
     fetchRoom();
   }, [id]);
 
-  // Cargar fechas ya ocupadas de esta habitación para bloquearlas en el calendario.
   useEffect(() => {
     const fetchOccupied = async () => {
       try {
@@ -82,18 +80,15 @@ export default function RoomDetail() {
     fetchOccupied();
   }, [id]);
 
-  // Valores derivados: se calculan en cada render basándose en el estado de checkIn/checkOut
   const nights = (checkIn && checkOut) ? Math.max(0, Math.round((new Date(`${checkOut}T00:00:00`) - new Date(`${checkIn}T00:00:00`)) / 86400000)) : 0;
   const pricePerNight = room?.pricePerNight || 0;
   const totalPrice = nights * pricePerNight;
 
-  // Imágenes reales (con fallback si no hay)
   const images = (room?.images && room.images.length > 0)
     ? room.images
     : ["https://placehold.co/1200x800?text=Habitación"];
 
 
-  // Cerrar menú de compartir al hacer click afuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (shareMenuRef.current && !shareMenuRef.current.contains(event.target)) {
@@ -118,7 +113,6 @@ export default function RoomDetail() {
     setCurrentImgIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
-  // Lógica del Calendario
   const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   const daysOfWeek = ["D", "L", "M", "X", "J", "V", "S"];
 
@@ -136,7 +130,6 @@ export default function RoomDetail() {
     const clickedDate = new Date(dateStr + "T00:00:00").getTime();
     const checkInDate = checkIn ? new Date(checkIn + "T00:00:00").getTime() : null;
 
-    // Evitar seleccionar fechas pasadas u ocupadas
     if (clickedDate < today.getTime()) return;
     if (occupiedDates.has(dateStr)) return;
 
@@ -208,7 +201,6 @@ export default function RoomDetail() {
   return (
     <div className="room-detail-wrapper">
       <main className="room-container">
-        {/* Encabezado con botones de acción (Estilo PropertyPage) */}
         <div className="room-header">
           <button onClick={() => navigate(-1)} className="back-link">
             <ChevronLeft size={20} /> Volver a la propiedad
@@ -248,7 +240,6 @@ export default function RoomDetail() {
           </div>
         </div>
 
-        {/* Galería Estilo Imagen Solicitada */}
         <div className="room-gallery">
           <div className="carousel-main">
             <button className="carousel-control prev" onClick={prevImage}>
@@ -308,7 +299,6 @@ export default function RoomDetail() {
           </div>
 
           <aside className="booking-sidebar">
-            {/* Calendario de Disponibilidad movido arriba de la booking-card */}
             <section className="availability-section">
               <div className="calendar-mock">
                 <div className="calendar-header">
@@ -400,7 +390,6 @@ export default function RoomDetail() {
         </div>
       </main>
 
-      {/* Modal de Confirmación */}
       {showModal && (
         <div className="rd-modal-overlay">
           <div className="rd-modal-content">

@@ -1,5 +1,5 @@
 .footer-b {
-    background-color: #0f172a; /* Slate 950 */
+    background-color: #0f172a; 
     color: #e2e8f0;
     padding: 60px 20px 30px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -51,7 +51,7 @@
 }
 
 .footer-logo span {
-    color: #3b82f6; /* Azul primario */
+    color: #3b82f6; 
 }
 
 .footer-desc {
@@ -126,7 +126,7 @@
     flex-direction: row;
     justify-content: center;
 }
-/* Desktop refinements */
+
 @media (min-width: 1024px) {
     .footer-content {
         grid-template-columns: 2fr 1fr 1fr 1.5fr;
@@ -156,7 +156,7 @@
     padding: 10px;
     border-radius: 50%;
     display: flex;
-    /* flex-direction: row; */
+    
     align-items: center;
     justify-content: center;
 }
@@ -212,15 +212,15 @@
     }
 }
 
-/* Móviles pequeños */
+
 @media (max-width: 480px) {
     .social-links {
         justify-content: center;
-        /* flex-wrap: wrap; */
+        
         gap: 10px;
     }
 }
-/* Tablets y móviles */
+
 @media (max-width: 1024px) {
     .brand-section1 {
         flex-wrap: wrap;

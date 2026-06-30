@@ -1,4 +1,4 @@
-/* Botón flotante */
+
 .chat-fab {
   position: fixed;
   bottom: 20px;
@@ -15,7 +15,7 @@
   box-shadow: 0 6px 16px rgba(26, 54, 93, 0.35);
 }
 
-/* Contenedor principal del chat */
+
 .chat-container {
   position: fixed;
   bottom: 90px;
@@ -32,7 +32,7 @@
   z-index: 9999;
 }
 
-/* Header */
+
 .chat-header {
   background: #1A365D;
   color: white;
@@ -40,7 +40,7 @@
   font-weight: bold;
 }
 
-/* Mensajes */
+
 .chat-messages {
   flex: 1;
   padding: 16px;
@@ -50,7 +50,7 @@
   gap: 10px;
 }
 
-/* Bubble base */
+
 .chat-bubble {
   padding: 10px 14px;
   border-radius: 12px;
@@ -58,21 +58,21 @@
   word-wrap: break-word;
 }
 
-/* Usuario */
+
 .chat-bubble.user {
   align-self: flex-end;
   background: #1A365D;
   color: white;
 }
 
-/* Asistente */
+
 .chat-bubble.assistant {
   align-self: flex-start;
   background: #f1f1f1;
   color: black;
 }
 
-/* Typing indicator */
+
 .chat-typing {
   background: #f1f1f1;
   padding: 10px;
@@ -80,7 +80,7 @@
   width: fit-content;
 }
 
-/* Input area */
+
 .chat-input-container {
   display: flex;
   padding: 12px;
@@ -88,7 +88,7 @@
   gap: 10px;
 }
 
-/* Input */
+
 .chat-input {
   flex: 1;
   min-width: 0;
@@ -98,7 +98,7 @@
   outline: none;
 }
 
-/* Button send */
+
 .chat-send {
   background: #1A365D;
   color: white;

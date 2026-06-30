@@ -4,8 +4,6 @@ import { getMyBookings } from "../../services/booking.services.js";
 import { toast } from "sonner";
 import "./MyBooking.css";
 
-// La fecha llega como ISO ("YYYY-MM-DD..."). Tomamos solo el día calendario
-// para no correr un día por diferencia de huso horario.
 const formatFecha = (iso) => {
   if (!iso) return "-";
   return iso.slice(0, 10).split("-").reverse().join("/");

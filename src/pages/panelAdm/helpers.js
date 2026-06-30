@@ -1,4 +1,3 @@
-// Helpers de formato compartidos por el panel del owner y sus modales.
 
 export const formatPrice = (price) => Number(price || 0).toLocaleString("es-AR");
 

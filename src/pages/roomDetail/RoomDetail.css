@@ -101,7 +101,7 @@
     color: #1A365D;
 }
 
-/* Galería */
+
 .room-gallery {
     display: flex;
     flex-direction: column;
@@ -187,7 +187,7 @@
     transform: scale(1.1);
 }
 
-/* Layout */
+
 .room-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -243,14 +243,14 @@
     border: 1px solid #e2e8f0;
 }
 
-/* Sidebar */
+
 .booking-sidebar {
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
-/* Sidebar de Reserva */
+
 .booking-card {
     background: white;
     border-radius: 2rem;
@@ -357,7 +357,7 @@
     font-size: 1.1rem;
 }
 
-/* Calendario Dinámico */
+
 .availability-section {
     margin-top: 0;
 }
@@ -436,7 +436,7 @@
     border-radius: 0;
 }
 
-/* Modal */
+
 .rd-modal-overlay {
     position: fixed;
     inset: 0;
@@ -632,5 +632,5 @@
     height: 100%;
     width: auto;
     object-fit: contain;
-    transform: scale(1.6); /* Esto hace el recorte del espacio en blanco */
+    transform: scale(1.6); 
 }

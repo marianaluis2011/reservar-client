@@ -28,20 +28,17 @@ export const registerSchema = z
       message: "Debes aceptar los términos de servicio",
     }),
 
-    // Campos opcionales inicialmente
     name: z.string().optional(),
     province: z.string().optional(),
     description: z.string().optional(),
     whatsapp: z.string().optional(),
   })
 
-  // Validar coincidencia de contraseñas
   .refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",
     path: ["confirmPassword"],
   })
 
-  // Validaciones exclusivas para host
   .superRefine((data, ctx) => {
     if (data.role === "host") {
       if (!data.name || data.name.length < 3) {

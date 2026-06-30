@@ -38,7 +38,6 @@ export default function PropertyPage() {
     fetchData();
   }, [id]);
 
-  // Cerrar menú de compartir al hacer click afuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (shareMenuRef.current && !shareMenuRef.current.contains(event.target)) {
@@ -66,7 +65,6 @@ export default function PropertyPage() {
   return (
     <div className="property-page-wrapper">
       <main className="main-content">
-        {/* Encabezado */}
         <div className="header-container">
           <div className="header-text-group">
             <button onClick={() => navigate(-1)} className="back-button">
@@ -114,7 +112,6 @@ export default function PropertyPage() {
           </div>
         </div>
 
-        {/* Galería de Imágenes */}
         <div className="gallery-grid">
           <div className="image-container main-image-wrapper">
             <img src={property.mainImage} alt="Principal" className="gallery-image" />
@@ -129,7 +126,6 @@ export default function PropertyPage() {
           </div>
         </div>
 
-        {/* Contenido Principal */}
         <div className="content-layout">
           <div className="info-column">
             <section>
