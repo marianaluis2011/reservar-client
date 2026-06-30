@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 const team = [
   {
     name: "Santiago Brizuela",
-    role: "Scrum Master / Dev Junior",
+    role: "Scrum Master / Developer Junior",
     img: "santiago.jpg",
     bio: "Scrum Master del equipo y desarrollador junior. Coordiné el flujo de trabajo y participé en el desarrollo de la plataforma.",
   },
   {
     name: "Mariana Luis",
-    role: "Directora Técnica / Dev Junior",
+    role: "Directora Técnica / Developer Junior",
     img: "mariana.jpg",
     bio: "Directora técnica: creó los repositorios del proyecto y trabajó como desarrolladora junior.",
   },
