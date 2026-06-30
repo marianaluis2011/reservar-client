@@ -114,10 +114,11 @@
   justify-content: space-between;
   margin: 30px auto;
   max-width: 800px;
-  background: radial-gradient(circle, #ccc 0%, #808080 100%);
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  padding: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #eef2f7 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(26, 54, 93, 0.12);
+  padding: 24px;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .team-card.left .team-img { order: 1; }
@@ -134,17 +135,19 @@
 
 .team-info h3 {
   margin: 10px 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  color: #1A365D;
+  font-weight: 700;
 }
 
 .team-info p {
   font-size: 1.1rem;
-  color: #ccc;
+  color: #334155;
 }
 
 .team-info .team-bio {
   font-size: 0.95rem;
-  color: #e2e8f0;
+  color: #475569;
   margin-top: 10px;
   max-width: 380px;
   line-height: 1.5;
@@ -159,6 +162,7 @@
 
 .social-icons svg {
   cursor: pointer;
+  color: #1A365D;
   transition: color 0.3s;
 }
 

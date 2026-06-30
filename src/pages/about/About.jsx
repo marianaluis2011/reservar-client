@@ -19,7 +19,7 @@ const team = [
     name: "Sebastián Varela",
     role: "Developer Junior",
     img: "sebastian.jpg",
-    bio: "Desarrollador junior, parte del equipo de desarrollo de la plataforma.",
+    bio: "Developer junior con un gran aporte al equipo. Su trabajo y dedicación fueron clave para el desarrollo del producto.",
   },
 ];
 
