@@ -73,7 +73,7 @@ onClick={() => navigate('/')}
   <NavLinks navigate={navigate} />
 )}
 
-  {isHome && !isAuthenticated && (
+  {!isAuthenticated && (
     <div className="navbar-actions">
       <button
         className="btn-login"

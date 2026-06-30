@@ -24,7 +24,7 @@ const MobileMenu = ({
         />
       )}
 
-      {isHome && !isAuthenticated && (
+      {!isAuthenticated && (
         <>
           <button
             onClick={() => {
