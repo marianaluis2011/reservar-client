@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, Building2, LogOut } from 'lucide-react';
 import './SuperAdminDashboard.css';
@@ -11,7 +11,7 @@ const SuperAdminSidebar = ({ activeOption, onOptionClick, onLogoutClick }) => {
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <h3 className="accommodation-name">ReservaHost Admin.</h3>
+                <h3 className="accommodation-name">Hospedar Admin.</h3>
                 <p className="admin-panel-subtitle">Panel Super Admin.</p>
             </div>
             <nav className="sidebar-nav">

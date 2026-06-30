@@ -29,12 +29,10 @@ export default function Login() {
         password,
       });
 
-      // 🔐 Guardar sesión
       login(result.token, result.user, rememberMe);
 
       toast.success("Sesión iniciada correctamente");
 
-      // 🚀 Redirección por rol (limpia y escalable)
       const routesByRole = {
         guest: "/",
         host: "/host/dashboard",
@@ -54,10 +52,9 @@ export default function Login() {
   return (
     <div className="container-one">
 
-      {/* PANEL IZQUIERDO */}
       <div className="panel-left min-h-screen flex flex-col lg:flex-row">
         <div className="login-brand">
-          <h1 className="login-brand__title">HospedAR</h1>
+          <h1 className="login-brand__title">Hospedar</h1>
           <p className="login-brand__slogan">
             Tu próximo viaje empieza acá. 
             Encontrá hospedajes en todo el país
@@ -66,11 +63,9 @@ export default function Login() {
         </div>
       </div>
 
-      {/* PANEL DERECHO */}
       <div className="panel-rigth">
         <div className="w-full max-w-md">
 
-          {/* VOLVER */}
           <button
             type="button"
             onClick={() => navigate("/")}
@@ -80,7 +75,6 @@ export default function Login() {
             Volver
           </button>
 
-          {/* TITULO */}
           <h2 className="text-4xl font-bold text-slate-900">
             Iniciar Sesión
           </h2>
@@ -89,13 +83,11 @@ export default function Login() {
             Ingresa tus credenciales para continuar.
           </p>
 
-          {/* FORM */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
           >
 
-            {/* EMAIL */}
             <div>
               <label className="block text-sm text-slate-700 mb-2">
                 Correo Electrónico
@@ -115,7 +107,6 @@ export default function Login() {
               )}
             </div>
 
-            {/* PASSWORD */}
             <div>
               <label className="block text-sm text-slate-700 mb-2">
                 Contraseña
@@ -151,7 +142,6 @@ export default function Login() {
               )}
             </div>
 
-            {/* RECORDARME */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 text-slate-600">
                 <input
@@ -169,7 +159,6 @@ export default function Login() {
               </button>
             </div>
 
-            {/* SUBMIT */}
             <button
               type="submit"
               disabled={isSubmitting}
@@ -182,7 +171,6 @@ export default function Login() {
 
           </form>
 
-          {/* REGISTER */}
           <p className="p-register">
             ¿Aún no tienes cuenta?{" "}
             <button

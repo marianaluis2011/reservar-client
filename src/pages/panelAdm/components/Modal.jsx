@@ -1,4 +1,3 @@
-// Wrapper genérico de modal del panel del owner.
 export default function Modal({ onClose, title, children, footer }) {
   return (
     <div className="hd-modal-overlay" onClick={onClose}>

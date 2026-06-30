@@ -1,13 +1,17 @@
-import { Bed, Building2, CheckCircle, Eye, EyeOff } from "lucide-react";
+import { Bed, Building2, CheckCircle, Eye, EyeOff, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/auth.services.js";
 import { useRegisterForm } from "./useRegister.js";
 import { toast } from "sonner";
 import "./register.css";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import TermsModal from "./../terms/termsModal.jsx";
 import { getProvinces } from "../../services/province.services.js";
 
+
+const RequiredMark = () => (
+  <Info size={13} className="required-info" title="Este campo es obligatorio" />
+);
 
 export default function Register() {
   const navigate = useNavigate();
@@ -38,7 +42,6 @@ export default function Register() {
     setValue("role", newRole);
   };
 
-  // 👉 Estado para manejar el modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +53,7 @@ export default function Register() {
       try {
         const data = await getProvinces();
         setProvinces(data);
-      } catch (error) {
+      } catch {
         toast.error("No se pudieron cargar las provincias");
       }
     };
@@ -68,7 +71,6 @@ export default function Register() {
         </button>
       </div>
       <div className="container-header">
-        {/* HEADER */}
         <div className="header-one">
           <h1 className="header-title">
             Crea tu cuenta
@@ -79,7 +81,6 @@ export default function Register() {
           </p>
         </div>
 
-        {/* BODY */}
         <div className="p-8">
           <form className="form-body" onSubmit={handleSubmit(onSubmit)}>
 
@@ -143,12 +144,11 @@ export default function Register() {
               </button>
             </div>
 
-            {/* DATOS PERSONALES */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2 mt-2">
-                  Nombre Completo
+                  Nombre Completo <RequiredMark />
                 </label>
 
                 <input
@@ -177,7 +177,7 @@ export default function Register() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2 mt-2">
-                  Correo Electrónico
+                  Correo Electrónico <RequiredMark />
                 </label>
 
                 <input
@@ -206,7 +206,7 @@ export default function Register() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Contraseña
+                  Contraseña <RequiredMark />
                 </label>
 
                 <div className="relative">
@@ -247,7 +247,7 @@ export default function Register() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Confirmar Contraseña
+                  Confirmar Contraseña <RequiredMark />
                 </label>
 
                 <div className="relative">
@@ -294,7 +294,6 @@ export default function Register() {
 
             </div>
 
-            {/* HOST */}
             {role === "host" && (
               <div className="mt-3 border-t pt-3">
                 <div className="mt-3 border-t pt-3">
@@ -306,7 +305,7 @@ export default function Register() {
 
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Nombre del Hospedaje
+                        Nombre del Hospedaje <RequiredMark />
                       </label>
 
                       <input
@@ -334,7 +333,7 @@ export default function Register() {
 
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Provincia
+                        Provincia <RequiredMark />
                       </label>
 
                       <select
@@ -368,7 +367,7 @@ export default function Register() {
 
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-slate-700 mb-1">
-                        Descripción
+                        Descripción <RequiredMark />
                       </label>
 
                       <textarea
@@ -399,7 +398,7 @@ export default function Register() {
 
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">
-                        WhatsApp
+                        WhatsApp <span className="optional-mark">(opcional)</span>
                       </label>
 
                       <input
@@ -469,7 +468,6 @@ export default function Register() {
                   {errors.terms.message}
                 </p>
               )}
-              {/* Render del modal */}
               <TermsModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

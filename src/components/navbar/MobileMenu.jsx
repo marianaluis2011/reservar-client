@@ -4,7 +4,6 @@ import UserMenu from "./UserMenu";
 const MobileMenu = ({
   open,
   showNavigationLinks,
-  isHome,
   isAuthenticated,
   user,
   navigate,

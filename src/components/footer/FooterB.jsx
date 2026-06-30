@@ -9,7 +9,6 @@ export default function FooterB() {
     <footer className="footer-b">
       <div className="footer-container">
         <div className="footer-content">
-          {/* Sección de Marca */}
           <div className="footer-section brand-section">
             <h2 className="footer-logo">
               <img src={logo} alt="Logo" className="footer-logo-img" />
@@ -21,7 +20,6 @@ export default function FooterB() {
             </p>
           </div>
           <div className="footer-section brand-section1">
-                      {/* Enlaces de Navegación */}
             <div className="footer-section">
               <h4 className="section-title">Explorar</h4>
               <ul className="footer-links">
@@ -31,7 +29,6 @@ export default function FooterB() {
               </ul>
             </div>
 
-            {/* Información Legal/Empresa */}
             <div className="footer-section">
               <h4 className="section-title">Información</h4>
               <ul className="footer-links">
@@ -41,7 +38,6 @@ export default function FooterB() {
               </ul>
             </div>
 
-            {/* Datos de Contacto */}
             <div className="footer-section contact-section">
               <h4 className="section-title">Contacto</h4>
               <div className="contact-details">
@@ -67,7 +63,7 @@ export default function FooterB() {
 
         <div className="footer-bottom">
           <p className="copyright">
-            &copy; {new Date().getFullYear()} ReservaHost. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Hospedar. Todos los derechos reservados.
           </p>
           <div className="social-links">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">

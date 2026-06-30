@@ -55,17 +55,10 @@
   align-items: center;
 }
 
-/* .navbar-actions button {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-size: medium;
-  font-weight: 600;
-} */
+
 
 .btn-login {
-  /* display: inline-block; */
+  
   width: fit-content;
   white-space: nowrap;
   background: transparent;

@@ -10,8 +10,8 @@ export default function BookingDetailModal({ booking, onClose }) {
     >
       <div className="booking-detail-list">
         {[
-          ["Cliente", booking.user?.fullName || booking.user?.email || "Cliente"],
-          ["Email", booking.user?.email || "Sin email"],
+          ["Cliente", booking.user?.fullName || booking.guestName || "Cliente"],
+          ["Email", booking.user?.email || booking.guestEmail || "Sin email"],
           ["Habitación", booking.room?.name || "Habitación"],
           ["Fechas", formatBookingDates(booking.checkIn, booking.checkOut)],
           ["Estado", formatBookingStatus(booking.status)],

@@ -23,7 +23,6 @@ export default function AppRouter() {
       <Navbar />
 
       <Routes>
-        {/* Públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -33,7 +32,6 @@ export default function AppRouter() {
         <Route path="/myBooking" element={<MyBooking />} />
         <Route path="/help" element={<Help />} />
 
-        {/* Privadas */}
         <Route element={<ProtectedRoute allowedRoles={["host"]} />}>
           <Route path="/host/dashboard" element={<HostDashboard />} />
         </Route>
@@ -42,7 +40,6 @@ export default function AppRouter() {
           <Route path="/host/superAdmin" element={<SuperAdminDashboard />} />
         </Route>
 
-        {/* Error */}
         <Route path="*" element={<Error404 />} />
       </Routes>
 

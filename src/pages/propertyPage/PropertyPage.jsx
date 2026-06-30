@@ -1,17 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import {
-  Wind,
-  Wifi,
-  Waves,
-  Car,
-  Coffee,
-  Dumbbell,
   MapPin,
   ChevronLeft,
   Share,
-  Heart,
   Phone,
   Mail,
+  Check,
   Link as LinkIcon
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -21,7 +15,6 @@ import "./../propertyPage/PropertyPage.css";
 export default function PropertyPage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isSaved, setIsSaved] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const shareMenuRef = useRef(null);
 
@@ -45,7 +38,6 @@ export default function PropertyPage() {
     fetchData();
   }, [id]);
 
-  // Cerrar menú de compartir al hacer click afuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (shareMenuRef.current && !shareMenuRef.current.contains(event.target)) {
@@ -73,7 +65,6 @@ export default function PropertyPage() {
   return (
     <div className="property-page-wrapper">
       <main className="main-content">
-        {/* Encabezado */}
         <div className="header-container">
           <div className="header-text-group">
             <button onClick={() => navigate(-1)} className="back-button">
@@ -121,7 +112,6 @@ export default function PropertyPage() {
           </div>
         </div>
 
-        {/* Galería de Imágenes */}
         <div className="gallery-grid">
           <div className="image-container main-image-wrapper">
             <img src={property.mainImage} alt="Principal" className="gallery-image" />
@@ -136,7 +126,6 @@ export default function PropertyPage() {
           </div>
         </div>
 
-        {/* Contenido Principal */}
         <div className="content-layout">
           <div className="info-column">
             <section>
@@ -148,14 +137,15 @@ export default function PropertyPage() {
               <h2 className="section-title section-title-divider">
                 Servicios incluidos <div className="divider-line"></div>
               </h2>
-              <div className="amenities-grid">
-                <Amenity icon={<Waves />} label="Piscina" />
-                <Amenity icon={<Car />} label="Estacionamiento" />
-                <Amenity icon={<Wifi />} label="Wi-Fi Premium" />
-                <Amenity icon={<Wind />} label="Aire Acondicionado" />
-                <Amenity icon={<Coffee />} label="Desayuno Gourmet" />
-                <Amenity icon={<Dumbbell />} label="Gimnasio 24 hs" />
-              </div>
+              {property.services?.length > 0 ? (
+                <div className="amenities-grid">
+                  {property.services.map((service) => (
+                    <Amenity key={service} icon={<Check />} label={service} />
+                  ))}
+                </div>
+              ) : (
+                <p className="description-box">Este hospedaje todavía no cargó sus servicios.</p>
+              )}
             </section>
 
             <section>
@@ -204,8 +194,6 @@ export default function PropertyPage() {
 
             <section className="contact-card">
               <h2 className="contact-title">Contacto Directo</h2>
-              {/* <p className="contact-text">¿Tienes dudas sobre el alojamiento? Habla directo con nosotros.</p> */}
-
               <div className="contact-methods">
                 <div className="contact-item">
                   <div className="contact-icon-bg">

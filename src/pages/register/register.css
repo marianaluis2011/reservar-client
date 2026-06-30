@@ -48,7 +48,7 @@
 }
 .header-subtitle {
     font-size: 1rem;
-    /* font-weight: bold; */
+    
     letter-spacing: -0.025em;
     color: #1A365D;
     padding: 5px;
@@ -99,4 +99,16 @@
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 10px 20px -5px rgba(26, 54, 93, 0.3);
+}
+.required-info {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 4px;
+  color: #0891b2;
+  cursor: help;
+}
+.optional-mark {
+  font-weight: 400;
+  color: #94a3b8;
+  font-size: .8rem;
 }

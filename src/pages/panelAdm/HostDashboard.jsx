@@ -58,12 +58,10 @@ export default function HostDashboard() {
   const [viewDate, setViewDate]             = useState(new Date());
   const [calendarRoom, setCalendarRoom]     = useState("");
 
-  // Estados de modales
   const [showRoomModal,          setShowRoomModal]          = useState(false);
   const [showAccommodationModal, setShowAccommodationModal] = useState(false);
   const [showBookingModal,       setShowBookingModal]       = useState(false);
 
-  // Estados de formularios
   const [savingRoom,          setSavingRoom]          = useState(false);
   const [savingAccommodation, setSavingAccommodation] = useState(false);
   const [savingBooking,       setSavingBooking]       = useState(false);
@@ -72,9 +70,8 @@ export default function HostDashboard() {
 
   const [roomForm, setRoomForm] = useState({ name: "", description: "", maxCapacity: "", pricePerNight: "", images: [] });
   const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "", mainImage: null, gallery: [] });
-  const [bookingForm, setBookingForm] = useState({ guestEmail: "", room: "", checkIn: "", checkOut: "" });
+  const [bookingForm, setBookingForm] = useState({ guestName: "", guestEmail: "", room: "", checkIn: "", checkOut: "" });
 
-  // ── Carga inicial ──────────────────────────────────────────────────────────
   useEffect(() => {
     const load = async () => {
       try {
@@ -96,7 +93,6 @@ export default function HostDashboard() {
     load();
   }, []);
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
   const getDateKey = (date) => {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -114,7 +110,6 @@ export default function HostDashboard() {
     return dates;
   };
 
-  // Reservas del calendario, filtradas por la habitación elegida (o todas).
   const calendarBookings = calendarRoom
     ? bookings.filter((b) => (b.room?._id || b.room) === calendarRoom)
     : bookings;
@@ -138,7 +133,6 @@ export default function HostDashboard() {
     return true;
   });
 
-  // ── Handlers de navegación ─────────────────────────────────────────────────
   const scrollToSection = (sectionId) => {
     if (!sectionId) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -148,7 +142,6 @@ export default function HostDashboard() {
     setIsSidebarOpen(false);
   };
 
-  // ── Handlers de reservas ───────────────────────────────────────────────────
   const askConfirm = (mensaje, onConfirm) => {
     toast(mensaje, {
       action: { label: "Sí", onClick: onConfirm },
@@ -178,19 +171,18 @@ export default function HostDashboard() {
 
   const handleCreateBooking = async () => {
     const { guestEmail, room, checkIn, checkOut } = bookingForm;
-    if (!guestEmail || !room || !checkIn || !checkOut) { toast.error("Completá todos los campos"); return; }
+    if (!guestEmail || !room || !checkIn || !checkOut) { toast.error("Completá el email del huésped, la habitación y las fechas"); return; }
     try {
       setSavingBooking(true);
       const res = await createOwnerBooking(bookingForm);
       toast.success(res.message);
       setBookings((prev) => [res.booking, ...prev]);
-      setBookingForm({ guestEmail: "", room: "", checkIn: "", checkOut: "" });
+      setBookingForm({ guestName: "", guestEmail: "", room: "", checkIn: "", checkOut: "" });
       setShowBookingModal(false);
     } catch (e) { toast.error(e.response?.data?.message || "Error al crear reserva"); }
     finally { setSavingBooking(false); }
   };
 
-  // ── Handlers de habitaciones ───────────────────────────────────────────────
   const handleOpenEditRoom = (room) => {
     setEditingRoom(room);
     setRoomForm({ name: room.name || "", description: room.description || "", maxCapacity: room.maxCapacity || "", pricePerNight: room.pricePerNight || "", images: [] });
@@ -230,7 +222,6 @@ export default function HostDashboard() {
     finally { setSavingRoom(false); }
   };
 
-  // ── Handlers de hospedaje ──────────────────────────────────────────────────
   const handleOpenAccommodationModal = () => {
     if (!accommodation) { toast.error("No se encontró el hospedaje"); return; }
     setAccommodationForm({ name: accommodation.name || "", description: accommodation.description || "", whatsapp: accommodation.whatsapp || "", depositPercentage: accommodation.depositPercentage ?? "", mainImage: null, gallery: [] });
@@ -258,18 +249,15 @@ export default function HostDashboard() {
     finally { setSavingAccommodation(false); }
   };
 
-  // ── Calendario ─────────────────────────────────────────────────────────────
   const year  = viewDate.getFullYear();
   const month = viewDate.getMonth();
   const daysInMonth   = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = new Date(year, month, 1).getDay();
 
-  // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="host-dashboard-wrapper">
       <button className="mobile-sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)} aria-label="Abrir menú lateral">☰</button>
 
-      {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <h2 className="accommodation-name" onClick={handleOpenAccommodationModal}>
@@ -308,8 +296,16 @@ export default function HostDashboard() {
         </div>
       </aside>
 
-      {/* Main */}
       <main className="main-content">
+        <div className="dashboard-welcome">
+          <h2 className="dashboard-welcome__title">
+            ¡Hola, {user?.fullName || accommodation?.admin?.fullName || "anfitrión"}! 👋
+          </h2>
+          <p className="dashboard-welcome__text">
+            Bienvenido a tu panel. Acá gestionás tu hospedaje "{accommodation?.name || "tu hospedaje"}".
+          </p>
+        </div>
+
         <header className="top-bar">
           <div className="top-bar-text">
             <h1 className="page-title">Panel de Control</h1>
@@ -326,7 +322,6 @@ export default function HostDashboard() {
 
         <div className="dashboard-grid">
           <div className="dashboard-top-row">
-            {/* Calendario */}
             <section id="calendar-section" className="calendar-section card">
               <h2 className="section-title">Calendario de Ocupación</h2>
               <div className="calendar-room-filter">
@@ -354,7 +349,7 @@ export default function HostDashboard() {
                         <div className="calendar-tooltip">
                           {dayBookings.map((b) => (
                             <div key={b._id} className="calendar-tooltip-item">
-                              <strong>{b.user?.fullName || b.user?.email || "Cliente"}</strong>
+                              <strong>{b.user?.fullName || b.guestName || b.user?.email || b.guestEmail || "Cliente"}</strong>
                               <span>{b.room?.name || "Habitación"}</span>
                               <small>{formatBookingStatus(b.status)}</small>
                             </div>
@@ -368,7 +363,6 @@ export default function HostDashboard() {
               <p className="calendar-continuity-text">El calendario continúa...</p>
             </section>
 
-            {/* Habitaciones */}
             <section id="rooms-section" className="rooms-section card">
               <div className="section-header-with-button">
                 <h2 className="section-title">Habitaciones</h2>
@@ -393,7 +387,6 @@ export default function HostDashboard() {
             </section>
           </div>
 
-          {/* Reservas */}
           <section id="bookings-section" className="recent-bookings-section card">
             <h2 className="section-title">Reservas</h2>
 
@@ -419,7 +412,7 @@ export default function HostDashboard() {
                     <tr><td colSpan="5">No hay reservas para este filtro.</td></tr>
                   ) : filteredBookings.map((b) => (
                     <tr key={b._id}>
-                      <td>{b.user?.fullName || b.user?.email || "Cliente"}</td>
+                      <td>{b.user?.fullName || b.guestName || b.user?.email || b.guestEmail || "Cliente"}</td>
                       <td>{b.room?.name || "Habitación"}</td>
                       <td>{formatBookingDates(b.checkIn, b.checkOut)}</td>
                       <td><span className={`status-badge ${b.status}`}>{formatBookingStatus(b.status)}</span></td>
@@ -446,7 +439,6 @@ export default function HostDashboard() {
             </div>
           </section>
 
-          {/* Configuración rápida */}
           <section id="quick-settings-section" className="quick-settings-section card">
             <h2 className="section-title">Configuración rápida</h2>
             <div className="quick-settings-grid">
