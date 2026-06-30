@@ -11,7 +11,7 @@ const SuperAdminSidebar = ({ activeOption, onOptionClick, onLogoutClick }) => {
     return (
         <div className="sidebar">
             <div className="sidebar-header">
-                <h3 className="accommodation-name">ReservaHost Admin.</h3>
+                <h3 className="accommodation-name">Hospedar Admin.</h3>
                 <p className="admin-panel-subtitle">Panel Super Admin.</p>
             </div>
             <nav className="sidebar-nav">

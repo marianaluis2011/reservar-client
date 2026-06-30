@@ -25,7 +25,7 @@ const Help = () => {
             <FaArrowLeft /> Volver
           </button>
           <h1 className="help-title">Centro de Ayuda</h1>
-          <p className="help-subtitle">Encuentra respuestas y soporte para tu experiencia en ReservaHost.</p>
+          <p className="help-subtitle">Encuentra respuestas y soporte para tu experiencia en Hospedar.</p>
           <span className="line"></span>
         </div>
       </header>

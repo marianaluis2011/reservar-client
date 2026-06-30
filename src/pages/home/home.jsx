@@ -108,47 +108,9 @@ export default function Home() {
       <section className="results">
         <div className="container">
           <div className="results__layout">
-            <aside className="filters">
-              <div className="filters__header">
-                <span className="filters__title">Filtros</span>
-                <button className="filters__clear" onClick={() => setSelectedProvince("")}>Limpiar</button>
-              </div>
-
-              <div className="filter-group">
-                <p className="filter-group__label">Provincia</p>
-                <label className="filter-group__check">
-                  <input
-                    type="radio"
-                    name="province"
-                    checked={selectedProvince === ""}
-                    onChange={() => setSelectedProvince("")}
-                  /> Todas
-                </label>
-                {provinces.map((p) => (
-                  <label key={p._id} className="filter-group__check">
-                    <input
-                      type="radio"
-                      name="province"
-                      checked={selectedProvince === p.name}
-                      onChange={() => setSelectedProvince(p.name)}
-                    /> {p.name}
-                  </label>
-                ))}
-              </div>
-            </aside>
-
-
             <div className="results__main">
               <div className="results__top">
                 <h2 className="results__count">Resultados encontrados ({filteredAccommodations.length})</h2>
-                <div className="results__sort">
-                  <span>Ordenar por:</span>
-                  <select>
-                    <option>Más destacados</option>
-                    <option>Precio: menor a mayor</option>
-                    <option>Mejor calificación</option>
-                  </select>
-                </div>
               </div>
 
               <div className="cards-grid">
@@ -230,7 +192,7 @@ export default function Home() {
         <div className="cta-section__inner">
           <h2 className="cta-section__title">¿Listo para ser el anfitrión perfecto?</h2>
           <p className="cta-section__sub">
-            Únete a cientos de operadores que ya transformaron su gestión con ReservaHost.
+            Únete a cientos de operadores que ya transformaron su gestión con Hospedar.
           </p>
           <div className="cta-section__btns">
             <button className="btn btn--primary" onClick={() => navigate("/register")}>Empezar Ahora</button>

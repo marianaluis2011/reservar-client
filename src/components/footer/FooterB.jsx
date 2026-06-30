@@ -67,7 +67,7 @@ export default function FooterB() {
 
         <div className="footer-bottom">
           <p className="copyright">
-            &copy; {new Date().getFullYear()} ReservaHost. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Hospedar. Todos los derechos reservados.
           </p>
           <div className="social-links">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
