@@ -65,13 +65,5 @@ export const registerSchema = z
             "La descripción debe tener al menos 20 caracteres",
         });
       }
-
-      if (!data.whatsapp || data.whatsapp.length < 8) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["whatsapp"],
-          message: "Ingresa un número de WhatsApp válido",
-        });
-      }
     }
   });
