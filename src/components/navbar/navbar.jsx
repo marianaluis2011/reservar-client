@@ -73,7 +73,7 @@ onClick={() => navigate('/')}
   <NavLinks navigate={navigate} />
 )}
 
-  {isHome && !isAuthenticated && (
+  {!isAuthenticated && (
     <div className="navbar-actions">
       <button
         className="btn-login"
@@ -92,11 +92,30 @@ onClick={() => navigate('/')}
   )}
 
   {isAuthenticated && (
-    <div 
+    <div
       className="navbar-actions"
       ref={menuRef}
     >
-      
+      {(user?.role === "host" || user?.role === "super_admin") && (
+        <button
+          className="btn-panel"
+          onClick={() =>
+            navigate(user.role === "super_admin" ? "/host/superAdmin" : "/host/dashboard")
+          }
+        >
+          Mi panel
+        </button>
+      )}
+
+      {user?.role === "guest" && (
+        <button
+          className="btn-panel"
+          onClick={() => navigate("/myBooking")}
+        >
+          Mis reservas
+        </button>
+      )}
+
       <button
         className="btn-avatar"
         onClick={() =>

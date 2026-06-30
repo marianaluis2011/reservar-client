@@ -72,12 +72,16 @@
   color: white;
   padding: 10px;
   border-radius: 10px;
+  border: 1px solid transparent;
 }
 
 .btn-register {
   width: fit-content;
   background: #2563eb;
   color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
 }
 
 .btn-login:hover, .btn-register:hover {
@@ -86,6 +90,22 @@
   border: 1px solid grey !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 10px 20px -5px rgba(26, 54, 93, 0.3) !important;
+}
+
+.btn-panel {
+  background: #1d4ed8;
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-panel:hover {
+  background: #1e3a8a;
 }
 
 .btn-avatar {

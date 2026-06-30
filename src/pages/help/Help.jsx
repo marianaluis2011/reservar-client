@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import "./Help.css";
 
 const faqs = [
@@ -11,6 +13,7 @@ const faqs = [
 ];
 
 const Help = () => {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(null);
   const toggleFAQ = (index) => setActiveIndex(activeIndex === index ? null : index);
 
@@ -18,6 +21,9 @@ const Help = () => {
     <div className="help-container">
       <header className="help-header">
         <div className="help-gradient">
+          <button className="help-back" onClick={() => navigate(-1)}>
+            <FaArrowLeft /> Volver
+          </button>
           <h1 className="help-title">Centro de Ayuda</h1>
           <p className="help-subtitle">Encuentra respuestas y soporte para tu experiencia en ReservaHost.</p>
           <span className="line"></span>

@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Wifi, 
-  Wind, 
-  Tv, 
-  Coffee, 
-  ShieldCheck, 
+import {
+  ChevronLeft,
+  ChevronRight,
+  Wifi,
+  Wind,
+  Tv,
+  Coffee,
+  ShieldCheck,
   Star,
-  Heart,
   Share,
   X,
   MapPin,
@@ -16,46 +15,83 @@ import {
   Users,
   Link as LinkIcon
 } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
+import { getRoomById } from "../../services/accommodation.services.js";
+import { createBooking, getOccupiedDates } from "../../services/booking.services.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { toast } from "sonner";
 import "./RoomDetail.css";
-
-// 1. Definimos la data fuera del componente para evitar errores de referencia y re-renders innecesarios
-const ROOM_DATA = {
-  name: "Suite Matrimonial Premium",
-  description: "Disfruta de la máxima comodidad en nuestra suite de lujo. Diseñada con un estilo contemporáneo y toques boutique, ofrece una vista inigualable y servicios de primera clase para una estancia inolvidable.",
-  pricePerNight: 35000,
-  images: [
-    "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200",
-    "https://images.unsplash.com/photo-1590490359683-658d3d23f972?q=80&w=800",
-    "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800",
-  ],
-  amenities: [
-    { icon: <Wifi size={20} />, label: "Wi-Fi de alta velocidad" },
-    { icon: <Wind size={20} />, label: "Aire Acondicionado" },
-    { icon: <Tv size={20} />, label: "Smart TV 55'" },
-    { icon: <Coffee size={20} />, label: "Cafetera Nespresso" },
-    { icon: <ShieldCheck size={20} />, label: "Caja de seguridad" },
-  ]
-};
 
 export default function RoomDetail() {
   const navigate = useNavigate();
-  
+  const { id } = useParams();
+  const { user } = useAuth();
+
   // Definimos "today" de forma que sea inmutable para comparaciones
   const today = new Date(new Date().setHours(0, 0, 0, 0));
 
+  const [room, setRoom] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [savingBooking, setSavingBooking] = useState(false);
+
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [viewDate, setViewDate] = useState(new Date(2026, 5, 1));
+  const [viewDate, setViewDate] = useState(new Date());
+  const [occupiedDates, setOccupiedDates] = useState(() => new Set());
   const shareMenuRef = useRef(null);
+
+  useEffect(() => {
+    const fetchRoom = async () => {
+      try {
+        const data = await getRoomById(id);
+        setRoom(data);
+      } catch (error) {
+        console.error("Error al cargar la habitación:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRoom();
+  }, [id]);
+
+  // Cargar fechas ya ocupadas de esta habitación para bloquearlas en el calendario.
+  useEffect(() => {
+    const fetchOccupied = async () => {
+      try {
+        const ranges = await getOccupiedDates(id);
+        const set = new Set();
+        ranges.forEach(({ checkIn, checkOut }) => {
+          const cur = new Date(checkIn.slice(0, 10) + "T00:00:00");
+          const end = new Date(checkOut.slice(0, 10) + "T00:00:00");
+          while (cur < end) {
+            const y = cur.getFullYear();
+            const m = String(cur.getMonth() + 1).padStart(2, "0");
+            const d = String(cur.getDate()).padStart(2, "0");
+            set.add(`${y}-${m}-${d}`);
+            cur.setDate(cur.getDate() + 1);
+          }
+        });
+        setOccupiedDates(set);
+      } catch (error) {
+        console.error("Error al cargar fechas ocupadas:", error);
+      }
+    };
+    fetchOccupied();
+  }, [id]);
 
   // Valores derivados: se calculan en cada render basándose en el estado de checkIn/checkOut
   const nights = (checkIn && checkOut) ? Math.max(0, Math.round((new Date(`${checkOut}T00:00:00`) - new Date(`${checkIn}T00:00:00`)) / 86400000)) : 0;
-  const totalPrice = nights * ROOM_DATA.pricePerNight;
+  const pricePerNight = room?.pricePerNight || 0;
+  const totalPrice = nights * pricePerNight;
+
+  // Imágenes reales (con fallback si no hay)
+  const images = (room?.images && room.images.length > 0)
+    ? room.images
+    : ["https://placehold.co/1200x800?text=Habitación"];
+
 
   // Cerrar menú de compartir al hacer click afuera
   useEffect(() => {
@@ -75,11 +111,11 @@ export default function RoomDetail() {
   }, [showShareOptions]);
 
   const nextImage = () => {
-    setCurrentImgIndex((prev) => (prev === ROOM_DATA.images.length - 1 ? 0 : prev + 1));
+    setCurrentImgIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   const prevImage = () => {
-    setCurrentImgIndex((prev) => (prev === 0 ? ROOM_DATA.images.length - 1 : prev - 1));
+    setCurrentImgIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   // Lógica del Calendario
@@ -100,8 +136,9 @@ export default function RoomDetail() {
     const clickedDate = new Date(dateStr + "T00:00:00").getTime();
     const checkInDate = checkIn ? new Date(checkIn + "T00:00:00").getTime() : null;
 
-    // Evitar seleccionar fechas pasadas
-    if (clickedDate < today.getTime()) return; 
+    // Evitar seleccionar fechas pasadas u ocupadas
+    if (clickedDate < today.getTime()) return;
+    if (occupiedDates.has(dateStr)) return;
 
     if (!checkIn || (checkIn && checkOut)) {
       setCheckIn(dateStr);
@@ -123,6 +160,41 @@ export default function RoomDetail() {
   const handleNextMonth = () => {
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
   };
+  const handleReservar = async () => {
+    if (!user) {
+      toast.error("Tenés que iniciar sesión para reservar");
+      navigate("/login");
+      return;
+    }
+    if (!checkIn || !checkOut) {
+      toast.error("Elegí las fechas de entrada y salida");
+      return;
+    }
+    try {
+      setSavingBooking(true);
+      const res = await createBooking({
+        accommodation: room.accommodation._id,
+        room: room._id,
+        checkIn,
+        checkOut
+      });
+      toast.success(res.message || "Reserva creada con éxito");
+      setShowModal(false);
+      navigate("/myBooking");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error al crear la reserva");
+    } finally {
+      setSavingBooking(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="room-detail-wrapper"><main className="room-container"><p>Cargando habitación...</p></main></div>;
+  }
+
+  if (!room) {
+    return <div className="room-detail-wrapper"><main className="room-container"><p>No se encontró la habitación.</p></main></div>;
+  }
 
   return (
     <div className="room-detail-wrapper">
@@ -132,45 +204,38 @@ export default function RoomDetail() {
           <button onClick={() => navigate(-1)} className="back-link">
             <ChevronLeft size={20} /> Volver a la propiedad
           </button>
-          
+
           <div className="action-buttons">
             <div className="share-container" ref={shareMenuRef}>
-              <button 
+              <button
                 className={`btn-secondary ${showShareOptions ? 'active' : ''}`}
                 onClick={() => setShowShareOptions(!showShareOptions)}
               >
                 <Share className="share-icon" /> Compartir
               </button>
-              
+
               {showShareOptions && (
                 <div className="share-menu">
                   <button className="share-menu-item" onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank')}>
-                    <svg className="social-icon fb" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor"/></svg>
+                    <svg className="social-icon fb" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="currentColor" /></svg>
                     Facebook
                   </button>
                   <button className="share-menu-item" onClick={() => window.open(`https://twitter.com/intent/tweet?url=${window.location.href}`, '_blank')}>
-                    <svg className="social-icon x-twitter" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor"/></svg>
+                    <svg className="social-icon x-twitter" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="currentColor" /></svg>
                     Twitter
                   </button>
-                  <button className="share-menu-item" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(ROOM_DATA.name + ' ' + window.location.href)}`, '_blank')}>
-                    <svg className="social-icon whatsapp" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z"/></svg>
+                  <button className="share-menu-item" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent((room?.name || "") + ' ' + window.location.href)}`, '_blank')}>
+                    <svg className="social-icon whatsapp" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z" /></svg>
                     WhatsApp
                   </button>
                   <button className="share-menu-item" onClick={() => { navigator.clipboard.writeText(window.location.href); setShowShareOptions(false); alert("Enlace copiado!"); }}>
-                    <LinkIcon className="social-icon link" size={18} /> 
+                    <LinkIcon className="social-icon link" size={18} />
                     Copiar Enlace
                   </button>
                 </div>
               )}
             </div>
 
-            <button 
-              className={`btn-icon ${isSaved ? 'is-saved' : ''}`} 
-              onClick={() => setIsSaved(!isSaved)}
-            >
-              <Heart className={`heart-icon ${isSaved ? 'filled' : ''}`} /> 
-              {isSaved ? 'Guardado' : 'Guardar'}
-            </button>
           </div>
         </div>
 
@@ -180,27 +245,27 @@ export default function RoomDetail() {
             <button className="carousel-control prev" onClick={prevImage}>
               <ChevronLeft size={30} color="white" />
             </button>
-            <img src={ROOM_DATA.images[currentImgIndex]} alt={ROOM_DATA.name} className="main-slide" />
+            <img src={images[currentImgIndex]} alt={room?.name} className="main-slide" />
             <button className="carousel-control next" onClick={nextImage}>
               <ChevronRight size={30} color="white" />
             </button>
             <div className="carousel-dots">
-              {ROOM_DATA.images.map((_, i) => (
+              {images.map((_, i) => (
                 <span key={i} className={`dot ${i === currentImgIndex ? "active" : ""}`} />
               ))}
             </div>
           </div>
           <div className="gallery-thumbs">
-            {ROOM_DATA.images.map((img, i) => (
-              <div 
-                key={i} 
-                className={`thumb-container ${i === currentImgIndex ? "selected" : ""}`} 
+            {images.map((img, i) => (
+              <div
+                key={i}
+                className={`thumb-container ${i === currentImgIndex ? "selected" : ""}`}
                 onClick={() => setCurrentImgIndex(i)}
               >
-                <img 
-                  src={img} 
-                  className="thumb-image" 
-                  alt={`${ROOM_DATA.name} miniatura ${i + 1}`}
+                <img
+                  src={img}
+                  className="thumb-image"
+                  alt={`${room?.name} miniatura ${i + 1}`}
                 />
               </div>
             ))}
@@ -209,22 +274,26 @@ export default function RoomDetail() {
 
         <div className="room-grid">
           <div className="room-info-section">
-            <h1 className="room-name">{ROOM_DATA.name}</h1>
+            <h1 className="room-name">{room?.name}</h1>
             <div className="room-rating">
               <Star className="star-icon" size={16} fill="#FFD700" color="#FFD700" />
-              <span>4.9 (12 reseñas)</span>
+              <span>Capacidad: {room?.maxCapacity} {room?.maxCapacity === 1 ? "persona" : "personas"}</span>
             </div>
-            <p className="room-description">{ROOM_DATA.description}</p>
+            <p className="room-description">{room?.description}</p>
 
             <div className="amenities-container">
               <h3 className="subtitle">¿Qué ofrece esta habitación?</h3>
               <div className="amenities-list">
-                {ROOM_DATA.amenities.map((item, index) => (
-                  <div key={index} className="amenity-item">
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </div>
-                ))}
+                {(room?.services && room.services.length > 0) ? (
+                  room.services.map((service, index) => (
+                    <div key={index} className="amenity-item">
+                      <ShieldCheck size={20} />
+                      <span>{service}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p>No hay servicios cargados para esta habitación.</p>
+                )}
               </div>
             </div>
           </div>
@@ -247,19 +316,20 @@ export default function RoomDetail() {
                     const day = i + 1;
                     const dateStr = formatDate(viewDate.getFullYear(), viewDate.getMonth(), day);
                     const currentDate = new Date(dateStr + "T00:00:00").getTime();
-                    
+
                     const isCheckIn = checkIn === dateStr;
                     const isCheckOut = checkOut === dateStr;
-                    const isBetween = checkIn && checkOut && 
-                                     currentDate > new Date(`${checkIn}T00:00:00`).getTime() && 
-                                     currentDate < new Date(`${checkOut}T00:00:00`).getTime();
+                    const isBetween = checkIn && checkOut &&
+                      currentDate > new Date(`${checkIn}T00:00:00`).getTime() &&
+                      currentDate < new Date(`${checkOut}T00:00:00`).getTime();
                     const isPast = currentDate < today.getTime();
+                    const isReserved = occupiedDates.has(dateStr);
 
                     return (
-                      <div 
-                        key={day} 
-                        className={`calendar-day ${isPast ? 'is-past' : ''} ${isCheckIn || isCheckOut ? 'active-date' : ''} ${isBetween ? 'selected-range' : ''}`}
-                        onClick={() => !isPast && handleDateClick(day)}
+                      <div
+                        key={day}
+                        className={`calendar-day ${isPast ? 'is-past' : ''} ${isReserved ? 'is-reserved' : ''} ${isCheckIn || isCheckOut ? 'active-date' : ''} ${isBetween ? 'selected-range' : ''}`}
+                        onClick={() => !isPast && !isReserved && handleDateClick(day)}
                       >
                         {day}
                       </div>
@@ -271,7 +341,7 @@ export default function RoomDetail() {
 
             <div className="booking-card">
               <div className="booking-header">
-                <span className="price-big">${ROOM_DATA.pricePerNight.toLocaleString()}</span>
+                <span className="price-big">${pricePerNight.toLocaleString()}</span>
                 <span className="price-label">/ noche</span>
               </div>
 
@@ -298,7 +368,7 @@ export default function RoomDetail() {
               {nights > 0 && (
                 <div className="price-summary">
                   <div className="summary-row">
-                    <span>${ROOM_DATA.pricePerNight.toLocaleString()} x {nights} noche/s</span>
+                    <span>${pricePerNight.toLocaleString()} x {nights} noche/s</span>
                     <span>${totalPrice.toLocaleString()}</span>
                   </div>
                   <div className="summary-total">
@@ -308,8 +378,8 @@ export default function RoomDetail() {
                 </div>
               )}
 
-              <button 
-                className="btn-reserve-now" 
+              <button
+                className="btn-reserve-now"
                 disabled={!checkIn || !checkOut}
                 onClick={() => setShowModal(true)}
               >
@@ -323,21 +393,21 @@ export default function RoomDetail() {
 
       {/* Modal de Confirmación */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="rd-modal-overlay">
+          <div className="rd-modal-content">
             <button className="modal-close-btn" onClick={() => setShowModal(false)} aria-label="Cerrar">
               <X size={20} />
             </button>
 
             <div className="modal-header-img">
-              <img src={ROOM_DATA.images[0]} alt={ROOM_DATA.name} />
+              <img src={images[0]} alt={room?.name} />
             </div>
 
-            <div className="modal-body">
+            <div className="rd-modal-body">
               <h2 className="modal-title">Detalles de la Reserva</h2>
-              
+
               <div className="modal-info-section">
-                <h3 className="room-name-modal">{ROOM_DATA.name}</h3>
+                <h3 className="room-name-modal">{room?.name}</h3>
                 <div className="info-item-modal">
                   <MapPin size={16} />
                   <span>San Miguel de Tucumán, Tucumán</span>
@@ -357,7 +427,7 @@ export default function RoomDetail() {
               <div className="price-breakdown-modal">
                 <div className="price-row-modal">
                   <span>Tarifa por {nights} {nights === 1 ? 'noche' : 'noches'}</span>
-                  <span>${(ROOM_DATA.pricePerNight * nights).toLocaleString()}</span>
+                  <span>${(pricePerNight * nights).toLocaleString()}</span>
                 </div>
                 <div className="price-row-modal">
                   <span>Impuesto por servicios (10%)</span>
@@ -370,21 +440,17 @@ export default function RoomDetail() {
               </div>
 
               <div className="modal-actions-container">
-                <button className="btn-mercado-pago" onClick={() => alert("Redirigiendo a Mercado Pago...")}>
-                  <div className="mp-logo-mini-wrapper">
-                    <img 
-                      src="https://thf.bing.com/th/id/OIP.GfGB7l824oQOiwrnjxPVBAHaD4?w=303&h=180&c=7&r=0&o=7&cb=thfc1falcon2&pid=1.7&rm=3" 
-                      alt="Mercado Pago" 
-                    />
-                  </div>
-                  Realizar Pago
+                <button className="btn-reserve-now" onClick={handleReservar} disabled={savingBooking}>
+                  {savingBooking ? "Creando reserva..." : "Confirmar reserva"}
                 </button>
-                <button className="btn-whatsapp-modal" onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent("Hola, quiero confirmar mi reserva para " + ROOM_DATA.name + " desde el " + checkIn.split("-").reverse().join("/") + " hasta el " + checkOut.split("-").reverse().join("/"))}`, '_blank')}>
+                {room?.accommodation?.whatsapp && (
+                <button className="btn-whatsapp-modal" onClick={() => window.open(`https://wa.me/${room.accommodation.whatsapp}?text=${encodeURIComponent("¡Hola! Quiero consultar por una reserva en " + (room?.accommodation?.name || "el hospedaje") + " - " + (room?.name || "") + (checkIn && checkOut ? ", del " + checkIn.split("-").reverse().join("/") + " al " + checkOut.split("-").reverse().join("/") : "") + ".")}`, '_blank')}>
                   <svg className="whatsapp-icon-modal" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z"/>
+                    <path fill="currentColor" d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.26 4.87L2.01 22.01l5.31-1.39c1.41.76 3.01 1.21 4.7 1.21 5.52 0 9.99-4.47 9.99-9.99 0-5.52-4.47-9.99-9.99-9.99zm0 18.27c-1.5 0-2.93-.39-4.19-1.08l-.3-.16-3.12.81.83-3.04-.18-.29a8.21 8.21 0 0 1-1.26-4.53c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.482-.404-.413-.55-.422H8.5c-.163 0-.426.061-.65.304-.223.243-.853.832-.853 2.03 0 1.198.873 2.355 1.056 2.518.183.163 1.716 2.62 4.12 3.64.58.25 1.02.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.2-.58.2-1.08.14-1.18s-.22-.16-.47-.28z" />
                   </svg>
-                  WhatsApp
+                  Consultar por WhatsApp
                 </button>
+                )}
               </div>
             </div>
           </div>

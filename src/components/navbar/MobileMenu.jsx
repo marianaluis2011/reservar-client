@@ -24,7 +24,7 @@ const MobileMenu = ({
         />
       )}
 
-      {isHome && !isAuthenticated && (
+      {!isAuthenticated && (
         <>
           <button
             onClick={() => {
@@ -44,6 +44,28 @@ const MobileMenu = ({
             Registrarse
           </button>
         </>
+      )}
+
+      {isAuthenticated && (user?.role === "host" || user?.role === "super_admin") && (
+        <button
+          onClick={() => {
+            navigate(user.role === "super_admin" ? "/host/superAdmin" : "/host/dashboard");
+            closeMenu();
+          }}
+        >
+          Mi panel
+        </button>
+      )}
+
+      {isAuthenticated && user?.role === "guest" && (
+        <button
+          onClick={() => {
+            navigate("/myBooking");
+            closeMenu();
+          }}
+        >
+          Mis reservas
+        </button>
       )}
 
       {isAuthenticated && (

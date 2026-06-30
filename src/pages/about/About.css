@@ -83,6 +83,248 @@
 }
 
 /* Team Section */
+.about-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #002045;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 16px 24px 0;
+}
+.about-back:hover {
+  text-decoration: underline;
+}
+
+/* ===== Hero ===== */
+.about-hero {
+  background: #f0f3ff;
+  padding: 80px 24px;
+}
+.about-hero__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.about-badge {
+  display: inline-block;
+  background: #7db6ff;
+  color: #00477f;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+}
+.about-hero__title {
+  font-size: 48px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: #002045;
+  margin-bottom: 24px;
+}
+.about-hero__desc {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #43474e;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+.about-hero__btns {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.about-btn {
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+.about-btn--primary {
+  background: #002045;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 32, 69, 0.2);
+}
+.about-btn--primary:hover { background: #1a365d; }
+.about-btn--outline {
+  background: transparent;
+  color: #002045;
+  border: 1px solid #74777f;
+}
+.about-btn--outline:hover { background: #dee8ff; }
+.about-hero__media img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Valores ===== */
+.about-values {
+  background: #ffffff;
+  padding: 80px 24px;
+}
+.about-values__header {
+  max-width: 700px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+.about-values__header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #002045;
+  margin-bottom: 12px;
+}
+.about-values__line {
+  width: 64px;
+  height: 4px;
+  background: #1960a3;
+  border-radius: 9999px;
+  margin: 0 auto 24px;
+}
+.about-values__header p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #43474e;
+}
+.about-values__grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.value-card {
+  padding: 48px 24px;
+  background: #f9f9ff;
+  border: 1px solid #c4c6cf;
+  border-radius: 16px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.value-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(26, 54, 93, 0.08);
+}
+.value-card__icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  background: #dee8ff;
+  border-radius: 12px;
+  color: #1960a3;
+  font-size: 26px;
+}
+.value-card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #002045;
+  margin-bottom: 12px;
+}
+.value-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #43474e;
+}
+
+/* ===== Visión / Seguridad ===== */
+.about-bento {
+  background: #f9f9ff;
+  padding: 80px 24px;
+}
+.about-bento__grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+.bento-vision {
+  background: #1a365d;
+  color: #fff;
+  padding: 48px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+}
+.bento-vision h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.bento-vision p {
+  font-size: 18px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+.bento-vision__foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+.bento-vision__circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.bento-security {
+  background: #1960a3;
+  color: #fff;
+  padding: 48px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.bento-security__icon {
+  font-size: 48px;
+  margin: 0 auto 24px;
+}
+.bento-security h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.bento-security p {
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .about-hero__inner,
+  .about-values__grid,
+  .about-bento__grid {
+    grid-template-columns: 1fr;
+  }
+  .about-hero__title { font-size: 36px; }
+}
+
 .team-section {
   padding: 60px 20px;
   background: #f8fafc ;
@@ -92,6 +334,20 @@
 .team-section h2 {
   font-size: 2.5rem;
   margin-bottom: 40px;
+  color: #1A365D;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.team-section h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  background: #2dd4bf;
+  margin: 12px auto 0;
+  border-radius: 2px;
 }
 
 .team-card {
@@ -100,16 +356,17 @@
   justify-content: space-between;
   margin: 30px auto;
   max-width: 800px;
-  background: radial-gradient(circle, #ccc 0%, #808080 100%);
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  padding: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #eef2f7 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(26, 54, 93, 0.12);
+  padding: 24px;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .team-card.left .team-img { order: 1; }
 .team-card.left .team-info { order: 2; text-align: left; }
 .team-card.right .team-img { order: 2; }
-.team-card.right .team-info { order: 1; text-align: right; }
+.team-card.right .team-info { order: 1; text-align: left; }
 
 .team-img img {
   width: 200px;   /* vertical rectangular */
@@ -120,12 +377,22 @@
 
 .team-info h3 {
   margin: 10px 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  color: #1A365D;
+  font-weight: 700;
 }
 
 .team-info p {
   font-size: 1.1rem;
-  color: #ccc;
+  color: #334155;
+}
+
+.team-info .team-bio {
+  font-size: 0.95rem;
+  color: #475569;
+  margin-top: 10px;
+  max-width: 380px;
+  line-height: 1.5;
 }
 
 .social-icons {
@@ -137,6 +404,7 @@
 
 .social-icons svg {
   cursor: pointer;
+  color: #1A365D;
   transition: color 0.3s;
 }
 

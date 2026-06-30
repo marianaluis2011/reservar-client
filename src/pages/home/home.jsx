@@ -1,33 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getPublicAccommodations } from "../../services/accommodation.services.js";
+import { getProvinces } from "../../services/province.services.js";
 import "./Home.css";
 
-const featuredProperties = [
-  {
-    id: 1,
-    name: "Lumina Suites",
-    location: "Tulum, México",
-    price: "$245",
-    rating: 4.8,
-    badge: "Superhost",
-    img: "https://images.unsplash.com/photo-1506059612708-99d6128a857a?w=400&q=80",
-  },
-  {
-    id: 2,
-    name: "Villa Azure Estate",
-    location: "Amalfi Coast, Italy",
-    price: "$410",
-    rating: 4.8,
-    img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=80",
-  },
-  {
-    id: 3,
-    name: "Mountain Peak Lodge",
-    location: "Aspen, USA",
-    price: "$380",
-    rating: 5.0,
-    img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&q=80",
-  },
-];
+
 
 const pillars = [
   {
@@ -48,9 +25,48 @@ const pillars = [
 ];
 
 export default function Home() {
-  const [location, setLocation] = useState("");
-  const [dates, setDates] = useState("");
-  const [guests, setGuests] = useState("");
+  const navigate = useNavigate();
+  const [accommodations, setAccommodations] = useState([]);
+  const [loadingAcc, setLoadingAcc] = useState(true);
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [provinces, setProvinces] = useState([]);
+  const [page, setPage] = useState(1);
+  const perPage = 6;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [accData, provData] = await Promise.all([
+          getPublicAccommodations(),
+          getProvinces(),
+        ]);
+        setAccommodations(accData);
+        setProvinces(provData);
+      } catch (error) {
+        console.error("Error al cargar datos:", error);
+      } finally {
+        setLoadingAcc(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Filtro por provincia seleccionada.
+  const filteredAccommodations = accommodations.filter(
+    (acc) => !selectedProvince || acc.province?.name === selectedProvince
+  );
+
+  // Paginación client-side.
+  const totalPages = Math.ceil(filteredAccommodations.length / perPage) || 1;
+  const paginatedAccommodations = filteredAccommodations.slice(
+    (page - 1) * perPage,
+    page * perPage
+  );
+
+  // Si cambia el filtro, vuelvo a la primera página.
+  useEffect(() => {
+    setPage(1);
+  }, [selectedProvince]);
 
   return (
     <div className="home">
@@ -58,7 +74,7 @@ export default function Home() {
         <div className="hero__overlay" />
         <img
           src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1400&q=80"
-          alt="Hero"
+          alt="Hospedaje destacado"
           className="hero__bg"
         />
         <div className="hero__content">
@@ -71,92 +87,60 @@ export default function Home() {
           <div className="search-bar">
             <div className="search-bar__field">
               <span className="search-bar__icon">📍</span>
-              <input
-                type="text"
-                placeholder="¿A dónde vas?"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
+              <select
+                value={selectedProvince}
+                onChange={(e) => setSelectedProvince(e.target.value)}
+              >
+                <option value="">Todas las provincias</option>
+                {provinces.map((p) => (
+                  <option key={p._id} value={p.name}>{p.name}</option>
+                ))}
+              </select>
             </div>
-            <div className="search-bar__divider" />
-            <div className="search-bar__field">
-              <span className="search-bar__icon">📅</span>
-              <input
-                type="text"
-                placeholder="Entrada - Salida"
-                value={dates}
-                onChange={(e) => setDates(e.target.value)}
-              />
-            </div>
-            <div className="search-bar__divider" />
-            <div className="search-bar__field">
-              <span className="search-bar__icon">👥</span>
-              <input
-                type="text"
-                placeholder="¿Cuántos?"
-                value={guests}
-                onChange={(e) => setGuests(e.target.value)}
-              />
-            </div>
-            <button className="btn btn--primary search-bar__btn">
+            <button className="btn btn--primary search-bar__btn" onClick={() => document.querySelector(".results")?.scrollIntoView({ behavior: "smooth" })}>
               🔍 Buscar hospedaje
             </button>
           </div>
         </div>
       </section>
 
-      
+
       <section className="results">
         <div className="container">
           <div className="results__layout">
             <aside className="filters">
               <div className="filters__header">
                 <span className="filters__title">Filtros</span>
-                <button className="filters__clear">Limpiar</button>
+                <button className="filters__clear" onClick={() => setSelectedProvince("")}>Limpiar</button>
               </div>
 
               <div className="filter-group">
-                <p className="filter-group__label">Rango de Precio</p>
-                <div className="filter-group__range">
-                  <span>$50</span>
-                  <input type="range" min="50" max="1000" defaultValue="500" className="range-input" />
-                  <span>$1000+</span>
-                </div>
-              </div>
-
-              <div className="filter-group">
-                <p className="filter-group__label">Tipo de Alojamiento</p>
-                {["Villas Privadas", "Hoteles Boutique", "Cabinas Modernas"].map((t) => (
-                  <label key={t} className="filter-group__check">
-                    <input type="checkbox" /> {t}
+                <p className="filter-group__label">Provincia</p>
+                <label className="filter-group__check">
+                  <input
+                    type="radio"
+                    name="province"
+                    checked={selectedProvince === ""}
+                    onChange={() => setSelectedProvince("")}
+                  /> Todas
+                </label>
+                {provinces.map((p) => (
+                  <label key={p._id} className="filter-group__check">
+                    <input
+                      type="radio"
+                      name="province"
+                      checked={selectedProvince === p.name}
+                      onChange={() => setSelectedProvince(p.name)}
+                    /> {p.name}
                   </label>
                 ))}
-              </div>
-
-              <div className="filter-group">
-                <p className="filter-group__label">Comodidades</p>
-                {["WiFi Alta Velocidad", "Piscina Infinita", "Pet Friendly"].map((t) => (
-                  <label key={t} className="filter-group__check">
-                    <input type="checkbox" /> {t}
-                  </label>
-                ))}
-              </div>
-
-              <div className="filter-group">
-                <p className="filter-group__label">Calificación</p>
-                <label className="filter-group__check">
-                  <input type="radio" name="rating" /> ⭐⭐⭐⭐⭐
-                </label>
-                <label className="filter-group__check">
-                  <input type="radio" name="rating" /> 4.0+
-                </label>
               </div>
             </aside>
 
-          
+
             <div className="results__main">
               <div className="results__top">
-                <h2 className="results__count">Resultados encontrados (24)</h2>
+                <h2 className="results__count">Resultados encontrados ({filteredAccommodations.length})</h2>
                 <div className="results__sort">
                   <span>Ordenar por:</span>
                   <select>
@@ -168,38 +152,59 @@ export default function Home() {
               </div>
 
               <div className="cards-grid">
-                {featuredProperties.map((prop) => (
-                  <div key={prop.id} className="property-card">
-                    <div className="property-card__img-wrap">
-                      <img src={prop.img} alt={prop.name} className="property-card__img" />
-                      {prop.badge && (
-                        <span className="property-card__badge">{prop.badge}</span>
-                      )}
-                      <button className="property-card__fav">♡</button>
-                    </div>
-                    <div className="property-card__body">
-                      <div className="property-card__top">
-                        <div>
-                          <h3 className="property-card__name">{prop.name}</h3>
-                          <p className="property-card__location">📍 {prop.location}</p>
-                        </div>
-                        <span className="property-card__rating">⭐ {prop.rating}</span>
+                {loadingAcc ? (
+                  <p>Cargando hospedajes...</p>
+                ) : filteredAccommodations.length === 0 ? (
+                  <p>No se encontraron hospedajes para tu búsqueda.</p>
+                ) : (
+                  paginatedAccommodations.map((acc) => (
+                    <div key={acc._id} className="property-card">
+                      <div className="property-card__img-wrap">
+                        <img src={acc.mainImage} alt={acc.name} className="property-card__img" />
                       </div>
-                      <div className="property-card__footer">
-                        <div>
-                          <p className="property-card__price-label">Precio por noche</p>
-                          <p className="property-card__price">{prop.price} USD</p>
+                      <div className="property-card__body">
+                        <div className="property-card__top">
+                          <div>
+                            <h3 className="property-card__name">{acc.name}</h3>
+                            <p className="property-card__location">📍 {acc.province?.name || "Sin ubicación"}</p>
+                          </div>
                         </div>
-                        <button className="btn btn--primary">Reservar</button>
+                        <div className="property-card__footer">
+                          <button
+                            className="btn btn--primary"
+                            onClick={() => navigate(`/propertyPage/${acc._id}`)}
+                          >
+                            Ver hospedaje
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
 
-              <div className="results__more">
-                <button className="btn btn--outlined">Ver más propiedades</button>
-              </div>
+              {!loadingAcc && totalPages > 1 && (
+                <div className="pagination">
+                  <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                    Anterior
+                  </button>
+                  <div className="pages">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                      <button
+                        key={p}
+                        className={page === p ? "page-btn active" : "page-btn"}
+                        onClick={() => setPage(p)}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                  <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+                    Siguiente
+                  </button>
+                </div>
+              )}
+
             </div>
           </div>
         </div>
@@ -228,8 +233,8 @@ export default function Home() {
             Únete a cientos de operadores que ya transformaron su gestión con ReservaHost.
           </p>
           <div className="cta-section__btns">
-            <button className="btn btn--primary">Empezar Ahora</button>
-            <button className="btn btn--ghost">Saber más</button>
+            <button className="btn btn--primary" onClick={() => navigate("/register")}>Empezar Ahora</button>
+            <button className="btn btn--ghost" onClick={() => navigate("/about")}>Saber más</button>
           </div>
         </div>
       </section>

@@ -222,6 +222,7 @@ body {
   border-radius: var(--radius);
   padding: 20px;
   box-shadow: var(--shadow);
+  box-sizing: border-box;
 }
 
 .filters__header {
@@ -281,12 +282,42 @@ body {
 
 .range-input {
   flex: 1;
+  min-width: 0;
   accent-color: var(--secondary);
 }
 
 .results__main {
   flex: 1;
   min-width: 0;
+}
+
+.home .pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+.home .pagination button {
+  padding: 6px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 500;
+}
+.home .pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.home .pagination .pages {
+  display: flex;
+  gap: 6px;
+}
+.home .pagination .page-btn.active {
+  background: #1A365D;
+  color: #fff;
+  border-color: #1A365D;
 }
 
 .results__top {

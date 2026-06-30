@@ -14,6 +14,11 @@ import {
 } from "../../services/host.services.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast } from "sonner";
+import RoomModal from "./components/RoomModal";
+import AccommodationModal from "./components/AccommodationModal";
+import BookingModal from "./components/BookingModal";
+import BookingDetailModal from "./components/BookingDetailModal";
+import { formatBookingDates, formatBookingStatus } from "./helpers";
 
 const MONTHS = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const DAYS_OF_WEEK = ["D","L","M","X","J","V","S"];
@@ -26,10 +31,10 @@ const FILTER_OPTIONS = [
 ];
 
 const SIDEBAR_NAV = [
-  { icon: Home,         label: "Resumen",       path: "/host/dashboard" },
-  { icon: Bed,          label: "Habitaciones",   path: "/host/rooms" },
-  { icon: CalendarDays, label: "Calendario",     path: "/host/calendar" },
-  { icon: Settings,     label: "Configuración",  path: "/host/settings" },
+  { icon: Home,         label: "Resumen",       sectionId: null },
+  { icon: Bed,          label: "Habitaciones",  sectionId: "rooms-section" },
+  { icon: CalendarDays, label: "Calendario",    sectionId: "calendar-section" },
+  { icon: Settings,     label: "Configuración", sectionId: "quick-settings-section" },
 ];
 
 const QUICK_SETTINGS = [
@@ -38,19 +43,6 @@ const QUICK_SETTINGS = [
   { icon: Phone,        title: "Datos de contacto",      subtitle: "Información pública" },
   { icon: Wrench,       title: "Servicios del hospedaje",subtitle: "Editar amenities" },
 ];
-
-// Componente reutilizable para modales
-function Modal({ onClose, title, children, footer }) {
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h3>{title}</h3>
-        {children}
-        <div className="modal-actions">{footer}</div>
-      </div>
-    </div>
-  );
-}
 
 export default function HostDashboard() {
   const navigate = useNavigate();
@@ -64,6 +56,7 @@ export default function HostDashboard() {
   const [bookingFilter, setBookingFilter]   = useState("todos");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [viewDate, setViewDate]             = useState(new Date());
+  const [calendarRoom, setCalendarRoom]     = useState("");
 
   // Estados de modales
   const [showRoomModal,          setShowRoomModal]          = useState(false);
@@ -75,9 +68,10 @@ export default function HostDashboard() {
   const [savingAccommodation, setSavingAccommodation] = useState(false);
   const [savingBooking,       setSavingBooking]       = useState(false);
   const [editingRoom,         setEditingRoom]         = useState(null);
+  const [processingBookingId, setProcessingBookingId] = useState(null);
 
-  const [roomForm, setRoomForm] = useState({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
-  const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "" });
+  const [roomForm, setRoomForm] = useState({ name: "", description: "", maxCapacity: "", pricePerNight: "", images: [] });
+  const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "", mainImage: null, gallery: [] });
   const [bookingForm, setBookingForm] = useState({ guestEmail: "", room: "", checkIn: "", checkOut: "" });
 
   // ── Carga inicial ──────────────────────────────────────────────────────────
@@ -103,16 +97,6 @@ export default function HostDashboard() {
   }, []);
 
   // ── Helpers ────────────────────────────────────────────────────────────────
-  const formatPrice = (price) => Number(price || 0).toLocaleString("es-AR");
-
-  const formatBookingDates = (checkIn, checkOut) => {
-    const opts = { day: "2-digit", month: "short" };
-    return `${new Date(checkIn).toLocaleDateString("es-AR", opts)} - ${new Date(checkOut).toLocaleDateString("es-AR", opts)}`;
-  };
-
-  const formatBookingStatus = (status) =>
-    ({ pendiente: "Pendiente", confirmada: "Confirmada", cancelada: "Cancelada", completada: "Completada" }[status] || status);
-
   const getDateKey = (date) => {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -130,16 +114,21 @@ export default function HostDashboard() {
     return dates;
   };
 
+  // Reservas del calendario, filtradas por la habitación elegida (o todas).
+  const calendarBookings = calendarRoom
+    ? bookings.filter((b) => (b.room?._id || b.room) === calendarRoom)
+    : bookings;
+
   const getCalendarDayStatus = (day) => {
     const key = getDateKey(new Date(viewDate.getFullYear(), viewDate.getMonth(), day));
-    if (bookings.some((b) => b.status === "confirmada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "occupied";
-    if (bookings.some((b) => b.status === "pendiente"  && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "pending";
+    if (calendarBookings.some((b) => b.status === "confirmada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "occupied";
+    if (calendarBookings.some((b) => b.status === "pendiente"  && getBookingDateKeys(b.checkIn, b.checkOut).includes(key))) return "pending";
     return "";
   };
 
   const getCalendarDayBookings = (day) => {
     const key = getDateKey(new Date(viewDate.getFullYear(), viewDate.getMonth(), day));
-    return bookings.filter((b) => b.status !== "cancelada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key));
+    return calendarBookings.filter((b) => b.status !== "cancelada" && getBookingDateKeys(b.checkIn, b.checkOut).includes(key));
   };
 
   const filteredBookings = bookings.filter((b) => {
@@ -150,27 +139,41 @@ export default function HostDashboard() {
   });
 
   // ── Handlers de navegación ─────────────────────────────────────────────────
-  const handleSidebarNav = (path) => {
-    navigate(path === "/host/dashboard" ? path : "/404");
+  const scrollToSection = (sectionId) => {
+    if (!sectionId) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }
     setIsSidebarOpen(false);
   };
 
   // ── Handlers de reservas ───────────────────────────────────────────────────
+  const askConfirm = (mensaje, onConfirm) => {
+    toast(mensaje, {
+      action: { label: "Sí", onClick: onConfirm },
+      cancel: { label: "No" },
+    });
+  };
+
   const handleConfirmBooking = async (id) => {
     try {
+      setProcessingBookingId(id);
       const res = await confirmOwnerBooking(id);
       toast.success(res.message);
       setBookings((prev) => prev.map((b) => b._id === id ? { ...b, status: "confirmada" } : b));
     } catch (e) { toast.error(e.response?.data?.message || "Error al confirmar"); }
+    finally { setProcessingBookingId(null); }
   };
 
   const handleCancelBooking = async (id) => {
-    if (!window.confirm("¿Querés cancelar esta reserva?")) return;
     try {
+      setProcessingBookingId(id);
       const res = await cancelOwnerBooking(id);
       toast.success(res.message);
       setBookings((prev) => prev.map((b) => b._id === id ? { ...b, status: "cancelada" } : b));
     } catch (e) { toast.error(e.response?.data?.message || "Error al cancelar"); }
+    finally { setProcessingBookingId(null); }
   };
 
   const handleCreateBooking = async () => {
@@ -190,28 +193,35 @@ export default function HostDashboard() {
   // ── Handlers de habitaciones ───────────────────────────────────────────────
   const handleOpenEditRoom = (room) => {
     setEditingRoom(room);
-    setRoomForm({ name: room.name || "", description: room.description || "", maxCapacity: room.maxCapacity || "", pricePerNight: room.pricePerNight || "" });
+    setRoomForm({ name: room.name || "", description: room.description || "", maxCapacity: room.maxCapacity || "", pricePerNight: room.pricePerNight || "", images: [] });
     setShowRoomModal(true);
   };
 
   const handleCloseRoomModal = () => {
     setShowRoomModal(false);
     setEditingRoom(null);
-    setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "" });
+    setRoomForm({ name: "", description: "", maxCapacity: "", pricePerNight: "", images: [] });
   };
 
   const handleSaveRoom = async () => {
     if (!accommodation?._id) { toast.error("No se encontró el hospedaje"); return; }
-    const { name, description, maxCapacity, pricePerNight } = roomForm;
+    const { name, description, maxCapacity, pricePerNight, images } = roomForm;
     if (!name || !description || !maxCapacity || !pricePerNight) { toast.error("Completá todos los campos"); return; }
     try {
       setSavingRoom(true);
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("maxCapacity", maxCapacity);
+      formData.append("pricePerNight", pricePerNight);
+      images.forEach((file) => formData.append("imagenes", file));
       if (editingRoom) {
-        const res = await updateOwnerRoom(editingRoom._id, { name, description, maxCapacity: +maxCapacity, pricePerNight: +pricePerNight });
+        const res = await updateOwnerRoom(editingRoom._id, formData);
         toast.success(res.message || "Habitación actualizada");
         setRooms((prev) => prev.map((r) => r._id === editingRoom._id ? (res.room || res.habitacion || res) : r));
       } else {
-        const res = await createOwnerRoom({ name, description, maxCapacity: +maxCapacity, pricePerNight: +pricePerNight, accommodation: accommodation._id });
+        formData.append("accommodation", accommodation._id);
+        const res = await createOwnerRoom(formData);
         toast.success(res.message || "Habitación creada");
         setRooms((prev) => [...prev, res.room]);
       }
@@ -223,17 +233,24 @@ export default function HostDashboard() {
   // ── Handlers de hospedaje ──────────────────────────────────────────────────
   const handleOpenAccommodationModal = () => {
     if (!accommodation) { toast.error("No se encontró el hospedaje"); return; }
-    setAccommodationForm({ name: accommodation.name || "", description: accommodation.description || "", whatsapp: accommodation.whatsapp || "", depositPercentage: accommodation.depositPercentage ?? "" });
+    setAccommodationForm({ name: accommodation.name || "", description: accommodation.description || "", whatsapp: accommodation.whatsapp || "", depositPercentage: accommodation.depositPercentage ?? "", mainImage: null, gallery: [] });
     setShowAccommodationModal(true);
   };
 
   const handleSaveAccommodation = async () => {
     if (!accommodation?._id) { toast.error("No se encontró el hospedaje"); return; }
-    const { name, description, whatsapp, depositPercentage } = accommodationForm;
+    const { name, description, whatsapp, depositPercentage, mainImage, gallery } = accommodationForm;
     if (!name || !description || !whatsapp) { toast.error("Completá nombre, descripción y WhatsApp"); return; }
     try {
       setSavingAccommodation(true);
-      const res = await updateMyAccommodation(accommodation._id, { name, description, whatsapp, depositPercentage: Number(depositPercentage || 0) });
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("whatsapp", whatsapp);
+      formData.append("depositPercentage", Number(depositPercentage || 0));
+      if (mainImage) formData.append("mainImage", mainImage);
+      gallery.forEach((file) => formData.append("gallery", file));
+      const res = await updateMyAccommodation(accommodation._id, formData);
       toast.success(res.message || "Hospedaje actualizado");
       setAccommodation(res.accommodation || res.hospedaje || res);
       setShowAccommodationModal(false);
@@ -263,7 +280,7 @@ export default function HostDashboard() {
 
         <nav className="sidebar-nav">
           <ul>
-            <li className="active" onClick={() => handleSidebarNav("/host/dashboard")}>
+            <li className="active" onClick={() => scrollToSection(null)}>
               <Home size={16} /> Resumen
             </li>
             <li onClick={handleOpenAccommodationModal}>
@@ -272,8 +289,8 @@ export default function HostDashboard() {
             <li onClick={() => document.getElementById("bookings-section")?.scrollIntoView({ behavior: "smooth" })}>
               <CalendarCheck size={16} /> Reservas
             </li>
-            {SIDEBAR_NAV.slice(1).map(({ icon: Icon, label, path }) => (
-              <li key={path} onClick={() => handleSidebarNav(path)}>
+            {SIDEBAR_NAV.slice(1).map(({ icon: Icon, label, sectionId }) => (
+              <li key={label} onClick={() => scrollToSection(sectionId)}>
                 <Icon size={16} /> {label}
               </li>
             ))}
@@ -310,8 +327,15 @@ export default function HostDashboard() {
         <div className="dashboard-grid">
           <div className="dashboard-top-row">
             {/* Calendario */}
-            <section className="calendar-section card">
+            <section id="calendar-section" className="calendar-section card">
               <h2 className="section-title">Calendario de Ocupación</h2>
+              <div className="calendar-room-filter">
+                <label>Habitación:</label>
+                <select value={calendarRoom} onChange={(e) => setCalendarRoom(e.target.value)}>
+                  <option value="">Todas</option>
+                  {rooms.map((r) => <option key={r._id} value={r._id}>{r.name}</option>)}
+                </select>
+              </div>
               <div className="calendar-header-nav">
                 <button className="calendar-nav-btn" onClick={() => setViewDate(new Date(year, month - 1, 1))} aria-label="Mes anterior"><ChevronLeft size={18} /></button>
                 <h3 className="calendar-month-year">{MONTHS[month]} {year}</h3>
@@ -345,7 +369,7 @@ export default function HostDashboard() {
             </section>
 
             {/* Habitaciones */}
-            <section className="rooms-section card">
+            <section id="rooms-section" className="rooms-section card">
               <div className="section-header-with-button">
                 <h2 className="section-title">Habitaciones</h2>
                 <button className="btn-new-room-small" onClick={() => setShowRoomModal(true)}><Plus size={16} /> Nueva</button>
@@ -401,13 +425,19 @@ export default function HostDashboard() {
                       <td><span className={`status-badge ${b.status}`}>{formatBookingStatus(b.status)}</span></td>
                       <td className="booking-actions">
                         <button className="action-icon-btn" title="Ver detalle" onClick={() => setSelectedBooking(b)}><Eye size={14} /></button>
-                        {(b.status === "pendiente" || b.status === "cancelada") && (
-                          <button className="action-icon-btn" title={b.status === "cancelada" ? "Reactivar" : "Aprobar"} onClick={() => handleConfirmBooking(b._id)}><Check size={14} /></button>
+                        {processingBookingId === b._id ? (
+                          <span className="booking-processing">Procesando...</span>
+                        ) : (
+                          <>
+                            {(b.status === "pendiente" || b.status === "cancelada") && (
+                              <button className="action-icon-btn" title={b.status === "cancelada" ? "Reactivar" : "Aprobar"} onClick={() => askConfirm(b.status === "cancelada" ? "¿Reactivar esta reserva?" : "¿Aprobar esta reserva?", () => handleConfirmBooking(b._id))}><Check size={14} /></button>
+                            )}
+                            {b.status !== "cancelada" && (
+                              <button className="action-icon-btn" title={b.status === "pendiente" ? "Rechazar" : "Cancelar"} onClick={() => askConfirm(b.status === "pendiente" ? "¿Rechazar esta reserva?" : "¿Cancelar esta reserva?", () => handleCancelBooking(b._id))}><X size={14} /></button>
+                            )}
+                            <button className="action-icon-btn" title="Contactar por WhatsApp" onClick={() => navigate("/404")}><MessageSquare size={14} /></button>
+                          </>
                         )}
-                        {b.status !== "cancelada" && (
-                          <button className="action-icon-btn" title={b.status === "pendiente" ? "Rechazar" : "Cancelar"} onClick={() => handleCancelBooking(b._id)}><X size={14} /></button>
-                        )}
-                        <button className="action-icon-btn" title="Contactar por WhatsApp"><MessageSquare size={14} /></button>
                       </td>
                     </tr>
                   ))}
@@ -417,11 +447,11 @@ export default function HostDashboard() {
           </section>
 
           {/* Configuración rápida */}
-          <section className="quick-settings-section card">
+          <section id="quick-settings-section" className="quick-settings-section card">
             <h2 className="section-title">Configuración rápida</h2>
             <div className="quick-settings-grid">
               {QUICK_SETTINGS.map(({ icon: Icon, title, subtitle }) => (
-                <div key={title} className="setting-card">
+                <div key={title} className="setting-card" onClick={handleOpenAccommodationModal} style={{ cursor: "pointer" }}>
                   <Icon size={20} className="setting-icon" />
                   <div className="setting-text">
                     <h4 className="setting-title">{title}</h4>
@@ -434,68 +464,43 @@ export default function HostDashboard() {
         </div>
       </main>
 
-      {/* Modal: Habitación */}
       {showRoomModal && (
-        <Modal title={editingRoom ? "Editar habitación" : "Nueva habitación"} onClose={handleCloseRoomModal}
-          footer={<>
-            <button onClick={handleCloseRoomModal} disabled={savingRoom}>Cancelar</button>
-            <button onClick={handleSaveRoom} disabled={savingRoom}>{savingRoom ? "Guardando..." : editingRoom ? "Guardar cambios" : "Crear habitación"}</button>
-          </>}>
-          <input name="name" placeholder="Nombre de la habitación" value={roomForm.name} onChange={(e) => setRoomForm({ ...roomForm, name: e.target.value })} />
-          <textarea name="description" placeholder="Descripción" value={roomForm.description} onChange={(e) => setRoomForm({ ...roomForm, description: e.target.value })} />
-          <input name="maxCapacity" type="number" placeholder="Capacidad máxima" value={roomForm.maxCapacity} onChange={(e) => setRoomForm({ ...roomForm, maxCapacity: e.target.value })} />
-          <input name="pricePerNight" type="number" placeholder="Precio por noche" value={roomForm.pricePerNight} onChange={(e) => setRoomForm({ ...roomForm, pricePerNight: e.target.value })} />
-        </Modal>
+        <RoomModal
+          editingRoom={editingRoom}
+          roomForm={roomForm}
+          setRoomForm={setRoomForm}
+          saving={savingRoom}
+          onClose={handleCloseRoomModal}
+          onSave={handleSaveRoom}
+        />
       )}
 
-      {/* Modal: Hospedaje */}
       {showAccommodationModal && (
-        <Modal title="Editar hospedaje" onClose={() => setShowAccommodationModal(false)}
-          footer={<>
-            <button onClick={() => setShowAccommodationModal(false)} disabled={savingAccommodation}>Cancelar</button>
-            <button onClick={handleSaveAccommodation} disabled={savingAccommodation}>{savingAccommodation ? "Guardando..." : "Guardar cambios"}</button>
-          </>}>
-          <input name="name" placeholder="Nombre del hospedaje" value={accommodationForm.name} onChange={(e) => setAccommodationForm({ ...accommodationForm, name: e.target.value })} />
-          <textarea name="description" placeholder="Descripción del hospedaje" value={accommodationForm.description} onChange={(e) => setAccommodationForm({ ...accommodationForm, description: e.target.value })} />
-          <input name="whatsapp" placeholder="WhatsApp" value={accommodationForm.whatsapp} onChange={(e) => setAccommodationForm({ ...accommodationForm, whatsapp: e.target.value })} />
-          <input name="depositPercentage" type="number" placeholder="Porcentaje de seña" value={accommodationForm.depositPercentage} onChange={(e) => setAccommodationForm({ ...accommodationForm, depositPercentage: e.target.value })} />
-        </Modal>
+        <AccommodationModal
+          accommodationForm={accommodationForm}
+          setAccommodationForm={setAccommodationForm}
+          saving={savingAccommodation}
+          onClose={() => setShowAccommodationModal(false)}
+          onSave={handleSaveAccommodation}
+        />
       )}
 
-      {/* Modal: Nueva reserva */}
       {showBookingModal && (
-        <Modal title="Nueva reserva" onClose={() => setShowBookingModal(false)}
-          footer={<>
-            <button onClick={() => setShowBookingModal(false)} disabled={savingBooking}>Cancelar</button>
-            <button onClick={handleCreateBooking} disabled={savingBooking}>{savingBooking ? "Creando..." : "Crear reserva"}</button>
-          </>}>
-          <input name="guestEmail" type="email" placeholder="Email del cliente registrado" value={bookingForm.guestEmail} onChange={(e) => setBookingForm({ ...bookingForm, guestEmail: e.target.value })} />
-          <select name="room" value={bookingForm.room} onChange={(e) => setBookingForm({ ...bookingForm, room: e.target.value })}>
-            <option value="">Seleccionar habitación</option>
-            {rooms.map((r) => <option key={r._id} value={r._id}>{r.name} - ${r.pricePerNight}</option>)}
-          </select>
-          <input name="checkIn" type="date" value={bookingForm.checkIn} onChange={(e) => setBookingForm({ ...bookingForm, checkIn: e.target.value })} />
-          <input name="checkOut" type="date" value={bookingForm.checkOut} onChange={(e) => setBookingForm({ ...bookingForm, checkOut: e.target.value })} />
-        </Modal>
+        <BookingModal
+          bookingForm={bookingForm}
+          setBookingForm={setBookingForm}
+          rooms={rooms}
+          saving={savingBooking}
+          onClose={() => setShowBookingModal(false)}
+          onSave={handleCreateBooking}
+        />
       )}
 
-      {/* Modal: Detalle de reserva */}
       {selectedBooking && (
-        <Modal title="Detalle de reserva" onClose={() => setSelectedBooking(null)}
-          footer={<button onClick={() => setSelectedBooking(null)}>Cerrar</button>}>
-          <div className="booking-detail-list">
-            {[
-              ["Cliente",    selectedBooking.user?.fullName || selectedBooking.user?.email || "Cliente"],
-              ["Email",      selectedBooking.user?.email || "Sin email"],
-              ["Habitación", selectedBooking.room?.name || "Habitación"],
-              ["Fechas",     formatBookingDates(selectedBooking.checkIn, selectedBooking.checkOut)],
-              ["Estado",     formatBookingStatus(selectedBooking.status)],
-              ["Total",      `$${formatPrice(selectedBooking.totalPrice)}`],
-            ].map(([label, value]) => (
-              <p key={label}><strong>{label}:</strong> {value}</p>
-            ))}
-          </div>
-        </Modal>
+        <BookingDetailModal
+          booking={selectedBooking}
+          onClose={() => setSelectedBooking(null)}
+        />
       )}
     </div>
   );

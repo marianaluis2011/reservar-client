@@ -1,6 +1,7 @@
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import "./FooterB.css";
 import logo from '../../assets/hospedar.jpeg';
+import { Link } from "react-router-dom";
 
 
 export default function FooterB() {
@@ -24,9 +25,9 @@ export default function FooterB() {
             <div className="footer-section">
               <h4 className="section-title">Explorar</h4>
               <ul className="footer-links">
-                <li><a href="#">Propiedades</a></li>
-                <li><a href="#">Destinos</a></li>
-                <li><a href="#">Promociones</a></li>
+                <li><Link to="/404">Propiedades</Link></li>
+                <li><Link to="/404">Destinos</Link></li>
+                <li><Link to="/404">Promociones</Link></li>
               </ul>
             </div>
 
@@ -34,9 +35,9 @@ export default function FooterB() {
             <div className="footer-section">
               <h4 className="section-title">Información</h4>
               <ul className="footer-links">
-                <li><a href="#">Sobre nosotros</a></li>
-                <li><a href="#">Términos y condiciones</a></li>
-                <li><a href="#">Política de privacidad</a></li>
+                <li><Link to="/about">Sobre nosotros</Link></li>
+                <li><Link to="/404">Términos y condiciones</Link></li>
+                <li><Link to="/404">Política de privacidad</Link></li>
               </ul>
             </div>
 

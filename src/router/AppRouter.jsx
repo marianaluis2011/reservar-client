@@ -13,8 +13,11 @@ import About from "../pages/about/About";
 import Error404 from "../pages/error/error";
 import MyBooking from "../pages/booking/MyBooking";
 import Help from "../pages/help/Help";
+import ChatWidget from "../components/chat/ChatWidget";
+import { useAuth } from "../context/AuthContext";
 
 export default function AppRouter() {
+  const { isAuthenticated, user } = useAuth();
   return (
     <BrowserRouter>
       <Navbar />
@@ -24,8 +27,8 @@ export default function AppRouter() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/propertyPage" element={<PropertyPage />} />
-        <Route path="/roomDetail" element={<RoomDetail />} />
+        <Route path="/propertyPage/:id" element={<PropertyPage />} />
+        <Route path="/roomDetail/:id" element={<RoomDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/myBooking" element={<MyBooking />} />
         <Route path="/help" element={<Help />} />
@@ -44,6 +47,8 @@ export default function AppRouter() {
       </Routes>
 
       <FooterB />
+
+      {isAuthenticated && user?.role === "guest" && <ChatWidget />}
     </BrowserRouter>
   );
 }

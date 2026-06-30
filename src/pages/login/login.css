@@ -10,35 +10,35 @@ align-self: center;
 .panel-left {
     width: 50%;
     height: 100vh;
-    /* background-color: #0f172a; Slate 950 */
-    /* background: linear-gradient(-135deg, #1a2b5f, #b7c0d4) !important; */
-    /* background: linear-gradient(135deg, #1a2b5f, #004aad); */
-    /* background: linear-gradient(135deg, #192749, #013849); */
-    /* background: linear-gradient(135deg, #1a2b5f, #16223f); */
-    /* background: linear-gradient(135deg, #004aad, #16223f); */
-    /* background: linear-gradient(135deg, rgba(26, 43, 95, 0.95), rgba(22, 34, 63, 0.85)); */
-    color: #e2e8f0;
-    padding: 60px 20px 30px;
+    color: #9abeec;
+    padding: 60px 40px 40px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
-    background: #192749; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background:
+      linear-gradient(to bottom, rgba(0, 32, 69, 0.25), rgba(0, 32, 69, 0.9)),
+      url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80') center/cover no-repeat;
 }
 
-.panel-left::before {
-content: "";
-    position: absolute;
-    inset: 0;
-
-    background: #16223f; /* azul oscuro */
-
-    clip-path: polygon(
-        0 0,
-        0 100%,
-        83% 100%
-    );
-
+.login-brand {
+    position: relative;
+    z-index: 1;
+    max-width: 460px;
+    color: #ffffff;
+}
+.login-brand__title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+.login-brand__slogan {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #cbd5e1;
 }
 
 .panel-rigth {
@@ -48,17 +48,27 @@ content: "";
     font-family: system-ui, -apple-system, sans-serif;
     color: #0f172a; /* Dark text */
     text-align: left; /* Reset del text-align: center de index.css */
-    /* width: 100%; */
-    /* overflow-x: hidden; */
     display: flex;
     justify-content: center;
 }
 .panel-rigth>div {
     text-align: left;
-    /* align-items: center; */
-    /* align-self: center; */
     align-content: center;
 }
+.container-one > .panel-rigth > div {
+    align-self: center;
+    width: 100%;
+    max-width: 460px;
+    padding: 0 24px;
+}
+.container-one > .panel-rigth > div > button:first-child {
+    margin-bottom: 36px;
+}
+.panel-rigth h2 {
+    color: #032b88;
+    font-size: 30px;
+}
+
 .p-title {
     font-size: larger;
     font-weight: 500;
@@ -66,9 +76,10 @@ content: "";
     padding-bottom: 20px;
 }
 .panel-rigth>div>form {
-    width: 70%;
-    padding: auto;
-    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
 }
 .panel-rigth>div>form>div>label {
     text-align: left;
@@ -77,6 +88,9 @@ content: "";
 .p-register {
     text-align: center;
     font-size: small;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
 }
 .btn-input {
     width: 100%;

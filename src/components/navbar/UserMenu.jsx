@@ -1,4 +1,5 @@
 import { userLinks } from "./navbarData";
+import { toast } from "sonner";
 
 const UserMenu = ({
   user,
@@ -7,11 +8,26 @@ const UserMenu = ({
   mobile = false,
   closeMenu = () => {},
 }) => {
-  const userName = user?.name || user?.username || "Usuario";
+  const userName = user?.fullName || user?.name || user?.email || "Usuario";
 
   const handleClick = (path) => {
     navigate(path);
     closeMenu();
+  };
+
+  const handleLogout = () => {
+    closeMenu();
+    toast("¿Estás seguro que querés cerrar sesión?", {
+      action: {
+        label: "Sí, salir",
+        onClick: () => {
+          logout();
+          navigate("/");
+          toast.success("Sesión cerrada");
+        },
+      },
+      cancel: { label: "Cancelar" },
+    });
   };
 
   if (mobile) {
@@ -31,12 +47,7 @@ const UserMenu = ({
           </button>
         ))}
 
-        <button
-          onClick={() => {
-            logout();
-            closeMenu();
-          }}
-        >
+        <button onClick={handleLogout}>
           Cerrar Sesión
         </button>
       </>
@@ -62,12 +73,7 @@ const UserMenu = ({
 
       <hr />
 
-      <button
-        onClick={() => {
-          logout();
-          closeMenu();
-        }}
-      >
+      <button onClick={handleLogout}>
         Cerrar Sesión
       </button>
     </div>

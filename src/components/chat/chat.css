@@ -1,0 +1,114 @@
+/* Botón flotante */
+.chat-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #1A365D;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 6px 16px rgba(26, 54, 93, 0.35);
+}
+
+/* Contenedor principal del chat */
+.chat-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 350px;
+  height: 500px;
+  max-width: calc(100vw - 40px);
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+/* Header */
+.chat-header {
+  background: #1A365D;
+  color: white;
+  padding: 16px;
+  font-weight: bold;
+}
+
+/* Mensajes */
+.chat-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Bubble base */
+.chat-bubble {
+  padding: 10px 14px;
+  border-radius: 12px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+/* Usuario */
+.chat-bubble.user {
+  align-self: flex-end;
+  background: #1A365D;
+  color: white;
+}
+
+/* Asistente */
+.chat-bubble.assistant {
+  align-self: flex-start;
+  background: #f1f1f1;
+  color: black;
+}
+
+/* Typing indicator */
+.chat-typing {
+  background: #f1f1f1;
+  padding: 10px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+/* Input area */
+.chat-input-container {
+  display: flex;
+  padding: 12px;
+  border-top: 1px solid #eee;
+  gap: 10px;
+}
+
+/* Input */
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* Button send */
+.chat-send {
+  background: #1A365D;
+  color: white;
+  border: none;
+  padding: 0 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.chat-send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
