@@ -29,6 +29,7 @@ export default function Home() {
   const [accommodations, setAccommodations] = useState([]);
   const [loadingAcc, setLoadingAcc] = useState(true);
   const [selectedProvince, setSelectedProvince] = useState("");
+  const [appliedProvince, setAppliedProvince] = useState("");
   const [provinces, setProvinces] = useState([]);
   const [page, setPage] = useState(1);
   const perPage = 6;
@@ -52,8 +53,13 @@ export default function Home() {
   }, []);
 
   const filteredAccommodations = accommodations.filter(
-    (acc) => !selectedProvince || acc.province?.name === selectedProvince
+    (acc) => !appliedProvince || acc.province?.name === appliedProvince
   );
+
+  const handleSearch = () => {
+    setAppliedProvince(selectedProvince);
+    document.querySelector(".results")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const totalPages = Math.ceil(filteredAccommodations.length / perPage) || 1;
   const paginatedAccommodations = filteredAccommodations.slice(
@@ -63,7 +69,7 @@ export default function Home() {
 
   useEffect(() => {
     setPage(1);
-  }, [selectedProvince]);
+  }, [appliedProvince]);
 
   return (
     <div className="home">
@@ -94,7 +100,7 @@ export default function Home() {
                 ))}
               </select>
             </div>
-            <button className="btn btn--primary search-bar__btn" onClick={() => document.querySelector(".results")?.scrollIntoView({ behavior: "smooth" })}>
+            <button className="btn btn--primary search-bar__btn" onClick={handleSearch}>
               🔍 Buscar hospedaje
             </button>
           </div>
