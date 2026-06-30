@@ -41,6 +41,25 @@ content: "";
 
 }
 
+.login-brand {
+    position: relative;
+    z-index: 1;
+    max-width: 420px;
+    margin: auto;
+    padding: 40px;
+    color: #ffffff;
+}
+.login-brand__title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+.login-brand__slogan {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+}
+
 .panel-rigth {
     width: 50%;
     height: 100vh;
@@ -55,10 +74,16 @@ content: "";
 }
 .panel-rigth>div {
     text-align: left;
-    /* align-items: center; */
-    /* align-self: center; */
     align-content: center;
 }
+.container-one > .panel-rigth > div {
+    align-self: flex-start;
+    padding-top: 60px;
+}
+.panel-rigth h2 {
+    color: #0f172a;
+}
+
 .p-title {
     font-size: larger;
     font-weight: 500;
