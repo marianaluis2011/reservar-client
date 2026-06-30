@@ -30,6 +30,8 @@ export default function Home() {
   const [loadingAcc, setLoadingAcc] = useState(true);
   const [selectedProvince, setSelectedProvince] = useState("");
   const [provinces, setProvinces] = useState([]);
+  const [page, setPage] = useState(1);
+  const perPage = 6;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +55,18 @@ export default function Home() {
   const filteredAccommodations = accommodations.filter(
     (acc) => !selectedProvince || acc.province?.name === selectedProvince
   );
+
+  // Paginación client-side.
+  const totalPages = Math.ceil(filteredAccommodations.length / perPage) || 1;
+  const paginatedAccommodations = filteredAccommodations.slice(
+    (page - 1) * perPage,
+    page * perPage
+  );
+
+  // Si cambia el filtro, vuelvo a la primera página.
+  useEffect(() => {
+    setPage(1);
+  }, [selectedProvince]);
 
   return (
     <div className="home">
@@ -83,7 +97,7 @@ export default function Home() {
                 ))}
               </select>
             </div>
-            <button className="btn btn--primary search-bar__btn">
+            <button className="btn btn--primary search-bar__btn" onClick={() => document.querySelector(".results")?.scrollIntoView({ behavior: "smooth" })}>
               🔍 Buscar hospedaje
             </button>
           </div>
@@ -143,11 +157,10 @@ export default function Home() {
                 ) : filteredAccommodations.length === 0 ? (
                   <p>No se encontraron hospedajes para tu búsqueda.</p>
                 ) : (
-                  filteredAccommodations.map((acc) => (
+                  paginatedAccommodations.map((acc) => (
                     <div key={acc._id} className="property-card">
                       <div className="property-card__img-wrap">
                         <img src={acc.mainImage} alt={acc.name} className="property-card__img" />
-                        <button className="property-card__fav">♡</button>
                       </div>
                       <div className="property-card__body">
                         <div className="property-card__top">
@@ -170,9 +183,28 @@ export default function Home() {
                 )}
               </div>
 
-              <div className="results__more">
-                <button className="btn btn--outlined">Ver más propiedades</button>
-              </div>
+              {!loadingAcc && totalPages > 1 && (
+                <div className="pagination">
+                  <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                    Anterior
+                  </button>
+                  <div className="pages">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                      <button
+                        key={p}
+                        className={page === p ? "page-btn active" : "page-btn"}
+                        onClick={() => setPage(p)}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                  <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+                    Siguiente
+                  </button>
+                </div>
+              )}
+
             </div>
           </div>
         </div>
