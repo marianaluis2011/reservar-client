@@ -15,8 +15,13 @@ export default function BookingModal({ bookingForm, setBookingForm, rooms, savin
       }
     >
       <div className="modal-field">
-        <label>Email del cliente</label>
-        <input name="guestEmail" type="email" placeholder="cliente@ejemplo.com" value={bookingForm.guestEmail} onChange={(e) => setBookingForm({ ...bookingForm, guestEmail: e.target.value })} />
+        <label>Nombre del huésped <span className="modal-optional">(opcional)</span></label>
+        <input name="guestName" type="text" placeholder="Ej. Juan Pérez" value={bookingForm.guestName} onChange={(e) => setBookingForm({ ...bookingForm, guestName: e.target.value })} />
+      </div>
+      <div className="modal-field">
+        <label>Email del huésped</label>
+        <input name="guestEmail" type="email" placeholder="huesped@ejemplo.com" value={bookingForm.guestEmail} onChange={(e) => setBookingForm({ ...bookingForm, guestEmail: e.target.value })} />
+        <small className="booking-hint">No hace falta que el huésped tenga cuenta. Le llegará un email con los datos de la reserva.</small>
       </div>
       <div className="modal-field">
         <label>Habitación</label>

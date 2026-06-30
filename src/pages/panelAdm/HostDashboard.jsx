@@ -72,7 +72,7 @@ export default function HostDashboard() {
 
   const [roomForm, setRoomForm] = useState({ name: "", description: "", maxCapacity: "", pricePerNight: "", images: [] });
   const [accommodationForm, setAccommodationForm] = useState({ name: "", description: "", whatsapp: "", depositPercentage: "", mainImage: null, gallery: [] });
-  const [bookingForm, setBookingForm] = useState({ guestEmail: "", room: "", checkIn: "", checkOut: "" });
+  const [bookingForm, setBookingForm] = useState({ guestName: "", guestEmail: "", room: "", checkIn: "", checkOut: "" });
 
   // ── Carga inicial ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -178,13 +178,13 @@ export default function HostDashboard() {
 
   const handleCreateBooking = async () => {
     const { guestEmail, room, checkIn, checkOut } = bookingForm;
-    if (!guestEmail || !room || !checkIn || !checkOut) { toast.error("Completá todos los campos"); return; }
+    if (!guestEmail || !room || !checkIn || !checkOut) { toast.error("Completá el email del huésped, la habitación y las fechas"); return; }
     try {
       setSavingBooking(true);
       const res = await createOwnerBooking(bookingForm);
       toast.success(res.message);
       setBookings((prev) => [res.booking, ...prev]);
-      setBookingForm({ guestEmail: "", room: "", checkIn: "", checkOut: "" });
+      setBookingForm({ guestName: "", guestEmail: "", room: "", checkIn: "", checkOut: "" });
       setShowBookingModal(false);
     } catch (e) { toast.error(e.response?.data?.message || "Error al crear reserva"); }
     finally { setSavingBooking(false); }
@@ -354,7 +354,7 @@ export default function HostDashboard() {
                         <div className="calendar-tooltip">
                           {dayBookings.map((b) => (
                             <div key={b._id} className="calendar-tooltip-item">
-                              <strong>{b.user?.fullName || b.user?.email || "Cliente"}</strong>
+                              <strong>{b.user?.fullName || b.guestName || b.user?.email || b.guestEmail || "Cliente"}</strong>
                               <span>{b.room?.name || "Habitación"}</span>
                               <small>{formatBookingStatus(b.status)}</small>
                             </div>
@@ -419,7 +419,7 @@ export default function HostDashboard() {
                     <tr><td colSpan="5">No hay reservas para este filtro.</td></tr>
                   ) : filteredBookings.map((b) => (
                     <tr key={b._id}>
-                      <td>{b.user?.fullName || b.user?.email || "Cliente"}</td>
+                      <td>{b.user?.fullName || b.guestName || b.user?.email || b.guestEmail || "Cliente"}</td>
                       <td>{b.room?.name || "Habitación"}</td>
                       <td>{formatBookingDates(b.checkIn, b.checkOut)}</td>
                       <td><span className={`status-badge ${b.status}`}>{formatBookingStatus(b.status)}</span></td>

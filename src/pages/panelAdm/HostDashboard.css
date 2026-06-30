@@ -296,6 +296,8 @@
 
 .modal-field { display: flex; flex-direction: column; gap: .3rem; }
 .modal-field label { font-size: .8rem; font-weight: 600; color: var(--navy, #1A365D); }
+.modal-optional { font-weight: 400; color: #94a3b8; }
+.booking-hint { color: #64748b; font-size: .78rem; line-height: 1.3; margin-top: .15rem; }
 
 .calendar-room-filter {
   display: flex;

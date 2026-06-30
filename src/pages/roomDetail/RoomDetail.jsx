@@ -160,6 +160,15 @@ export default function RoomDetail() {
   const handleNextMonth = () => {
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
   };
+  const handleOpenBooking = () => {
+    if (!user) {
+      toast.error("Tenés que iniciar sesión para reservar");
+      navigate("/login");
+      return;
+    }
+    setShowModal(true);
+  };
+
   const handleReservar = async () => {
     if (!user) {
       toast.error("Tenés que iniciar sesión para reservar");
@@ -380,10 +389,10 @@ export default function RoomDetail() {
 
               <button
                 className="btn-reserve-now"
-                disabled={!checkIn || !checkOut}
-                onClick={() => setShowModal(true)}
+                disabled={user && (!checkIn || !checkOut)}
+                onClick={handleOpenBooking}
               >
-                Reservar ahora
+                {user ? "Reservar ahora" : "Iniciá sesión para reservar"}
               </button>
               <p className="no-charge-text">No se te cobrará nada aún</p>
             </div>
